@@ -89,25 +89,27 @@ cd ex00 && make
 
 ¿No tienes a nadie que te corrija? No pasa nada.
 
-➡️ **[`EVALUACION.md`](EVALUACION.md)**
+➡️ **[Abre la rúbrica interactiva](https://mzabalm.github.io/CodeFlowModule00/)** — marca checks, ve tu progreso en tiempo real y recibe el veredicto final.
+
+También disponible como texto plano: [`EVALUACION.md`](EVALUACION.md)
 
 Así se usa:
 
-1. **Clónate el repo** y abre `EVALUACION.md` en tu editor
-2. **Al terminar cada ejercicio**, ve marcando los checks: `[ ]` → `[x]`
+1. **Abre el enlace** y ve ejercicio por ejercicio
+2. **Al terminar cada uno**, marca los checks con un clic
 3. Hay tres bloques por ejercicio:
    - **Mandatory** — lo que pide el subject. Binario: lo tienes o no lo tienes
-   - **¿Lo sabes explicar?** — tan importante como el mandatory. Si funciona pero no lo entiendes, no cuenta
+   - **¿Lo explicas?** — tan importante como el mandatory. Si funciona pero no lo entiendes, no cuenta
    - **Bonus** — solo si el mandatory está al 100%
-4. **Al final**, rellena la tabla resumen con tu estado real
+4. **Al completar todo**, aparece el veredicto final
 
-> Si puedes marcar ✅ en todo el Mandatory **y** en todos los "¿Lo sabes explicar?", estás listo para una defensa real.
+> Si puedes marcar todo el Mandatory **y** todos los "¿Lo explicas?", estás listo para una defensa real.
 
 ---
 
 ## La regla que lo resume todo
 
-> ¡Por Odín, por Thor! ¡Usa tu cerebro!
+> ¡Por Tutatis!! ¡Usa tu cerebro!
 > Claude Code es una herramienta, no un sustituto de tu capacidad de razonamiento.
 
 ---

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeFlow — Módulo 00 · Autoevaluación</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #ffffff; --bg-secondary: #f5f5f3; --bg-tertiary: #efefed;
+  --text: #1a1a18; --text-secondary: #6b6b67;
+  --border: rgba(0,0,0,0.12); --border-md: rgba(0,0,0,0.22);
+  --green: #1D9E75; --amber: #BA7517; --radius-md: 8px; --radius-lg: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #1c1c1a; --bg-secondary: #252523; --bg-tertiary: #2e2e2b; --text: #f0ede8; --text-secondary: #9a9994; --border: rgba(255,255,255,0.1); --border-md: rgba(255,255,255,0.2); }
+}
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg-tertiary); color: var(--text); min-height: 100vh; padding: 0 0 3rem; }
+.top-bar { background: var(--bg); border-bottom: 0.5px solid var(--border); padding: 1rem 1.5rem; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10; }
+.top-bar h1 { font-size: 16px; font-weight: 500; flex: 1; }
+.top-bar .version { font-size: 12px; color: var(--text-secondary); background: var(--bg-secondary); border: 0.5px solid var(--border); border-radius: 6px; padding: 3px 8px; }
+.container { max-width: 720px; margin: 0 auto; padding: 1.5rem 1rem; }
+.intro { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.5rem; }
+.intro p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+.intro strong { color: var(--text); font-weight: 500; }
+.scoreboard { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1rem; }
+.score-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-md); padding: 0.875rem 1rem; text-align: center; }
+.score-card .label { font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
+.score-card .value { font-size: 22px; font-weight: 500; }
+.score-card.total .value { color: var(--green); }
+.progress-bar-wrap { background: var(--bg-secondary); border-radius: 4px; height: 6px; margin-bottom: 1.5rem; overflow: hidden; }
+.progress-bar { height: 100%; background: var(--green); border-radius: 4px; transition: width 0.3s ease; }
+.exercise { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 0.875rem; overflow: hidden; }
+.ex-header { display: flex; align-items: center; gap: 10px; padding: 1rem 1.25rem; cursor: pointer; user-select: none; }
+.ex-header:hover { background: var(--bg-secondary); }
+.ex-badge { font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 6px; background: var(--bg-secondary); color: var(--text-secondary); border: 0.5px solid var(--border); white-space: nowrap; }
+.ex-title { font-size: 15px; font-weight: 500; flex: 1; }
+.ex-progress { font-size: 13px; white-space: nowrap; }
+.ex-chevron { font-size: 18px; color: var(--text-secondary); transition: transform 0.2s; }
+.ex-chevron.open { transform: rotate(180deg); }
+.ex-body { padding: 0 1.25rem 1.25rem; display: none; }
+.ex-body.open { display: block; }
+.section-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); margin: 1rem 0 0.5rem; }
+.check-item { display: flex; align-items: flex-start; gap: 10px; padding: 7px 8px; border-radius: 6px; cursor: pointer; }
+.check-item:hover { background: var(--bg-secondary); }
+.check-box { width: 20px; height: 20px; border-radius: 5px; border: 1.5px solid var(--border-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; transition: all 0.15s; font-size: 13px; }
+.check-box.checked { background: var(--green); border-color: var(--green); color: white; }
+.check-box.explain { background: var(--amber); border-color: var(--amber); color: white; }
+.check-text { font-size: 14px; line-height: 1.5; flex: 1; }
+.check-text.done { color: var(--text-secondary); text-decoration: line-through; }
+.check-type { display: inline-block; font-size: 10px; font-weight: 500; padding: 2px 6px; border-radius: 4px; margin-top: 3px; }
+.type-m { background: #E6F1FB; color: #185FA5; }
+.type-e { background: #FAEEDA; color: #854F0B; }
+.type-b { background: #EAF3DE; color: #3B6D11; }
+@media (prefers-color-scheme: dark) {
+  .type-m { background: #0C447C; color: #B5D4F4; }
+  .type-e { background: #633806; color: #FAC775; }
+  .type-b { background: #27500A; color: #C0DD97; }
+}
+.verdict { margin-top: 1.5rem; padding: 1.5rem; border-radius: var(--radius-lg); background: var(--bg); border: 0.5px solid var(--border); text-align: center; display: none; }
+.verdict .emoji { font-size: 36px; margin-bottom: 10px; }
+.verdict .title { font-size: 17px; font-weight: 500; margin-bottom: 6px; }
+.verdict .sub { font-size: 14px; color: var(--text-secondary); line-height: 1.8; }
+.footer { text-align: center; margin-top: 2rem; font-size: 12px; color: var(--text-secondary); }
+.footer a { color: var(--text-secondary); }
+.reset-btn { display: block; margin: 1rem auto 0; font-size: 13px; color: var(--text-secondary); background: none; border: 0.5px solid var(--border); border-radius: var(--radius-md); padding: 7px 18px; cursor: pointer; }
+.reset-btn:hover { background: var(--bg-secondary); }
+@media (max-width: 480px) { .scoreboard { grid-template-columns: repeat(2, 1fr); } .top-bar h1 { font-size: 14px; } }
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <h1>CodeFlow — Módulo 00 · Autoevaluación</h1>
+  <span class="version">v2.0</span>
+</div>
+<div class="container">
+  <div class="intro">
+    <p>Marca cada check cuando lo cumplas <strong>y</strong> sabes explicarlo. La columna <strong>"¿Lo explicas?"</strong> es tan importante como el mandatory — si funciona pero no lo entiendes, no cuenta.</p>
+  </div>
+  <div class="scoreboard" id="scoreboard"></div>
+  <div class="progress-bar-wrap"><div class="progress-bar" id="progressbar" style="width:0%"></div></div>
+  <div id="exercises"></div>
+  <div class="verdict" id="verdict"></div>
+  <button class="reset-btn" onclick="resetAll()">Reiniciar todo</button>
+  <div class="footer">
+    <p>© 2026 Mikel Zabal – <a href="https://www.linkedin.com/in/mikel-zabal-martin/" target="_blank">CodingWithZabal</a> · <a href="https://github.com/mzabalm/CodeFlowModule00" target="_blank">GitHub</a></p>
+  </div>
+</div>
+<script>
+const data=[
+  {id:'ex00',name:'Init & Context',checks:[
+    {t:'m',text:'He ejecutado /init en el directorio del starter'},
+    {t:'m',text:'He examinado el CLAUDE.md generado y documentado qué detectó Claude'},
+    {t:'m',text:'CLAUDE.md incluye reglas de compilación (flags, estándar C++, estructura)'},
+    {t:'m',text:'CLAUDE.md incluye restricciones de estilo (nombres de variables, comentarios)'},
+    {t:'m',text:'CLAUDE.md limita los directorios que Claude puede modificar a src/ e inc/'},
+    {t:'m',text:'CLAUDE.md incluye instrucción de responder en español'},
+    {t:'m',text:'He usado @src/Calculator.cpp para limitar el contexto a un archivo'},
+    {t:'m',text:'He usado @tests/ para limitar el contexto a una carpeta'},
+    {t:'m',text:'Tengo al menos 3 capturas en screenshots/ demostrando el uso de @'},
+    {t:'m',text:'NOTES.md compara el CLAUDE.md original vs el personalizado'},
+    {t:'e',text:'Sé explicar por qué elegí cada regla de mi CLAUDE.md'},
+    {t:'e',text:'Sé explicar qué hace @ exactamente y cómo afecta al contexto'},
+    {t:'b',text:'Sección de errores frecuentes en CLAUDE.md (ej: no usar printf)'},
+    {t:'b',text:'Segundo CLAUDE.md en tests/ con reglas específicas de testing'},
+  ]},
+  {id:'ex01',name:'Session Management',checks:[
+    {t:'m',text:'He ejecutado el escenario completo de 9 pasos sobre el proyecto del ex00'},
+    {t:'m',text:'session_log.txt registra los 9 pasos con observaciones reales'},
+    {t:'m',text:'He ejecutado /compact y documentado qué recordó y qué perdió Claude'},
+    {t:'m',text:'He ejecutado /compact [instrucciones] y comparado con el compact normal'},
+    {t:'m',text:'He demostrado el uso de /clean'},
+    {t:'m',text:'He demostrado el uso de Esc Esc para interrumpir una operación'},
+    {t:'m',text:'NOTES.md responde: ¿cuándo /compact vs /clean? ¿cuándo es crítico el doble Esc?'},
+    {t:'m',text:'NOTES.md incluye al menos 2 estrategias propias para minimizar tokens'},
+    {t:'e',text:'Sé explicar qué información sobrevive a un /compact y por qué'},
+    {t:'e',text:'Sé explicar la diferencia real entre /compact y /clean'},
+    {t:'b',text:'Tabla comparativa: operación → tokens consumidos'},
+    {t:'b',text:'He identificado qué operaciones consumen más contexto y por qué'},
+  ]},
+  {id:'ex02',name:'HookGuard',checks:[
+    {t:'m',text:'He creado un hook PostToolUse con matcher "*" que vuelca stdin a JSON'},
+    {t:'m',text:'He hecho que Claude use al menos 3 herramientas (Read, Write, Bash) y examinado los JSON'},
+    {t:'m',text:'hooks/guard.sh bloquea rm -rf y sudo'},
+    {t:'m',text:'hooks/guard.sh loguea todos los comandos bash en logs/commands.log con timestamp'},
+    {t:'m',text:'hooks/compiler_check.sh ejecuta make tras cada Write en .cpp o .hpp'},
+    {t:'m',text:'Si la compilación falla, el error vuelve a Claude para que corrija'},
+    {t:'m',text:'hooks/compiler_check.sh loguea OK/FAIL + timestamp en logs/compile.log'},
+    {t:'m',text:'settings.json tiene ambos hooks configurados (Pre y Post)'},
+    {t:'m',text:'logs/commands.log tiene al menos 5 entradas con timestamp'},
+    {t:'m',text:'logs/compile.log tiene al menos 3 entradas (con OK y FAIL)'},
+    {t:'m',text:'NOTES.md explica la estructura del JSON de cada herramienta'},
+    {t:'e',text:'Sé explicar por qué exit 2 bloquea la operación y exit 0 la permite'},
+    {t:'e',text:'Sé explicar por qué inspecciono con jq ANTES de escribir el hook'},
+    {t:'e',text:'Sé explicar cómo el stdout del PostToolUse llega a Claude como feedback'},
+    {t:'b',text:'Hook Notification que avisa cuando Claude lleva >60s idle'},
+    {t:'b',text:'Hook Stop que ejecuta make clean && make al final de cada turno'},
+    {t:'b',text:'settings.local.json con rutas absolutas + explicación de seguridad'},
+  ]},
+  {id:'ex03',name:'PlayBot',checks:[
+    {t:'m',text:'He instalado el servidor MCP de Playwright'},
+    {t:'m',text:'mcp_config.json está configurado y Claude Code lo detecta'},
+    {t:'m',text:'He capturado pantallazo de la verificación de herramientas MCP disponibles'},
+    {t:'m',text:'Claude ha navegado a una web pública y extraído datos específicos'},
+    {t:'m',text:'reports/github_profile.md contiene datos reales extraídos'},
+    {t:'m',text:'He diseñado un test que verifica carga de página (status 200)'},
+    {t:'m',text:'El test comprueba que un elemento específico existe en la página'},
+    {t:'m',text:'reports/test_results.md tiene al menos 2 tests (PASS/FAIL + timestamp)'},
+    {t:'m',text:'screenshots/ tiene capturas del proceso'},
+    {t:'m',text:'NOTES.md explica el patrón MCP: configurar → verificar → usar'},
+    {t:'e',text:'Sé explicar qué es MCP y por qué es el sistema de plugins de Claude Code'},
+    {t:'e',text:'Sé explicar el patrón configurar→verificar→usar con mis propias palabras'},
+    {t:'b',text:'Segundo servidor MCP configurado y usado en la misma sesión'},
+    {t:'b',text:'Hook PostToolUse combinado con Playwright (loguea cada página visitada)'},
+  ]},
+  {id:'ex04',name:'SDK Bridge',checks:[
+    {t:'m',text:'Paso 1: el programa C++ lee y parsea sample_report.json correctamente'},
+    {t:'m',text:'Paso 2: bridge.mjs recibe la ruta de un .cpp, lo analiza vía SDK y genera JSON'},
+    {t:'m',text:'Paso 2: uso allowedTools: ["Read"] para limitar qué puede hacer Claude'},
+    {t:'m',text:'Paso 3: CodeReviewer lanza bridge.mjs con system()'},
+    {t:'m',text:'Paso 3: leo el JSON generado y lo muestro por stdout'},
+    {t:'m',text:'Paso 3: gestiono errores (fichero no encontrado, SDK no disponible, JSON malformado)'},
+    {t:'m',text:'Paso 4: detecto el memory leak en leak.cpp'},
+    {t:'m',text:'Paso 4: detecto la variable sin inicializar en uninit.cpp'},
+    {t:'m',text:'Paso 4: detecto el bug de lógica en logic_bug.cpp'},
+    {t:'m',text:'El programa compila con -Wall -Wextra -Werror -std=c++17'},
+    {t:'m',text:'NOTES.md explica el flujo completo: C++ → system() → bridge.mjs → SDK → Claude → JSON → C++'},
+    {t:'e',text:'Sé explicar por qué C++ no llama al SDK directamente y necesita el puente'},
+    {t:'e',text:'Sé explicar qué hace system() exactamente y cuáles son sus riesgos'},
+    {t:'e',text:'Sé explicar por qué limito a allowedTools: ["Read"]'},
+    {t:'b',text:'Hook Stop que ejecuta CodeReviewer automáticamente y loguea en logs/review.log'},
+    {t:'b',text:'He sustituido system() por fork()/exec() y sé explicar la diferencia'},
+    {t:'b',text:'Bonus final: el resultado del review llega a Telegram/Slack via curl'},
+  ]}
+];
+
+let state=JSON.parse(localStorage.getItem('codeflow_m00_v2')||'{}');
+function save(){localStorage.setItem('codeflow_m00_v2',JSON.stringify(state));}
+function getStats(){
+  let tM=0,dM=0,tE=0,dE=0,tB=0,dB=0;
+  data.forEach(ex=>ex.checks.forEach((c,i)=>{
+    const done=!!state[ex.id+'_'+i];
+    if(c.t==='m'){tM++;if(done)dM++;}
+    if(c.t==='e'){tE++;if(done)dE++;}
+    if(c.t==='b'){tB++;if(done)dB++;}
+  }));
+  return{tM,dM,tE,dE,tB,dB};
+}
+function renderScoreboard(){
+  const{tM,dM,tE,dE,tB,dB}=getStats();
+  const pct=Math.round((dM+dE)/(tM+tE)*100);
+  document.getElementById('scoreboard').innerHTML=`
+    <div class="score-card"><div class="label">Mandatory</div><div class="value">${dM}/${tM}</div></div>
+    <div class="score-card"><div class="label">Explicar</div><div class="value">${dE}/${tE}</div></div>
+    <div class="score-card"><div class="label">Bonus</div><div class="value">${dB}/${tB}</div></div>
+    <div class="score-card total"><div class="label">Total core</div><div class="value">${dM+dE}/${tM+tE}</div></div>`;
+  document.getElementById('progressbar').style.width=pct+'%';
+}
+function renderVerdict(){
+  const{tM,dM,tE,dE}=getStats();
+  const v=document.getElementById('verdict');
+  if(dM===tM&&dE===tE){
+    v.style.display='block';
+    v.innerHTML='<div class="emoji">🏆</div><div class="title">Módulo 00 completado</div><div class="sub">Has aprendido a controlar Claude Code.<br>No a usarlo — a controlarlo.<br><br>¡Por Tutatis!!</div>';
+  }else if(dM+dE>0){
+    const pct=Math.round((dM+dE)/(tM+tE)*100);
+    v.style.display='block';
+    v.innerHTML=`<div class="emoji">${pct<40?'🟡':pct<80?'🔵':'🟢'}</div><div class="title">${pct}% completado</div><div class="sub">${tM-dM} mandatory y ${tE-dE} explicaciones pendientes.</div>`;
+  }else{v.style.display='none';}
+}
+function toggleCheck(exId,idx){
+  state[exId+'_'+idx]=!state[exId+'_'+idx];
+  save();renderAll();
+}
+function renderExercises(){
+  const container=document.getElementById('exercises');
+  container.innerHTML='';
+  const lbl={m:['Mandatory','type-m'],e:['¿Lo explicas?','type-e'],b:['Bonus','type-b']};
+  data.forEach(ex=>{
+    let m=0,dm=0;
+    ex.checks.forEach((c,i)=>{if(c.t==='m'){m++;if(state[ex.id+'_'+i])dm++;}});
+    const open=!!state['open_'+ex.id];
+    const div=document.createElement('div');
+    div.className='exercise';
+    const checks=ex.checks.map((c,i)=>{
+      const done=!!state[ex.id+'_'+i];
+      const[label,cls]=lbl[c.t];
+      const boxCls=done?(c.t==='e'?'explain':'checked'):'';
+      return`<div class="check-item" onclick="toggleCheck('${ex.id}',${i})">
+        <div class="check-box ${boxCls}">${done?'<i class="ti ti-check"></i>':''}</div>
+        <div style="flex:1"><div class="check-text ${done?'done':''}">${c.text}</div>
+        <span class="check-type ${cls}">${label}</span></div></div>`;
+    }).join('');
+    div.innerHTML=`
+      <div class="ex-header" onclick="toggleEx('${ex.id}')">
+        <span class="ex-badge">${ex.id}</span>
+        <span class="ex-title">${ex.name}</span>
+        <span class="ex-progress" style="color:${dm===m?'var(--green)':'var(--amber)'}">${dm}/${m} mandatory</span>
+        <i class="ti ti-chevron-down ex-chevron ${open?'open':''}"></i>
+      </div>
+      <div class="ex-body ${open?'open':''}">${checks}</div>`;
+    container.appendChild(div);
+  });
+}
+function toggleEx(id){state['open_'+id]=!state['open_'+id];save();renderExercises();}
+function renderAll(){renderScoreboard();renderExercises();renderVerdict();}
+function resetAll(){if(confirm('¿Reiniciar todos los checks?')){state={};save();renderAll();}}
+renderAll();
+</script>
+</body>
+</html>
