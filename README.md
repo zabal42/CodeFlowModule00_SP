@@ -57,6 +57,11 @@ Cada ejercicio construye sobre el anterior. El ex04 integra **todo** lo aprendid
 
 Para los ejercicios con C++: compilador con soporte `-std=c++17`.
 
+
+
+> **¿Usas Windows?** Este módulo está diseñado para macOS y Linux. Si estás en Windows, usa **WSL2** — tendrás un Ubuntu real y todo funcionará exactamente igual.
+> → [Guía de instalación de WSL2](https://learn.microsoft.com/es-es/windows/wsl/install)
+
 ---
 
 ## Cómo empezar
