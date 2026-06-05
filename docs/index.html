@@ -179,6 +179,7 @@ const data=[
 ];
 
 let state=JSON.parse(localStorage.getItem('codeflow_m00_v2')||'{}');
+localStorage.removeItem('codeflow_m00');
 function save(){localStorage.setItem('codeflow_m00_v2',JSON.stringify(state));}
 
 const CORE_TOTAL=62;
@@ -221,7 +222,7 @@ function renderVerdict(){
   const{dM,dE,dPD,core,coreComplete,score}=getScore();
   const{tM,tE}=getStats();
   const v=document.getElementById('verdict');
-  if(dPD===1&&coreComplete){
+  if(coreComplete&&dPD===1){
     v.style.display='block';
     v.innerHTML='<div class="emoji">👑</div><div class="title">Princess Donut Celestial Level — 100/100</div><div class="sub">Has completado el módulo entero. El review llega al móvil, tú estás en el gym.<br>No has aprendido a usar Claude Code: has aprendido a controlarlo.<br><br>¡Por Tutatis!!</div>';
   }else if(coreComplete){
@@ -230,7 +231,11 @@ function renderVerdict(){
   }else if(core>0){
     const pendM=tM-dM;
     const pendE=tE-dE;
-    const msg=pendM>0&&pendE>0?`${pendM} mandatory y ${pendE} explicaciones pendientes.`:pendM>0?`${pendM} mandatory pendientes.`:`${pendE} explicaciones pendientes.`;
+    let msg='';
+    if(pendM>0&&pendE>0) msg=`${pendM} mandatory y ${pendE} explicaciones pendientes.`;
+    else if(pendM>0) msg=`${pendM} mandatory pendientes.`;
+    else if(pendE>0) msg=`${pendE} explicaciones pendientes.`;
+    else msg='¡Todo el core completado! Marca el 👑 Princess Donut para llegar al 100.';
     v.style.display='block';
     v.innerHTML=`<div class="emoji">${core<20?'🟡':core<45?'🔵':'🟢'}</div><div class="title">${core}/100 puntos</div><div class="sub">${msg}</div>`;
   }else{v.style.display='none';}
