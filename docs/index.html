@@ -47,16 +47,19 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .check-box { width: 20px; height: 20px; border-radius: 5px; border: 1.5px solid var(--border-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; transition: all 0.15s; font-size: 13px; }
 .check-box.checked { background: var(--green); border-color: var(--green); color: white; }
 .check-box.explain { background: var(--amber); border-color: var(--amber); color: white; }
+.check-box.pd { background: #534AB7; border-color: #534AB7; color: white; }
 .check-text { font-size: 14px; line-height: 1.5; flex: 1; }
 .check-text.done { color: var(--text-secondary); text-decoration: line-through; }
 .check-type { display: inline-block; font-size: 10px; font-weight: 500; padding: 2px 6px; border-radius: 4px; margin-top: 3px; }
 .type-m { background: #E6F1FB; color: #185FA5; }
 .type-e { background: #FAEEDA; color: #854F0B; }
 .type-b { background: #EAF3DE; color: #3B6D11; }
+.type-pd { background: #EEEDFE; color: #534AB7; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px; margin-top: 3px; display: inline-block; }
 @media (prefers-color-scheme: dark) {
   .type-m { background: #0C447C; color: #B5D4F4; }
   .type-e { background: #633806; color: #FAC775; }
   .type-b { background: #27500A; color: #C0DD97; }
+  .type-pd { background: #3C3489; color: #CECBF6; }
 }
 .verdict { margin-top: 1.5rem; padding: 1.5rem; border-radius: var(--radius-lg); background: var(--bg); border: 0.5px solid var(--border); text-align: center; display: none; }
 .verdict .emoji { font-size: 36px; margin-bottom: 10px; }
@@ -171,42 +174,61 @@ const data=[
     {t:'e',text:'Sé explicar por qué limito a allowedTools: ["Read"]'},
     {t:'b',text:'Hook Stop que ejecuta CodeReviewer automáticamente y loguea en logs/review.log'},
     {t:'b',text:'He sustituido system() por fork()/exec() y sé explicar la diferencia'},
-    {t:'b',text:'Bonus final: el resultado del review llega a Telegram/Slack via curl'},
+    {t:'pd',text:'Princess Donut Celestial Level — el resultado del review llega a Telegram/Slack via curl. Lanzas el proceso, te vas al CrossFit, y el mensaje te espera en el móvil.'},
   ]}
 ];
 
 let state=JSON.parse(localStorage.getItem('codeflow_m00_v2')||'{}');
 function save(){localStorage.setItem('codeflow_m00_v2',JSON.stringify(state));}
+
+const CORE_TOTAL=62;
+function getScore(){
+  let dM=0,dE=0,dB=0,dPD=0;
+  data.forEach(ex=>ex.checks.forEach((c,i)=>{
+    const done=!!state[ex.id+'_'+i];
+    if(c.t==='m'&&done)dM++;
+    if(c.t==='e'&&done)dE++;
+    if(c.t==='b'&&done)dB++;
+    if(c.t==='pd'&&done)dPD++;
+  }));
+  const core=dM+dE;
+  const score=dPD===1?100:core;
+  return{dM,dE,dB,dPD,core,score};
+}
 function getStats(){
   let tM=0,dM=0,tE=0,dE=0,tB=0,dB=0;
   data.forEach(ex=>ex.checks.forEach((c,i)=>{
     const done=!!state[ex.id+'_'+i];
     if(c.t==='m'){tM++;if(done)dM++;}
     if(c.t==='e'){tE++;if(done)dE++;}
-    if(c.t==='b'){tB++;if(done)dB++;}
+    if(c.t==='b'||c.t==='pd'){tB++;if(done)dB++;}
   }));
   return{tM,dM,tE,dE,tB,dB};
 }
 function renderScoreboard(){
-  const{tM,dM,tE,dE,tB,dB}=getStats();
-  const pct=Math.round((dM+dE)/(tM+tE)*100);
+  const{dM,dE,dB,dPD,core,score}=getScore();
+  const{tM,tE,tB}=getStats();
+  const pct=dPD===1?100:Math.round(core/CORE_TOTAL*100);
   document.getElementById('scoreboard').innerHTML=`
     <div class="score-card"><div class="label">Mandatory</div><div class="value">${dM}/${tM}</div></div>
     <div class="score-card"><div class="label">Explicar</div><div class="value">${dE}/${tE}</div></div>
     <div class="score-card"><div class="label">Bonus</div><div class="value">${dB}/${tB}</div></div>
-    <div class="score-card total"><div class="label">Total core</div><div class="value">${dM+dE}/${tM+tE}</div></div>`;
+    <div class="score-card total"><div class="label">Puntuación</div><div class="value">${score}/100</div></div>`;
   document.getElementById('progressbar').style.width=pct+'%';
 }
 function renderVerdict(){
-  const{tM,dM,tE,dE}=getStats();
+  const{dM,dE,dPD,core,score}=getScore();
+  const{tM,tE}=getStats();
   const v=document.getElementById('verdict');
-  if(dM===tM&&dE===tE){
+  if(dPD===1){
     v.style.display='block';
-    v.innerHTML='<div class="emoji">🏆</div><div class="title">Módulo 00 completado</div><div class="sub">Has aprendido a controlar Claude Code.<br>No a usarlo — a controlarlo.<br><br>¡Por Tutatis!!</div>';
-  }else if(dM+dE>0){
-    const pct=Math.round((dM+dE)/(tM+tE)*100);
+    v.innerHTML='<div class="emoji">👑</div><div class="title">Princess Donut Celestial Level — 100/100</div><div class="sub">Has completado el módulo entero. El review llega al móvil, tú estás en el gym.<br>No has aprendido a usar Claude Code: has aprendido a controlarlo.<br><br>¡Por Tutatis!!</div>';
+  }else if(core===CORE_TOTAL){
     v.style.display='block';
-    v.innerHTML=`<div class="emoji">${pct<40?'🟡':pct<80?'🔵':'🟢'}</div><div class="title">${pct}% completado</div><div class="sub">${tM-dM} mandatory y ${tE-dE} explicaciones pendientes.</div>`;
+    v.innerHTML=`<div class="emoji">🏆</div><div class="title">Core completado — ${core}/100</div><div class="sub">Todo el mandatory y las explicaciones. Falta un último nivel...<br><br>¿Te atreves con el <strong>Princess Donut Celestial Level</strong>?</div>`;
+  }else if(core>0){
+    v.style.display='block';
+    v.innerHTML=`<div class="emoji">${core<25?'🟡':core<50?'🔵':'🟢'}</div><div class="title">${core}/100 puntos</div><div class="sub">${tM-dM} mandatory y ${tE-dE} explicaciones pendientes.</div>`;
   }else{v.style.display='none';}
 }
 function toggleCheck(exId,idx){
@@ -216,7 +238,7 @@ function toggleCheck(exId,idx){
 function renderExercises(){
   const container=document.getElementById('exercises');
   container.innerHTML='';
-  const lbl={m:['Mandatory','type-m'],e:['¿Lo explicas?','type-e'],b:['Bonus','type-b']};
+  const lbl={m:['Mandatory','type-m'],e:['¿Lo explicas?','type-e'],b:['Bonus','type-b'],pd:['👑 Princess Donut Celestial Level','type-pd']};
   data.forEach(ex=>{
     let m=0,dm=0;
     ex.checks.forEach((c,i)=>{if(c.t==='m'){m++;if(state[ex.id+'_'+i])dm++;}});
@@ -226,7 +248,7 @@ function renderExercises(){
     const checks=ex.checks.map((c,i)=>{
       const done=!!state[ex.id+'_'+i];
       const[label,cls]=lbl[c.t];
-      const boxCls=done?(c.t==='e'?'explain':'checked'):'';
+      const boxCls=done?(c.t==='e'?'explain':c.t==='pd'?'pd':'checked'):'';
       return`<div class="check-item" onclick="toggleCheck('${ex.id}',${i})">
         <div class="check-box ${boxCls}">${done?'<i class="ti ti-check"></i>':''}</div>
         <div style="flex:1"><div class="check-text ${done?'done':''}">${c.text}</div>
