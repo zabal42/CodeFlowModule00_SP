@@ -181,7 +181,7 @@ const data=[
 let state=JSON.parse(localStorage.getItem('codeflow_m00_v2')||'{}');
 function save(){localStorage.setItem('codeflow_m00_v2',JSON.stringify(state));}
 
-const CORE_TOTAL=62;
+const CORE_TOTAL=64;
 function getScore(){
   let dM=0,dE=0,dB=0,dPD=0;
   data.forEach(ex=>ex.checks.forEach((c,i)=>{
@@ -192,8 +192,9 @@ function getScore(){
     if(c.t==='pd'&&done)dPD++;
   }));
   const core=dM+dE;
-  const score=dPD===1?100:core;
-  return{dM,dE,dB,dPD,core,score};
+  const coreComplete=core===CORE_TOTAL;
+  const score=(dPD===1&&coreComplete)?100:core;
+  return{dM,dE,dB,dPD,core,coreComplete,score};
 }
 function getStats(){
   let tM=0,dM=0,tE=0,dE=0,tB=0,dB=0;
@@ -206,9 +207,9 @@ function getStats(){
   return{tM,dM,tE,dE,tB,dB};
 }
 function renderScoreboard(){
-  const{dM,dE,dB,dPD,core,score}=getScore();
+  const{dM,dE,dB,dPD,core,coreComplete,score}=getScore();
   const{tM,tE,tB}=getStats();
-  const pct=dPD===1?100:Math.round(core/CORE_TOTAL*100);
+  const pct=(dPD===1&&coreComplete)?100:Math.round(core/CORE_TOTAL*100);
   document.getElementById('scoreboard').innerHTML=`
     <div class="score-card"><div class="label">Mandatory</div><div class="value">${dM}/${tM}</div></div>
     <div class="score-card"><div class="label">Explicar</div><div class="value">${dE}/${tE}</div></div>
@@ -217,15 +218,15 @@ function renderScoreboard(){
   document.getElementById('progressbar').style.width=pct+'%';
 }
 function renderVerdict(){
-  const{dM,dE,dPD,core,score}=getScore();
+  const{dM,dE,dPD,core,coreComplete,score}=getScore();
   const{tM,tE}=getStats();
   const v=document.getElementById('verdict');
-  if(dPD===1){
+  if(dPD===1&&coreComplete){
     v.style.display='block';
     v.innerHTML='<div class="emoji">👑</div><div class="title">Princess Donut Celestial Level — 100/100</div><div class="sub">Has completado el módulo entero. El review llega al móvil, tú estás en el gym.<br>No has aprendido a usar Claude Code: has aprendido a controlarlo.<br><br>¡Por Tutatis!!</div>';
-  }else if(core===CORE_TOTAL){
+  }else if(coreComplete){
     v.style.display='block';
-    v.innerHTML=`<div class="emoji">🏆</div><div class="title">Core completado — ${core}/100</div><div class="sub">Todo el mandatory y las explicaciones. Falta un último nivel...<br><br>¿Te atreves con el <strong>Princess Donut Celestial Level</strong>?</div>`;
+    v.innerHTML=`<div class="emoji">🏆</div><div class="title">Core completado — 64/100</div><div class="sub">Todo el mandatory y las explicaciones. Falta un último nivel...<br><br>¿Te atreves con el <strong>Princess Donut Celestial Level</strong>?</div>`;
   }else if(core>0){
     v.style.display='block';
     v.innerHTML=`<div class="emoji">${core<25?'🟡':core<50?'🔵':'🟢'}</div><div class="title">${core}/100 puntos</div><div class="sub">${tM-dM} mandatory y ${tE-dE} explicaciones pendientes.</div>`;

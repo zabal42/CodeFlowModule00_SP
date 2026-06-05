@@ -25,7 +25,7 @@ Está inspirado en la filosofía de las escuelas tipo 42: **si no puedes explica
 
 ## ¿Para quién es?
 
-- **Vienes de 42 / 19 / una escuela de código** y quieres añadir Claude Code a tu arsenal con el rigor al que ya estás acostumbrado.
+- **Vienes de una escuela tipo 42** y quieres añadir Claude Code a tu arsenal con el rigor al que ya estás acostumbrado.
 - **Eres desarrollador** y has usado Claude Code pero intuyes que solo arañas la superficie.
 - **Quieres entender de verdad** cómo funciona el bucle interno: hooks, contexto, MCP, SDK.
 
