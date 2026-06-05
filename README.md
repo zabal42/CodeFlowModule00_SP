@@ -65,7 +65,7 @@ Este repositorio es **de consulta**. No entregas aquí — lo usas para leer el 
 
 ```bash
 # 1. Clona el repo
-git clone https://github.com/<tu-usuario>/CodeFlow-Module00.git
+git clone https://github.com/<tu-usuario>/CodeFlow-Module00_SP.git
 
 # 2. Lee el subject completo (en serio, léelo entero antes de empezar)
 open subject/codeflow_subject_v2.pdf
@@ -75,7 +75,7 @@ mkdir codeflow-m00-tunombre && cd codeflow-m00-tunombre
 git init
 
 # 4. Copia el starter del ejercicio que toca
-cp -r ../CodeFlow-Module00/starters/ex00 .
+cp -r ../CodeFlow-Module00_SP/starters/ex00 .
 
 # 5. Entra, compila, y empieza a trabajar
 cd ex00 && make
@@ -89,7 +89,7 @@ cd ex00 && make
 
 ¿No tienes a nadie que te corrija? No pasa nada.
 
-➡️ **[Abre la rúbrica interactiva](https://mzabalm.github.io/CodeFlowModule00/)** — marca checks, ve tu progreso en tiempo real y recibe el veredicto final.
+➡️ **[Abre la rúbrica interactiva](https://zabal42.github.io/CodeFlowModule00_SP/)** — marca checks, ve tu progreso en tiempo real y recibe el veredicto final.
 
 También disponible como texto plano: [`EVALUACION.md`](EVALUACION.md)
 
