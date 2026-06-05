@@ -1,0 +1,11 @@
+{
+  "file": "leak.cpp",
+  "issues": [
+    {
+      "line": 4,
+      "type": "memory_leak",
+      "message": "new sin delete correspondiente"
+    }
+  ],
+  "summary": "1 issue encontrado"
+}

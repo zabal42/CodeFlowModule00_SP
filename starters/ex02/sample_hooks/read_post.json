@@ -1,0 +1,9 @@
+{
+  "tool_name": "Read",
+  "tool_input": {
+    "path": "inc/Calculator.hpp"
+  },
+  "tool_response": {
+    "content": "#pragma once\n\nclass Calculator\n{\npublic:\n    Calculator();\n    ~Calculator();\n    double add(double a, double b);\n};\n"
+  }
+}

@@ -1,0 +1,121 @@
+# session_log.txt — ex01: Session Management
+# Rellena cada paso con tus observaciones reales
+
+Fecha: _______________
+Proyecto base: ex00/
+
+==============================================================
+PASO 1 — Análisis de estructura del proyecto
+==============================================================
+Prompt usado:
+> 
+
+Respuesta de Claude (resumen):
+
+
+Tokens aproximados en este punto: ___
+
+==============================================================
+PASO 2 — Localización de función principal de Calculator
+==============================================================
+Prompt usado:
+> 
+
+Respuesta de Claude (resumen):
+
+
+==============================================================
+PASO 3 — Mejora pequeña (nuevo método)
+==============================================================
+Prompt usado:
+> 
+
+Método añadido:
+
+
+Código generado por Claude:
+
+
+==============================================================
+PASO 4 — Ejecución de make
+==============================================================
+Prompt usado:
+> 
+
+Resultado:
+[ ] OK — compiló sin errores
+[ ] KO — errores (cópialos aquí):
+
+
+==============================================================
+PASO 5 — Error deliberado introducido
+==============================================================
+Error introducido (qué y dónde):
+
+
+==============================================================
+PASO 6 — Diagnóstico y corrección
+==============================================================
+Prompt usado:
+> 
+
+¿Claude localizó el error solo?  [ ] Sí  [ ] No
+Explicación que dio Claude:
+
+
+==============================================================
+PASO 7 — /compact
+==============================================================
+Comando usado:
+> /compact
+
+¿Usaste instrucciones adicionales? [ ] Sí  [ ] No
+Si sí, ¿cuáles?:
+
+
+Resumen generado por Claude tras /compact:
+
+
+==============================================================
+PASO 8 — Nueva modificación tras /compact
+==============================================================
+Prompt usado:
+> 
+
+¿Recordó Claude el contexto del paso 3?  [ ] Sí  [ ] Parcialmente  [ ] No
+¿Qué tuvo que releer?:
+
+
+==============================================================
+PASO 9 — Observaciones finales
+==============================================================
+¿Qué recordó Claude tras /compact?:
+
+
+¿Qué perdió o tuvo que reconstruir?:
+
+
+Tokens totales estimados al final de la sesión: ___
+
+==============================================================
+COMPACT CON INSTRUCCIONES (comparativa)
+==============================================================
+Instrucciones dadas:
+> /compact 
+
+Diferencias observadas respecto al /compact sin instrucciones:
+
+
+==============================================================
+CLEAN & ESCAPE
+==============================================================
+¿Cuándo usaste /clean?:
+
+
+Resultado:
+
+
+¿Cuándo usaste Esc Esc?:
+
+
+Resultado:

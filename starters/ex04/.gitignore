@@ -1,0 +1,7 @@
+# Objetos y binarios
+*.o
+code_reviewer
+# Dependencias Node
+node_modules/
+# Output temporal del bridge
+/tmp/review_output.json

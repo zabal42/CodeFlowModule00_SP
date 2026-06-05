@@ -1,0 +1,10 @@
+{
+  "tool_name": "Write",
+  "tool_input": {
+    "path": "src/Calculator.cpp",
+    "content": "#include \"../inc/Calculator.hpp\"\n\nCalculator::Calculator() {}\n"
+  },
+  "tool_response": {
+    "success": true
+  }
+}
