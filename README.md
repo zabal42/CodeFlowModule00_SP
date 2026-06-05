@@ -49,7 +49,7 @@ Cada ejercicio construye sobre el anterior. El ex04 integra **todo** lo aprendid
 
 ## Requisitos
 
-- Claude Code instalado y autenticado (cuenta Pro mínimo)
+- Claude Code instalado y autenticado (cuenta Antrophic que permita el uso de Claude Code)
 - Node.js >= 18 (para SDK y MCP)
 - `jq` instalado (`sudo apt install jq` o `brew install jq`)
 - Git
@@ -60,6 +60,8 @@ Para los ejercicios con C++: compilador con soporte `-std=c++17`.
 ---
 
 ## Cómo empezar
+
+📄 **Subject:** [Español](subject/codeflow_subject_v2.pdf)
 
 Este repositorio es **de consulta**. No entregas aquí — lo usas para leer el subject y coger los starters.
 
