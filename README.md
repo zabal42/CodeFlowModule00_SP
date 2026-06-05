@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/logo.png" alt="CodeFlow logo" width="120">
+
 # CodeFlow — Módulo 00
 
 ### Domina Claude Code: desde `/init` hasta el SDK
