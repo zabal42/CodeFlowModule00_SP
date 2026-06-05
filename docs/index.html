@@ -181,7 +181,7 @@ const data=[
 let state=JSON.parse(localStorage.getItem('codeflow_m00_v2')||'{}');
 function save(){localStorage.setItem('codeflow_m00_v2',JSON.stringify(state));}
 
-const CORE_TOTAL=64;
+const CORE_TOTAL=62;
 function getScore(){
   let dM=0,dE=0,dB=0,dPD=0;
   data.forEach(ex=>ex.checks.forEach((c,i)=>{
@@ -226,10 +226,13 @@ function renderVerdict(){
     v.innerHTML='<div class="emoji">👑</div><div class="title">Princess Donut Celestial Level — 100/100</div><div class="sub">Has completado el módulo entero. El review llega al móvil, tú estás en el gym.<br>No has aprendido a usar Claude Code: has aprendido a controlarlo.<br><br>¡Por Tutatis!!</div>';
   }else if(coreComplete){
     v.style.display='block';
-    v.innerHTML=`<div class="emoji">🏆</div><div class="title">Core completado — 64/100</div><div class="sub">Todo el mandatory y las explicaciones. Falta un último nivel...<br><br>¿Te atreves con el <strong>Princess Donut Celestial Level</strong>?</div>`;
+    v.innerHTML=`<div class="emoji">🏆</div><div class="title">Core completado — 62/100</div><div class="sub">Todo el mandatory y las explicaciones. Solo falta un último nivel...<br><br>¿Te atreves con el <strong>👑 Princess Donut Celestial Level</strong>?<br>Implementa el review vía Telegram/Slack, lanza el proceso, vete al CrossFit y espera el mensaje en el móvil. Si lo consigues: <strong>100/100</strong>.</div>`;
   }else if(core>0){
+    const pendM=tM-dM;
+    const pendE=tE-dE;
+    const msg=pendM>0&&pendE>0?`${pendM} mandatory y ${pendE} explicaciones pendientes.`:pendM>0?`${pendM} mandatory pendientes.`:`${pendE} explicaciones pendientes.`;
     v.style.display='block';
-    v.innerHTML=`<div class="emoji">${core<25?'🟡':core<50?'🔵':'🟢'}</div><div class="title">${core}/100 puntos</div><div class="sub">${tM-dM} mandatory y ${tE-dE} explicaciones pendientes.</div>`;
+    v.innerHTML=`<div class="emoji">${core<20?'🟡':core<45?'🔵':'🟢'}</div><div class="title">${core}/100 puntos</div><div class="sub">${msg}</div>`;
   }else{v.style.display='none';}
 }
 function toggleCheck(exId,idx){
