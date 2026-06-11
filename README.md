@@ -97,8 +97,8 @@ La estructura debería quedar así:
 
 ```txt
 Code Flow Module 00/
-├── CodeFlowModule00_SP/        # repo de consulta
-└── codeflow-m00-tunombre/      # tu repo de trabajo
+├── CodeFlowModule00_SP/          # repo de consulta
+└── CFM00_tunombre/               # tu repo de trabajo
 ```
 
 > **Importante:** no crees tu repo de trabajo dentro de `CodeFlowModule00_SP`. Si lo haces, puedes acabar con un repositorio Git dentro de otro y liarte con los commits, los paths y los starters.
