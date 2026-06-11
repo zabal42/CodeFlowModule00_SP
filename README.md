@@ -68,7 +68,7 @@ Para los ejercicios con C++: compilador con soporte -std=c++17.
 ## Cómo empezar
 
 
-📄 **Subject:** [Español](subject/codeflow_subject_v2.pdf)
+📄 **Subject:** [Español](subject/codeflow_subject_v3_SP.pdf)
 
 Este repositorio es **de consulta**. No entregas aquí — lo usas para leer el subject, consultar la evaluación y coger los starters.
 
@@ -78,12 +78,12 @@ git clone https://github.com/zabal42/CodeFlowModule00_SP.git
 cd CodeFlowModule00_SP
 
 # 2. Lee el subject completo (en serio, léelo entero antes de empezar)
-open subject/codeflow_subject_v2.pdf
+open subject/codeflow_subject_v3_SP.pdf
 
 # 3. Sal del repo de consulta y crea tu propio repo de trabajo
 cd ..
-mkdir CFM00_tuNombre
-cd CFM00_tuNombre
+mkdir codeflow-m00-tunombre
+cd codeflow-m00-tunombre
 git init
 
 # 4. Copia el starter del ejercicio que toca
@@ -97,8 +97,8 @@ La estructura debería quedar así:
 
 ```txt
 Code Flow Module 00/
-├── CodeFlowModule00_SP/          # repo de consulta
-└── CFM00_tunombre/               # tu repo de trabajo
+├── CodeFlowModule00_SP/        # repo de consulta
+└── codeflow-m00-tunombre/      # tu repo de trabajo
 ```
 
 > **Importante:** no crees tu repo de trabajo dentro de `CodeFlowModule00_SP`. Si lo haces, puedes acabar con un repositorio Git dentro de otro y liarte con los commits, los paths y los starters.
