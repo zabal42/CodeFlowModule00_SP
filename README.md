@@ -82,8 +82,8 @@ open subject/codeflow_subject_v2.pdf
 
 # 3. Sal del repo de consulta y crea tu propio repo de trabajo
 cd ..
-mkdir codeflow-m00-tunombre
-cd codeflow-m00-tunombre
+mkdir CFM00_tuNombre
+cd CFM00_tuNombre
 git init
 
 # 4. Copia el starter del ejercicio que toca
