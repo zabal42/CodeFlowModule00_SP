@@ -67,20 +67,43 @@ Para los ejercicios con C++: compilador con soporte -std=c++17.
 
 ## Cómo empezar
 
-📄 Subject: Español
 
-Este repositorio es de consulta. No entregas aquí — lo usas para leer el subject, consultar la evaluación y coger los starters.
+📄 **Subject:** [Español](subject/codeflow_subject_v2.pdf)
 
-bash # 1. Clona el repo de consulta git clone https://github.com/zabal42/CodeFlowModule00_SP.git cd CodeFlowModule00_SP  # 2. Lee el subject completo (en serio, léelo entero antes de empezar) open subject/codeflow_subject_v2.pdf  # 3. Sal del repo de consulta y crea tu propio repo de trabajo cd .. mkdir codeflow-m00-tunombre cd codeflow-m00-tunombre git init  # 4. Copia el starter del ejercicio que toca cp -r ../CodeFlowModule00_SP/starters/ex00 .  # 5. Entra, compila, y empieza a trabajar cd ex00 && make 
+Este repositorio es **de consulta**. No entregas aquí — lo usas para leer el subject, consultar la evaluación y coger los starters.
+
+```bash
+# 1. Clona el repo de consulta
+git clone https://github.com/zabal42/CodeFlowModule00_SP.git
+cd CodeFlowModule00_SP
+
+# 2. Lee el subject completo (en serio, léelo entero antes de empezar)
+open subject/codeflow_subject_v2.pdf
+
+# 3. Sal del repo de consulta y crea tu propio repo de trabajo
+cd ..
+mkdir codeflow-m00-tunombre
+cd codeflow-m00-tunombre
+git init
+
+# 4. Copia el starter del ejercicio que toca
+cp -r ../CodeFlowModule00_SP/starters/ex00 .
+
+# 5. Entra, compila, y empieza a trabajar
+cd ex00 && make
+```
 
 La estructura debería quedar así:
 
-txt Code Flow Module 00/ ├── CodeFlowModule00_SP/        # repo de consulta └── codeflow-m00-tunombre/      # tu repo de trabajo 
+```txt
+Code Flow Module 00/
+├── CodeFlowModule00_SP/        # repo de consulta
+└── codeflow-m00-tunombre/      # tu repo de trabajo
+```
 
-> Importante: no crees tu repo de trabajo dentro de CodeFlowModule00_SP. Si lo haces, puedes acabar con un repositorio Git dentro de otro y liarte con los commits, los paths y los starters.
+> **Importante:** no crees tu repo de trabajo dentro de `CodeFlowModule00_SP`. Si lo haces, puedes acabar con un repositorio Git dentro de otro y liarte con los commits, los paths y los starters.
 
-> Consejo: haz commit de checkpoint antes de dejar que Claude Code modifique tu código. Si algo se rompe, vuelves atrás. Y si no puedes explicar qué hace cada línea, no lo entregues.
-
+> **Consejo:** haz commit de checkpoint **antes** de dejar que Claude Code modifique tu código. Si algo se rompe, vuelves atrás. Y si no puedes explicar qué hace cada línea, no lo entregues.
 ---
 
 ## Autoevaluación
