@@ -147,24 +147,25 @@ Con mapa, brújula y barro en las botas.
 
 ## Autoevaluación
 
+## Autoevaluación
+
 ¿No tienes a nadie que te corrija? No pasa nada.
 
-➡️ Abre la rúbrica interactiva — marca checks, ve tu progreso en tiempo real y recibe el veredicto final.
+➡️ **[Abre la rúbrica interactiva](https://zabal42.github.io/CodeFlowModule00_SP/)** — marca checks, ve tu progreso en tiempo real y recibe el veredicto final.
 
-También disponible como texto plano: EVALUACION.md
+También disponible como texto plano: [EVALUACION.md](EVALUACION.md)
 
-Así se usa:
+**Así se usa:**
 
 1. Abre el enlace y ve ejercicio por ejercicio.
 2. Al terminar cada uno, marca los checks con un clic.
 3. Hay tres bloques por ejercicio:
-   - Mandatory — lo que pide el subject. Binario: lo tienes o no lo tienes.
-   - ¿Lo explicas? — tan importante como el mandatory. Si funciona pero no lo entiendes, no cuenta.
-   - Bonus — solo si el mandatory está al 100%.
+   - **Mandatory** — lo que pide el subject. Binario: lo tienes o no lo tienes.
+   - **¿Lo explicas?** — tan importante como el mandatory. Si funciona pero no lo entiendes, no cuenta.
+   - **Bonus** — solo si el mandatory está al 100%.
 4. Al completar todo, aparece el veredicto final.
 
 > Si puedes marcar todo el Mandatory y todos los "¿Lo explicas?", estás listo para una defensa real.
-
 ---
 
 ## La regla que lo resume todo
