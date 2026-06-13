@@ -110,15 +110,40 @@ Code Flow Module 00/
 
 <p align="center">
   <a href="https://zabal42.github.io/CodeFlowModule00_SP/guia/guia-campo-index.html">
-    <img src="assets/guia-campo-portada-preview.png" alt="Guía de Campo — CodeFlow Módulo 00" width="380">
+    <img src="docs/guia/guia-campo-portada-preview.png" alt="Guía de Campo — CodeFlow Módulo 00" width="580">
   </a>
 </p>
 
-¿Primera vez con la metodología 42? ¿Quieres entender cada concepto
-antes de atacar el ejercicio?
+<div align="center">
+
+Para los que no conozcan el Campus 42... 
+
+En la escuela 42 no hay temario. No hay profesor. Y nadie viene a salvarte. Hay un subject, tus compañeros, y tu capacidad de buscarte la vida. Eso es exactamente lo que hace al método tan efectivo — pero también puede ser desconcertante para quien llega desde fuera, para quien todavía no está hecho a la metodología 42 o para quien no tiene un campus cerca donde preguntar, ser preguntado y aprender chocando ideas con otros.
+
+<br>
+
+Por eso he creado esta **Guía de Campo**: para ayudar a orientarse antes de atacar cada ejercicio, entender los conceptos importantes, detectar las trampas frecuentes y comprobar, en el checkpoint de defensa, si de verdad sabes explicar lo que has construido.
+
+<br>
+
+Y como buen (ex)topógrafo, la guía tenía que tener esta forma: 
+ un mapa o guía de campo para una pequeña EXPEDICIÓN por el Módulo 00.
+
+<br>
+
+Sin soluciones. Sin atajos.  
+
+Con mapa, brújula y barro en las botas.
+
+<br>
+
 ➡️ **[Abre la Guía de Campo](https://zabal42.github.io/CodeFlowModule00_SP/guia/guia-campo-index.html)**
-— conceptos, estrategia de ataque, trampas frecuentes y checkpoint
-de defensa por cada ejercicio. Sin solucionarios.
+
+<br>
+
+*(pistas sí, spoilers.. **NO**!)*
+
+</div>
 
 ## Autoevaluación
 
@@ -144,7 +169,7 @@ Así se usa:
 
 ## La regla que lo resume todo
 
-> ¡Por Tutatis! ¡Usa tu cerebro!  
+> ¡Por TUTATIS! ¡Usa tu cerebro!  
 > Claude Code es una herramienta, no un sustituto de tu capacidad de razonamiento.
 
 ---
