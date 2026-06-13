@@ -106,6 +106,13 @@ Code Flow Module 00/
 > **Consejo:** haz commit de checkpoint **antes** de dejar que Claude Code modifique tu código. Si algo se rompe, vuelves atrás. Y si no puedes explicar qué hace cada línea, no lo entregues.
 ---
 
+## 📖 Guía de Campo
+¿Primera vez con la metodología 42? ¿Quieres entender cada concepto
+antes de atacar el ejercicio?
+➡️ **[Abre la Guía de Campo](https://zabal42.github.io/CodeFlowModule00_SP/guia/guia-campo-index.html)**
+— conceptos, estrategia de ataque, trampas frecuentes y checkpoint
+de defensa por cada ejercicio. Sin solucionarios.
+
 ## Autoevaluación
 
 ¿No tienes a nadie que te corrija? No pasa nada.
