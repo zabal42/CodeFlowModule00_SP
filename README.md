@@ -107,6 +107,10 @@ Code Flow Module 00/
 ---
 
 ## 📖 Guía de Campo
+
+<img src="docs/guia/portada_guiaDeCampo.png" alt="portda_guiaDeCampo" width="550">
+
+
 ¿Primera vez con la metodología 42? ¿Quieres entender cada concepto
 antes de atacar el ejercicio?
 ➡️ **[Abre la Guía de Campo](https://zabal42.github.io/CodeFlowModule00_SP/guia/guia-campo-index.html)**
