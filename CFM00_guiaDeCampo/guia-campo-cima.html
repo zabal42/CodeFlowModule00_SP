@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Campo — Cima | CodeFlow Módulo 00</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F6F2; --ink:#1E2A26; --ink-soft:#4A5A53; --contour:#CBD8CE;
+    --pine:#2E5E4E; --pine-deep:#1F4438; --signal:#E4572E;
+    --terminal:#10201A; --phosphor:#9FE8C2; --card:#FFFFFF;
+    --display:'Bricolage Grotesque',sans-serif; --body:'Source Serif 4',Georgia,serif; --mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:1.075rem;line-height:1.7}
+
+  .hero{position:relative;overflow:hidden;background:var(--pine-deep);color:#EDF5EF;padding:5rem 1.5rem 4rem;text-align:center}
+  .hero-contours{position:absolute;inset:0;opacity:.16;pointer-events:none}
+  .hero-inner{position:relative;max-width:760px;margin:0 auto}
+  .flag{font-size:2.6rem;line-height:1}
+  .eyebrow{font-family:var(--mono);font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--phosphor);margin-top:1rem;display:block}
+  .hero h1{font-family:var(--display);font-weight:800;font-size:clamp(3rem,9vw,5.4rem);line-height:1;margin:.7rem 0 1rem;letter-spacing:-.025em}
+  .hero h1 em{font-style:normal;color:var(--signal)}
+  .hero p.lead{font-size:1.2rem;max-width:31em;margin:0 auto;color:#D6E4DA}
+  .alt{font-family:var(--mono);font-size:.78rem;color:#9FB8A8;margin-top:1.4rem;letter-spacing:.1em}
+
+  main{max-width:760px;margin:0 auto;padding:0 1.5rem 4rem}
+
+  section.wp{margin-top:3.6rem;position:relative}
+  .wp-tag{display:flex;align-items:baseline;gap:.85rem;margin-bottom:1.1rem}
+  .wp-mark{font-family:var(--mono);font-weight:600;font-size:.82rem;color:#fff;background:var(--pine);padding:.28rem .6rem;border-radius:6px;letter-spacing:.06em;position:relative;flex-shrink:0}
+  .wp-mark::after{content:"";position:absolute;left:-7px;top:50%;transform:translateY(-50%) rotate(45deg);width:9px;height:9px;background:var(--signal);border-radius:2px}
+  .wp h2{font-family:var(--display);font-weight:800;font-size:clamp(1.5rem,3.4vw,1.95rem);letter-spacing:-.015em}
+  .wp p{margin-bottom:1rem}
+  .wp p:last-child{margin-bottom:0}
+  code{font-family:var(--mono);font-size:.88em;background:#E7EDE7;border-radius:4px;padding:.1em .4em;color:var(--pine-deep)}
+
+  /* el valle: checklist de conquistas */
+  ul.valle{list-style:none;margin:1.4rem 0}
+  ul.valle li{position:relative;padding:.85rem 0 .85rem 3.1rem;border-bottom:1px solid var(--contour);font-size:1.02rem}
+  ul.valle li:last-child{border-bottom:none}
+  ul.valle li .vx{position:absolute;left:0;top:.95rem;font-family:var(--mono);font-weight:600;font-size:.72rem;color:#fff;background:var(--pine);border-radius:5px;padding:.14rem .42rem}
+  ul.valle li::after{content:"✓";position:absolute;right:.2rem;top:.85rem;color:var(--signal);font-family:var(--mono);font-weight:600;font-size:1.05rem}
+  ul.valle li strong{font-family:var(--display);font-weight:600}
+
+  .keypoint{border:1px solid var(--contour);background:var(--card);border-radius:10px;padding:1.2rem 1.4rem;margin:1.4rem 0}
+  .keypoint .kp-label{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--signal);display:block;margin-bottom:.45rem}
+  .keypoint p{font-size:1rem;margin:0}
+
+  /* logro celestial */
+  .logro{position:relative;background:var(--terminal);color:#EDF5EF;border-radius:16px;padding:2.1rem 1.9rem;margin:1.6rem 0;overflow:hidden;border:2px solid var(--signal)}
+  .logro::before{content:"👑";position:absolute;right:1.3rem;top:1.1rem;font-size:1.6rem}
+  .logro .lg-label{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--phosphor);display:block;margin-bottom:.6rem}
+  .logro h3{font-family:var(--display);font-weight:800;font-size:1.5rem;color:#FFD9CB;letter-spacing:-.01em;margin-bottom:.7rem}
+  .logro p{font-size:1rem;color:#C9D8CE}
+  .logro p + p{margin-top:.7rem}
+  .logro .firma{font-family:var(--mono);font-size:.8rem;color:#6E8F7E;margin-top:1rem;font-style:italic}
+  .logro code{background:rgba(159,232,194,.15);color:var(--phosphor)}
+
+  /* buzón de cumbre */
+  .buzon{border:2px dashed var(--pine);background:var(--card);border-radius:14px;padding:1.8rem 1.7rem;margin:1.6rem 0}
+  .buzon h3{font-family:var(--display);font-weight:800;font-size:1.3rem;margin-bottom:.7rem;letter-spacing:-.01em}
+  .buzon p{font-size:1rem}
+  .buzon p + p{margin-top:.7rem}
+  .buzon .opciones{margin-top:1rem;font-family:var(--mono);font-size:.88rem;color:var(--pine-deep);line-height:2}
+
+  ol.route{counter-reset:step;list-style:none;margin:1.4rem 0}
+  ol.route li{counter-increment:step;position:relative;padding:0 0 1.5rem 3.2rem}
+  ol.route li::before{content:counter(step,decimal-leading-zero);position:absolute;left:0;top:.1rem;font-family:var(--mono);font-weight:600;font-size:.8rem;color:var(--pine);border:1.5px solid var(--pine);border-radius:8px;width:2.2rem;height:1.7rem;display:flex;align-items:center;justify-content:center;background:var(--card)}
+  ol.route li::after{content:"";position:absolute;left:1.05rem;top:2.1rem;bottom:.3rem;width:1.5px;background:var(--contour)}
+  ol.route li:last-child::after{display:none}
+  ol.route li strong{font-family:var(--display);font-weight:600;display:block;margin-bottom:.2rem}
+  ol.route li p{font-size:1rem;color:var(--ink);margin:0}
+
+  .insignia-wrap{text-align:center;margin:1.4rem 0 .6rem}
+  .insignia-wrap img{width:230px;max-width:70%;height:auto}
+  .insignia-wrap .descarga{display:inline-block;margin-top:.9rem;font-family:var(--mono);font-size:.82rem;color:#fff;background:var(--signal);text-decoration:none;border-radius:8px;padding:.55rem 1rem}
+  .titulo-card{border:1px solid var(--contour);background:var(--card);border-left:4px solid var(--signal);border-radius:10px;padding:1rem 1.3rem;margin:1.2rem 0;font-size:1rem}
+  .titulo-card b{font-family:var(--display)}
+  .copybox{position:relative;background:var(--terminal);border-radius:10px;margin:1rem 0}
+  .copybox pre{font-family:var(--mono);font-size:.84rem;line-height:1.6;color:var(--phosphor);padding:1.2rem 1.3rem;white-space:pre-wrap;word-wrap:break-word;margin:0}
+  .copybox button{position:absolute;top:.7rem;right:.7rem;font-family:var(--mono);font-size:.74rem;color:#0B0C16;background:var(--phosphor);border:none;border-radius:6px;padding:.45rem .8rem;cursor:pointer}
+  .copybox button:hover{background:#fff}
+  footer{border-top:1px solid var(--contour);margin-top:4rem;padding:2.2rem 1.5rem;text-align:center}
+  footer .motto{font-family:var(--display);font-weight:800;font-size:1.3rem;color:var(--pine-deep)}
+  footer .legal{font-family:var(--mono);font-size:.74rem;color:var(--ink-soft);margin-top:.6rem;letter-spacing:.05em}
+  footer .quote{font-style:italic;color:var(--ink-soft);max-width:36em;margin:0 auto 1.2rem;font-size:.98rem}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="hero-contours" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g fill="none" stroke="#EDF5EF" stroke-width="1.2">
+      <path d="M-50,400 C200,380 400,395 600,385 S1000,375 1300,388"/>
+      <path d="M-50,360 C220,335 420,355 620,340 S1010,328 1300,345"/>
+      <path d="M-50,315 C240,288 440,310 640,292 S1020,278 1300,298"/>
+      <path d="M-50,268 C260,238 460,262 660,240 S1030,225 1300,248"/>
+      <path d="M-50,218 C280,185 480,212 680,186 S1040,170 1300,196"/>
+      <path d="M-50,165 C300,130 500,160 700,130 S1050,112 1300,142"/>
+    </g>
+  </svg>
+  <div class="hero-inner">
+    <div class="flag">⛰️</div>
+    <span class="eyebrow">CodeFlow · Módulo 00 · Guía de Campo · fin de ruta</span>
+    <h1>Cima <em>hecha</em></h1>
+    <p class="lead">Desde aquí arriba se ve todo el valle: <code>/init</code>, el contexto, los hooks, MCP, el SDK. Lo has subido tú. Date la vuelta y míralo.</p>
+    <div class="alt">COTA: 5/5 EJERCICIOS · DESNIVEL ACUMULADO: DE USUARIO A INTEGRADOR</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ════════ EL VALLE ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">VALLE</span><h2>Lo que ahora sabes hacer (y antes no)</h2></div>
+    <p>Sin épica barata: esto es, literalmente, lo que has conquistado parada a parada. Léelo en voz alta y comprueba que cada frase es verdad:</p>
+    <ul class="valle">
+      <li><span class="vx">ex00</span><strong>Defines el contrato de tu agente.</strong> Un CLAUDE.md con reglas verificables, y el control de qué entra en su contexto con <code>@</code>.</li>
+      <li><span class="vx">ex01</span><strong>Gestionas su memoria de trabajo.</strong> Compactas con criterio, limpias cuando toca, interrumpes y rebobinas sin miedo.</li>
+      <li><span class="vx">ex02</span><strong>Impones, no solo pides.</strong> Hooks que interceptan, bloquean, verifican y registran — el guardarraíl determinista.</li>
+      <li><span class="vx">ex03</span><strong>Amplías sus capacidades con cabeza.</strong> MCP y el patrón configurar-verificar-usar, válido para cualquier herramienta del futuro.</li>
+      <li><span class="vx">ex04</span><strong>Lo integras en tus propios programas.</strong> Un puente C++ ↔ SDK con un JSON como contrato y mínimo privilegio de serie.</li>
+    </ul>
+    <div class="keypoint">
+      <span class="kp-label">Y lo que de verdad importa</span>
+      <p>Puedes <strong>explicar</strong> cada una de esas cinco frases — qué hace, por qué funciona, qué decisiones tomaste. Eso es lo que vale. Lo otro era teclear.</p>
+    </div>
+  </section>
+
+  <!-- ════════ LOGRO CELESTIAL ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">BONUS</span><h2>El logro que no sale en el mapa</h2></div>
+    <p>Hay cumbre... y hay lo que está por encima de la cumbre. Si además coronaste el <strong>bonus final</strong> — Claude edita, el hook Stop dispara el review via SDK, y el veredicto te llega al móvil mientras entrenas — entonces has desbloqueado esto:</p>
+    <div class="logro">
+      <span class="lg-label">Logro desbloqueado</span>
+      <h3>Nivel Celestial · Princesa Donut</h3>
+      <p>El círculo completo del módulo, cerrado con elegancia felina: un sistema que trabaja supervisado, te rinde cuentas, y te deja libre para vivir. La rúbrica oficial lo sabe — este es el único camino al <code>100/100</code>.</p>
+      <p>Requisitos del nivel: mandatory impecable (porque el bonus nunca compensa), el flujo remoto funcionando, y el token del bot donde debe estar — en una variable de entorno, jamás en el repo. Una princesa no perdona la chapuza.</p>
+      <p class="firma">— Si sabes de dónde viene este homenaje, ya somos dos. Si no: busca «Dungeon Crawler Carl» y dame las gracias luego. 👑🐈</p>
+    </div>
+  </section>
+
+  <!-- ════════ BUZÓN DE CUMBRE ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">BUZÓN</span><h2>El buzón de cumbre</h2></div>
+    <p>En las cumbres de verdad hay un buzón con un cuaderno dentro: el que corona, firma. Es tradición topográfica y aquí también es ley. Firmar es gratis; presumir de cumbre, también — y aquí tienes con qué:</p>
+    <div class="titulo-card">🏅 <b>Título desbloqueado: Cartógrafo/a de Agentes.</b> Te lo has ganado y es tuyo para siempre — úsalo donde quieras, que pocos pueden.</div>
+    <div class="buzon">
+      <h3>Deja tu firma ⛰✍ — en tres pasos</h3>
+      <p><strong>1 · Recoge tu insignia.</strong> Es tu parche de expedición — descárgala y es tuya:</p>
+      <div class="insignia-wrap">
+        <img src="insignia-cumbre.png" alt="Insignia de cumbre — CodeFlow Módulo 00: Claude Code bajo control">
+        <br><a class="descarga" href="insignia-cumbre.png" download="insignia-cumbre-codeflow-m00.png">⬇ Descargar insignia</a>
+      </div>
+      <p><strong>2 · Publícala en LinkedIn.</strong> Adjunta la insignia y usa este post (o escríbelo a tu manera — mejor aún):</p>
+      <div class="copybox">
+        <button onclick="copiarPost(this)">copiar</button>
+        <pre id="post-cumbre">⛰ Cima hecha: CodeFlow — Módulo 00 completado.
+
+5 ejercicios para pasar de USAR Claude Code a CONTROLARLO: CLAUDE.md, gestión de contexto, hooks, MCP y SDK desde C++. Lo difícil no fue que funcionara — fue poder explicar cada decisión.
+
+🏅 Título desbloqueado: Cartógrafo de Agentes
+👑 Nivel Celestial · Princesa Donut alcanzado (si sabes, sabes)
+
+Módulo gratuito y en abierto, de Mikel Zabal:
+https://zabal42.github.io/CodeFlowModule00_SP/
+
+#ClaudeCode #CodeFlow #AprenderHaciendo</pre>
+      </div>
+      <p><strong>3 · Etiqueta a <a href="https://www.linkedin.com/in/mikel-zabal-martin/" target="_blank" rel="noopener">Mikel Zabal</a> en el post.</strong> Todo el que corona y me etiqueta recibe su firma en el buzón: comentario mío de vuelta, ascensión reconocida. Es la tradición — el cuaderno de cumbre lo firmamos los dos.</p>
+      <p>¿Y las erratas? Si has cazado una en el subject o en esta guía, <a href="mailto:mzabalm@gmail.com">mándamela</a> — las pequeñas correcciones importan, esta guía existe gracias a ellas.</p>
+    </div>
+    <script>
+      function copiarPost(btn){
+        var t = document.getElementById('post-cumbre').innerText;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(t).then(function(){ btn.textContent='¡copiado!'; setTimeout(function(){btn.textContent='copiar';},1800); });
+        } else {
+          var ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select();
+          document.execCommand('copy'); document.body.removeChild(ta);
+          btn.textContent='¡copiado!'; setTimeout(function(){btn.textContent='copiar';},1800);
+        }
+      }
+    </script>
+  </section>
+
+  <!-- ════════ Y AHORA QUÉ ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">RUTA+</span><h2>Y ahora qué — tres senderos desde la cima</h2></div>
+    <ol class="route">
+      <li><strong>Defiende de verdad.</strong><p>Busca a alguien — un colega, otro estudiante, tu grupo de Discord — y haz una defensa real: que te pregunte por tus hooks, que te pida modificar uno en vivo, que te dé un <code>.cpp</code> nuevo para tu CodeReviewer. Los checkpoints de esta guía eran el entrenamiento; esto es el partido.</p></li>
+      <li><strong>Construye algo tuyo.</strong><p>El módulo te dio las piezas; ahora monta TU sistema: un hook que vigile lo que a ti te importa, un MCP que conecte tu herramienta favorita, una integración SDK en ese proyecto que tienes a medias. El conocimiento que no se usa se evapora — el que se usa, hace click y se queda.</p></li>
+      <li><strong>Profundiza en la fuente.</strong><p>La documentación oficial de Claude Code es ahora tu mapa a escala 1:1 — y con lo que sabes, la leerás con otros ojos. Lo que antes era ruido ahora son matices.</p></li>
+    </ol>
+    <div class="keypoint">
+      <span class="kp-label">Última anotación del cuaderno</span>
+      <p>Empezaste este módulo usando una herramienta. Lo terminas controlando un agente. Esa distancia — que ahora te parece obvia — es exactamente lo que la mayoría todavía no ha recorrido. Bajada tranquila, y nos vemos en la siguiente montaña. 🏔</p>
+    </div>
+  </section>
+
+</main>
+
+<nav aria-label="Navegación de capítulos" style="max-width:760px;margin:3.2rem auto 0;padding:0 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:.82rem">
+  <a href="guia-campo-ex04.html" style="color:#2E5E4E;text-decoration:none;border:1.5px solid #CBD8CE;border-radius:8px;padding:.55rem .9rem;background:#FFFFFF">&#8592; ex04 · SDK Bridge</a>
+  <a href="guia-campo-index.html" style="color:#4A5A53;text-decoration:none;padding:.55rem .4rem;letter-spacing:.08em;text-transform:uppercase;font-size:.72rem">índice</a>
+  <a href="guia-campo-index.html" style="color:#FFFFFF;background:#2E5E4E;text-decoration:none;border-radius:8px;padding:.55rem .9rem">Volver al campamento &#8594;</a>
+</nav>
+
+<footer>
+  <p class="quote">«¡Por Tutatis! ¡Usa tu cerebro! Claude Code es una herramienta, no un sustituto de tu capacidad de razonamiento.» — Subject, Módulo 00</p>
+  <p class="motto">¡Por Tutatis!!</p>
+  <p class="legal">© 2026 Mikel Zabal — CodingWithZabal · Guía de Campo · CodeFlow Módulo 00 · Cima</p>
+</footer>
+
+</body>
+</html>

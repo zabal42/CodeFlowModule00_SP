@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Campo — ex04: SDK Bridge | CodeFlow Módulo 00</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F6F2; --ink:#1E2A26; --ink-soft:#4A5A53; --contour:#CBD8CE;
+    --pine:#2E5E4E; --pine-deep:#1F4438; --signal:#E4572E;
+    --terminal:#10201A; --phosphor:#9FE8C2; --card:#FFFFFF;
+    --display:'Bricolage Grotesque',sans-serif; --body:'Source Serif 4',Georgia,serif; --mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:1.075rem;line-height:1.7}
+  .hero{position:relative;overflow:hidden;background:var(--pine-deep);color:#EDF5EF;padding:4.5rem 1.5rem 3.5rem}
+  .hero-contours{position:absolute;inset:0;opacity:.16;pointer-events:none}
+  .hero-inner{position:relative;max-width:760px;margin:0 auto}
+  .eyebrow{font-family:var(--mono);font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--phosphor);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+  .eyebrow::before{content:"";display:inline-block;width:2.2rem;height:2px;background:var(--signal)}
+  .hero h1{font-family:var(--display);font-weight:800;font-size:clamp(2.4rem,6vw,4rem);line-height:1.04;margin:.9rem 0 1rem;letter-spacing:-.02em}
+  .hero h1 .ex{color:var(--signal)}
+  .hero p.lead{font-size:1.18rem;max-width:34em;color:#D6E4DA}
+  .hero-meta{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.6rem}
+  .chip{font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;border:1px solid rgba(237,245,239,.35);border-radius:999px;padding:.3rem .75rem;color:#D6E4DA}
+  .chip.hot{border-color:var(--signal);color:#FFD9CB}
+  main{max-width:760px;margin:0 auto;padding:0 1.5rem 4rem}
+  .notice{background:var(--card);border:1px solid var(--contour);border-left:4px solid var(--signal);border-radius:10px;padding:1.4rem 1.5rem;margin:-2.2rem auto 0;position:relative;box-shadow:0 10px 30px rgba(30,42,38,.08)}
+  .notice h2{font-family:var(--display);font-size:1.05rem;font-weight:600;margin-bottom:.5rem}
+  .notice p{font-size:.98rem;color:var(--ink-soft)}
+  .notice strong{color:var(--ink)}
+  section.wp{margin-top:3.6rem;position:relative}
+  .wp-tag{display:flex;align-items:baseline;gap:.85rem;margin-bottom:1.1rem}
+  .wp-mark{font-family:var(--mono);font-weight:600;font-size:.82rem;color:#fff;background:var(--pine);padding:.28rem .6rem;border-radius:6px;letter-spacing:.06em;position:relative;flex-shrink:0}
+  .wp-mark::after{content:"";position:absolute;left:-7px;top:50%;transform:translateY(-50%) rotate(45deg);width:9px;height:9px;background:var(--signal);border-radius:2px}
+  .wp h2{font-family:var(--display);font-weight:800;font-size:clamp(1.5rem,3.4vw,1.95rem);letter-spacing:-.015em}
+  .wp p{margin-bottom:1rem}
+  .wp p:last-child{margin-bottom:0}
+  code{font-family:var(--mono);font-size:.88em;background:#E7EDE7;border-radius:4px;padding:.1em .4em;color:var(--pine-deep)}
+  .term{background:var(--terminal);color:var(--phosphor);font-family:var(--mono);font-size:.88rem;line-height:1.65;border-radius:10px;padding:1.1rem 1.3rem;margin:1.2rem 0;overflow-x:auto}
+  .term .cmt{color:#6E8F7E}
+  .term .p{color:#FFB199}
+  .keypoint{border:1px solid var(--contour);background:var(--card);border-radius:10px;padding:1.2rem 1.4rem;margin:1.4rem 0}
+  .keypoint .kp-label{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--signal);display:block;margin-bottom:.45rem}
+  .keypoint p{font-size:1rem;margin:0}
+  dl.defs{margin:1.2rem 0}
+  dl.defs dt{font-family:var(--display);font-weight:600;font-size:1.05rem;margin-top:1.1rem;color:var(--pine-deep)}
+  dl.defs dt code{background:none;padding:0;color:var(--signal);font-size:.95em}
+  dl.defs dd{margin-top:.25rem;color:var(--ink)}
+  ol.route{counter-reset:step;list-style:none;margin:1.4rem 0}
+  ol.route li{counter-increment:step;position:relative;padding:0 0 1.5rem 3.2rem}
+  ol.route li::before{content:counter(step,decimal-leading-zero);position:absolute;left:0;top:.1rem;font-family:var(--mono);font-weight:600;font-size:.8rem;color:var(--pine);border:1.5px solid var(--pine);border-radius:8px;width:2.2rem;height:1.7rem;display:flex;align-items:center;justify-content:center;background:var(--card)}
+  ol.route li::after{content:"";position:absolute;left:1.05rem;top:2.1rem;bottom:.3rem;width:1.5px;background:var(--contour)}
+  ol.route li:last-child::after{display:none}
+  ol.route li strong{font-family:var(--display);font-weight:600;display:block;margin-bottom:.2rem}
+  ol.route li p{font-size:1rem;color:var(--ink);margin:0}
+  .hazard{display:flex;gap:1rem;align-items:flex-start;border:1px solid var(--contour);background:var(--card);border-radius:10px;padding:1.05rem 1.2rem;margin:.9rem 0}
+  .hazard .hz-ico{flex-shrink:0;width:2rem;height:2rem;border-radius:6px;background:#FCEAE2;color:var(--signal);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:1rem;transform:rotate(45deg)}
+  .hazard .hz-ico span{transform:rotate(-45deg)}
+  .hazard div p{font-size:.99rem;margin:0}
+  .hazard strong{font-family:var(--display);font-weight:600}
+  .checkpoint{background:var(--pine-deep);color:#EDF5EF;border-radius:14px;padding:2rem 1.8rem;margin-top:1.4rem;position:relative;overflow:hidden}
+  .checkpoint::before{content:"▲";position:absolute;right:1.4rem;top:1.1rem;color:var(--signal);font-size:1.2rem}
+  .checkpoint ol{list-style:none;counter-reset:q}
+  .checkpoint li{counter-increment:q;padding:.85rem 0 .85rem 2.6rem;position:relative;border-bottom:1px solid rgba(237,245,239,.14);font-size:1.02rem}
+  .checkpoint li:last-of-type{border-bottom:none}
+  .checkpoint li::before{content:"Q" counter(q);position:absolute;left:0;top:.95rem;font-family:var(--mono);font-size:.72rem;font-weight:600;color:var(--phosphor);border:1px solid rgba(159,232,194,.5);border-radius:5px;padding:.12rem .4rem}
+  .checkpoint .cp-note{margin-top:1.2rem;font-size:.95rem;color:#BBD3C3;font-style:italic}
+  .checkpoint code{background:rgba(159,232,194,.15);color:var(--phosphor)}
+  figure.infografia{margin:1.8rem 0;background:var(--card);border:1px solid var(--contour);border-radius:14px;padding:1.4rem 1.2rem .9rem;box-shadow:0 8px 24px rgba(30,42,38,.06)}
+  figure.infografia svg{width:100%;height:auto;display:block}
+  figure.infografia figcaption{font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);text-align:center;padding:.8rem .4rem .2rem}
+  footer{border-top:1px solid var(--contour);margin-top:4rem;padding:2.2rem 1.5rem;text-align:center}
+  footer .motto{font-family:var(--display);font-weight:800;font-size:1.3rem;color:var(--pine-deep)}
+  footer .legal{font-family:var(--mono);font-size:.74rem;color:var(--ink-soft);margin-top:.6rem;letter-spacing:.05em}
+  footer .quote{font-style:italic;color:var(--ink-soft);max-width:36em;margin:0 auto 1.2rem;font-size:.98rem}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="hero-contours" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g fill="none" stroke="#EDF5EF" stroke-width="1.2">
+      <path d="M-50,340 C150,290 280,360 480,310 S820,250 1050,300 S1250,330 1300,310"/>
+      <path d="M-50,300 C160,250 300,320 500,270 S830,210 1060,260 S1250,290 1300,270"/>
+      <path d="M-50,255 C180,205 320,275 520,225 S840,165 1070,215 S1250,245 1300,225"/>
+      <path d="M-50,205 C200,160 350,225 545,180 S850,120 1080,168 S1250,200 1300,180"/>
+      <path d="M-50,150 C220,110 380,170 565,130 S860,75 1090,118 S1250,150 1300,132"/>
+      <path d="M-50,95 C240,60 410,115 585,80 S870,32 1100,70 S1250,100 1300,84"/>
+      <circle cx="1080" cy="70" r="3.5" fill="#E4572E" stroke="none"/>
+      <text x="958" y="56" font-family="IBM Plex Mono" font-size="11" fill="#EDF5EF" stroke="none">cumbre · ex04</text>
+    </g>
+  </svg>
+  <div class="hero-inner">
+    <span class="eyebrow">CodeFlow · Módulo 00 · Guía de Campo</span>
+    <h1><span class="ex">ex04</span> — SDK Bridge</h1>
+    <p class="lead">La cumbre. Dejas de usar Claude Code y empiezas a integrarlo: tu programa en C++ lo llama, lo acota y consume sus resultados. El círculo del módulo, cerrado con tus manos.</p>
+    <div class="hero-meta">
+      <span class="chip">requiere: TODO el módulo anterior</span>
+      <span class="chip">~4-6 h de trabajo real</span>
+      <span class="chip hot">aquí no hay soluciones</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <aside class="notice">
+    <h2>Por qué este ejercicio es la cumbre</h2>
+    <p>Hasta ahora Claude Code era una herramienta que usabas. A partir de hoy es una <strong>capacidad que tus programas tienen</strong>. Esa frontera — de usuario a integrador — es la que separa «sé usar IA» de «sé construir con IA». Y el subject tiene razón: si entendiste cada pieza anterior, el puzzle se monta solo. Si no... se nota aquí.</p>
+  </aside>
+
+  <!-- ════════ WP 01 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·01</span><h2>Rumbo — qué vas a aprender y por qué importa</h2></div>
+    <p>El Agent SDK permite invocar a Claude Code desde código, programáticamente: tu programa lanza una consulta, Claude trabaja, y te devuelve el resultado. El SDK es TypeScript/Python — y tu programa es C++. ¿Problema? Ninguno: es el pan de cada día de la programación de sistemas. Cuando dos mundos no hablan el mismo idioma, construyes un <strong>puente</strong>: un proceso intermedio y un formato de intercambio.</p>
+    <p>Tu puente tendrá tres tramos: el programa C++ (<code>CodeReviewer</code>) lanza con <code>system()</code> un script Node (<code>bridge.mjs</code>); el script usa el SDK para pedirle a Claude que analice un archivo; y el resultado vuelve como JSON, que tu C++ parsea y muestra. Lenguajes distintos, un contrato común. Como una calculadora RPN conectada a un teodolito: cada aparato con su firmware, y un protocolo en medio que los entiende a ambos.</p>
+    <div class="keypoint">
+      <span class="kp-label">La idea que lo sostiene todo</span>
+      <p>El JSON intermedio es <strong>el contrato del puente</strong> — la interfaz estable entre dos mundos que no se conocen. Si te suena al <code>.hpp</code> del ex00, no es casualidad: este módulo lleva desde el primer día enseñándote la misma idea con distintos disfraces. Definir bien las fronteras es controlar el sistema.</p>
+    </div>
+  </section>
+
+  <!-- ════════ WP 02 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·02</span><h2>Terreno — los conceptos, desde cero</h2></div>
+    <dl class="defs">
+      <dt>El Agent SDK — Claude Code como librería</dt>
+      <dd>En lugar de teclear en la CLI, tu código hace la consulta: «analiza este archivo y devuélveme los issues». Mismo motor, distinta puerta de entrada. Se instala con npm (<code>@anthropic-ai/claude-agent-sdk</code>) y se usa desde JavaScript/TypeScript — de ahí el bridge.</dd>
+      <dt><code>allowedTools</code> — el mínimo privilegio</dt>
+      <dd>El SDK te deja acotar qué herramientas puede usar Claude. <code>["Read"]</code> significa: puedes leer, y nada más — ni escribir, ni ejecutar bash. Para un revisor de código es exactamente lo que quieres: que mire, no que toque. Es el principio de mínimo privilegio de toda la vida, y es la versión programática del control que llevas construyendo todo el módulo.</dd>
+      <dt><code>system()</code> — el puente rápido (y sus peajes)</dt>
+      <dd>Lanza un comando via shell y espera a que termine. Simple y suficiente para el mandatory. Sus pegas: pasa por la shell (cuidado con qué interpolas en la cadena), y te da poco control sobre el proceso hijo. Por eso el bonus propone <code>fork()/exec()</code> — más código, más control, y una demostración de que sabes lo que hay debajo.</dd>
+      <dt>El JSON como contrato</dt>
+      <dd><code>sample_report.json</code> define el formato: archivo, lista de issues (línea, tipo, mensaje), resumen. Tu C++ debe parsearlo y tu bridge debe generarlo — <em>idéntico</em>. Mientras ambos respeten el contrato, puedes cambiar cualquiera de los dos lados sin romper el otro. Eso es una interfaz bien hecha.</dd>
+    </dl>
+
+    <figure class="infografia">
+      <svg viewBox="0 0 720 420" role="img" aria-label="El puente entre C++ y Claude Code: system lanza bridge.mjs, el SDK consulta a Claude, el JSON vuelve">
+        <defs>
+          <marker id="arrG4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2E5E4E"/></marker>
+          <marker id="arrR4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#E4572E"/></marker>
+        </defs>
+        <!-- orilla izquierda -->
+        <path d="M30,200 L200,200 L200,392 L30,392 Z" fill="#E7EDE7"/>
+        <path d="M30,200 L200,200" stroke="#2E5E4E" stroke-width="2.5" fill="none"/>
+        <rect x="48" y="120" width="136" height="68" rx="12" fill="#10201A"/>
+        <text x="116" y="148" font-family="IBM Plex Mono" font-size="12" font-weight="600" fill="#9FE8C2" text-anchor="middle">CodeReviewer</text>
+        <text x="116" y="166" font-family="IBM Plex Mono" font-size="10" fill="#6E8F7E" text-anchor="middle">C++ · tu programa</text>
+        <text x="115" y="240" font-family="Bricolage Grotesque" font-size="13" font-weight="600" fill="#1F4438" text-anchor="middle">Orilla C++</text>
+        <text x="115" y="260" font-family="IBM Plex Mono" font-size="9.5" fill="#4A5A53" text-anchor="middle">parsea el JSON,</text>
+        <text x="115" y="274" font-family="IBM Plex Mono" font-size="9.5" fill="#4A5A53" text-anchor="middle">muestra resultados,</text>
+        <text x="115" y="288" font-family="IBM Plex Mono" font-size="9.5" fill="#4A5A53" text-anchor="middle">gestiona errores</text>
+        <!-- orilla derecha -->
+        <path d="M520,200 L690,200 L690,392 L520,392 Z" fill="#E7EDE7"/>
+        <path d="M520,200 L690,200" stroke="#2E5E4E" stroke-width="2.5" fill="none"/>
+        <rect x="536" y="120" width="138" height="68" rx="12" fill="#10201A"/>
+        <text x="605" y="146" font-family="IBM Plex Mono" font-size="12" font-weight="600" fill="#9FE8C2" text-anchor="middle">claude code</text>
+        <text x="605" y="164" font-family="IBM Plex Mono" font-size="9.5" fill="#FFB199" text-anchor="middle">allowedTools: ["Read"]</text>
+        <text x="605" y="240" font-family="Bricolage Grotesque" font-size="13" font-weight="600" fill="#1F4438" text-anchor="middle">Orilla agente</text>
+        <text x="605" y="260" font-family="IBM Plex Mono" font-size="9.5" fill="#4A5A53" text-anchor="middle">lee el .cpp, analiza,</text>
+        <text x="605" y="274" font-family="IBM Plex Mono" font-size="9.5" fill="#4A5A53" text-anchor="middle">mira pero no toca</text>
+        <!-- vano / barranco -->
+        <text x="360" y="380" font-family="IBM Plex Mono" font-size="9.5" fill="#4A5A53" text-anchor="middle">el barranco: dos lenguajes que no se conocen</text>
+        <path d="M200,392 C260,340 460,340 520,392" fill="none" stroke="#CBD8CE" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <!-- el puente -->
+        <rect x="200" y="192" width="320" height="16" rx="6" fill="#2E5E4E"/>
+        <rect x="282" y="148" width="156" height="58" rx="10" fill="#FCEAE2" stroke="#E4572E" stroke-width="2"/>
+        <text x="360" y="172" font-family="IBM Plex Mono" font-size="12" font-weight="600" fill="#A03C1C" text-anchor="middle">bridge.mjs</text>
+        <text x="360" y="190" font-family="IBM Plex Mono" font-size="9.5" fill="#A03C1C" text-anchor="middle">node + Agent SDK</text>
+        <!-- tirantes del puente -->
+        <path d="M210,192 L290,152 M510,192 L432,152" stroke="#2E5E4E" stroke-width="1.5" fill="none"/>
+        <!-- flujo ida -->
+        <path d="M190,108 C250,70 470,70 530,108" fill="none" stroke="#2E5E4E" stroke-width="2" marker-end="url(#arrG4)"/>
+        <text x="360" y="62" font-family="IBM Plex Mono" font-size="10" font-weight="600" fill="#1F4438" text-anchor="middle">ida: system("node bridge.mjs leak.cpp") → SDK → consulta</text>
+        <!-- flujo vuelta -->
+        <path d="M530,250 C470,295 250,295 190,250" fill="none" stroke="#E4572E" stroke-width="2" marker-end="url(#arrR4)"/>
+        <rect x="288" y="262" width="144" height="38" rx="8" fill="#FFFFFF" stroke="#E4572E" stroke-width="1.5"/>
+        <text x="360" y="280" font-family="IBM Plex Mono" font-size="10" font-weight="600" fill="#A03C1C" text-anchor="middle">report.json</text>
+        <text x="360" y="293" font-family="IBM Plex Mono" font-size="8.5" fill="#A03C1C" text-anchor="middle">EL CONTRATO entre orillas</text>
+        <text x="360" y="412" font-family="IBM Plex Mono" font-size="11.5" fill="#1F4438" text-anchor="middle">Mismo formato que sample_report.json — si las dos orillas respetan el contrato, el puente aguanta.</text>
+      </svg>
+      <figcaption>Fig. 1 — El puente: C++ a un lado, Claude al otro, y un contrato JSON en medio</figcaption>
+    </figure>
+
+    <div class="keypoint">
+      <span class="kp-label">El matiz que separa a un junior de alguien que controla</span>
+      <p>Los tres errores que el subject te obliga a gestionar (fichero no encontrado, SDK no disponible, JSON malformado) no son relleno: son <strong>las tres formas en que el puente se cae</strong>, una por tramo. Quien los gestiona bien demuestra que entiende la arquitectura; quien pone un <code>try/catch</code> genérico demuestra que copió el patrón.</p>
+    </div>
+  </section>
+
+  <!-- ════════ WP 03 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·03</span><h2>Ruta — cómo atacar el ejercicio</h2></div>
+    <p>El subject ya te da los pasos incrementales — y son sagrados. La estrategia de esta ruta es una sola palabra: <strong>aislar</strong>. Cada tramo del puente se construye y se prueba por separado, antes de unirlo al siguiente.</p>
+    <ol class="route">
+      <li><strong>Paso 1: C++ a solas con el JSON de ejemplo.</strong><p>Sin SDK, sin Node, sin Claude. Solo tu programa leyendo <code>sample_report.json</code> y mostrándolo legible. Decide aquí tu estrategia de parseo y sé honesto con sus límites en NOTES.md: ¿parser propio acotado al formato del contrato? Defendible, si sabes decir qué casos no cubre.</p></li>
+      <li><strong>Paso 2: el bridge a solas, desde la terminal.</strong><p><code>node bridge.mjs test_files/leak.cpp</code> a mano, sin C++ por medio. ¿Genera un JSON con el formato del contrato? ¿Respeta <code>allowedTools: ["Read"]</code>? No avances hasta que este tramo aguante solo — es la mejor inversión de tiempo del ejercicio.</p></li>
+      <li><strong>Paso 3: unir las orillas.</strong><p>Ahora sí: <code>system()</code> desde CodeReviewer, leer el JSON generado, mostrar. Y los tres errores del subject, <em>provocados a propósito</em>: renombra el fichero, rompe el JSON a mano, simula el SDK caído. Si no has visto fallar cada caso, no sabes si lo gestionas.</p></li>
+      <li><strong>Paso 4: la validación con los tres sospechosos.</strong><p><code>leak.cpp</code>, <code>uninit.cpp</code>, <code>logic_bug.cpp</code> — cada uno esconde su delito. Ejecuta, verifica que Claude los detecta, y documenta el resultado. Si alguno se le escapa, eso también va al NOTES.md: un revisor con falsos negativos conocidos vale más que uno con fe ciega.</p></li>
+      <li><strong>El bonus final: cierra el círculo.</strong><p>Hook Stop (ex02) que lanza el review (ex04) y te manda el resumen a Telegram. Es el momento «lanzas el proceso, te vas al CrossFit, y el resultado te llega al móvil» — y la demostración viva de que el módulo entero era UN sistema, no cinco ejercicios sueltos.</p></li>
+    </ol>
+    <div class="term">
+      <span class="cmt"># La regla de oro de esta ruta: cada tramo se prueba AISLADO</span><br>
+      <span class="p">$</span> ./reviewer sample_report.json        <span class="cmt"># tramo C++ — ¿parsea?</span><br>
+      <span class="p">$</span> node bridge.mjs test_files/leak.cpp  <span class="cmt"># tramo SDK — ¿genera?</span><br>
+      <span class="p">$</span> ./reviewer test_files/leak.cpp       <span class="cmt"># puente completo — ¿aguanta?</span>
+    </div>
+  </section>
+
+  <!-- ════════ WP 04 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·04</span><h2>Zonas de riesgo — donde se atasca la gente</h2></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>Saltarse el paso 1 «porque es fácil».</strong> Lo es. Por eso existe: cuando el flujo completo falle (y fallará), necesitas saber que el tramo C++ era sólido para descartar capas. Quien se salta el paso fácil acaba depurando tres tramos a la vez — la definición técnica de una tarde perdida.</p></div></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>Parsear JSON con <code>find()</code> y fe.</strong> Buscar <code>"line":</code> a pelo por el string funciona... hasta que un mensaje de Claude contiene esa subcadena. Si haces parser propio, acótalo al contrato y documenta los límites; si esa fragilidad te incomoda (bien), razona la alternativa en NOTES.md. Lo indefendible es no haberlo pensado.</p></div></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>Dejar <code>allowedTools</code> abierto.</strong> Sin la lista, Claude podría escribir archivos o ejecutar comandos durante un simple análisis. ¿Probabilidad de desastre? Baja. ¿Razón para asumirla? Cero. Un revisor lee. Mínimo privilegio no es paranoia: es diseño.</p></div></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>Confiar en que el SDK siempre responde bien.</strong> Red caída, sesión expirada, output truncado: tu C++ recibirá basura alguna vez, y un parser confiado se la come con un crash feo. Valida antes de parsear. Es el paso 3 del subject, no un extra para perfeccionistas.</p></div></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>El token de Telegram en el repo público.</strong> El clásico que duele: haces el bonus, commiteas, publicas... con el token del bot dentro. Variables de entorno o archivo ignorado por git, siempre. Que tu primer proyecto público de IA no incluya tu primera fuga de credenciales.</p></div></div>
+  </section>
+
+  <!-- ════════ WP 05 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·05</span><h2>Checkpoint — la defensa de la cumbre</h2></div>
+    <p>En la evaluación de este ejercicio te pueden pedir que ejecutes tu CodeReviewer sobre un archivo que no has visto jamás. Prepárate con esto:</p>
+    <div class="checkpoint">
+      <ol>
+        <li>Dibuja (literalmente, en papel) el flujo completo: C++ → system() → bridge → SDK → Claude → JSON → C++. ¿En qué tramo vive cada uno de los tres errores que gestionas?</li>
+        <li>¿Por qué el JSON intermedio hace que puedas reescribir el bridge en Python mañana sin tocar una línea de C++?</li>
+        <li>¿Qué riesgos concretos tiene <code>system()</code> y qué ganas exactamente con <code>fork()/exec()</code>? ¿Cuándo NO compensaría el cambio?</li>
+        <li>¿Por qué <code>allowedTools: ["Read"]</code> y no la lista completa? Conecta tu respuesta con lo que aprendiste en el ex02.</li>
+        <li>Te doy un <code>.cpp</code> nuevo y tu reviewer no detecta el bug que contiene. ¿Qué tres hipótesis compruebas, y en qué orden?</li>
+      </ol>
+      <p class="cp-note">Si puedes responder la Q1 dibujando sin dudar, has hecho cumbre. Date la vuelta y mira el valle: /init, contexto, hooks, MCP... todo el camino era esto. ¡Por Tutatis!</p>
+    </div>
+  </section>
+
+</main>
+
+<nav aria-label="Navegación de capítulos" style="max-width:760px;margin:3.2rem auto 0;padding:0 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:.82rem">
+  <a href="guia-campo-ex03.html" style="color:#2E5E4E;text-decoration:none;border:1.5px solid #CBD8CE;border-radius:8px;padding:.55rem .9rem;background:#FFFFFF">&#8592; ex03 · PlayBot</a>
+  <a href="guia-campo-index.html" style="color:#4A5A53;text-decoration:none;padding:.55rem .4rem;letter-spacing:.08em;text-transform:uppercase;font-size:.72rem">índice</a>
+  <a href="guia-campo-cima.html" style="color:#FFFFFF;background:#E4572E;text-decoration:none;border-radius:8px;padding:.55rem .9rem">Hacer cima ⛰ &#8594;</a>
+</nav>
+
+<footer>
+  <p class="quote">«Este ejercicio combina TODO lo aprendido en el módulo. Si has entendido cada pieza, el puzzle se monta solo.» — Subject, Módulo 00</p>
+  <p class="motto">¡Por Tutatis!!</p>
+  <p class="legal">© 2026 Mikel Zabal — CodingWithZabal · Guía de Campo · CodeFlow Módulo 00 · cap. ex04</p>
+</footer>
+
+</body>
+</html>

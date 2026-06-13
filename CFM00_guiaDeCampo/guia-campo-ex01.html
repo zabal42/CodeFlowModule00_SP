@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Campo — ex01: Session Management | CodeFlow Módulo 00</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F6F2; --ink:#1E2A26; --ink-soft:#4A5A53; --contour:#CBD8CE;
+    --pine:#2E5E4E; --pine-deep:#1F4438; --signal:#E4572E;
+    --terminal:#10201A; --phosphor:#9FE8C2; --card:#FFFFFF;
+    --display:'Bricolage Grotesque',sans-serif; --body:'Source Serif 4',Georgia,serif; --mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:1.075rem;line-height:1.7}
+  .hero{position:relative;overflow:hidden;background:var(--pine-deep);color:#EDF5EF;padding:4.5rem 1.5rem 3.5rem}
+  .hero-contours{position:absolute;inset:0;opacity:.16;pointer-events:none}
+  .hero-inner{position:relative;max-width:760px;margin:0 auto}
+  .eyebrow{font-family:var(--mono);font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--phosphor);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+  .eyebrow::before{content:"";display:inline-block;width:2.2rem;height:2px;background:var(--signal)}
+  .hero h1{font-family:var(--display);font-weight:800;font-size:clamp(2.4rem,6vw,4rem);line-height:1.04;margin:.9rem 0 1rem;letter-spacing:-.02em}
+  .hero h1 .ex{color:var(--signal)}
+  .hero p.lead{font-size:1.18rem;max-width:34em;color:#D6E4DA}
+  .hero-meta{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.6rem}
+  .chip{font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;border:1px solid rgba(237,245,239,.35);border-radius:999px;padding:.3rem .75rem;color:#D6E4DA}
+  .chip.hot{border-color:var(--signal);color:#FFD9CB}
+  main{max-width:760px;margin:0 auto;padding:0 1.5rem 4rem}
+  .notice{background:var(--card);border:1px solid var(--contour);border-left:4px solid var(--signal);border-radius:10px;padding:1.4rem 1.5rem;margin:-2.2rem auto 0;position:relative;box-shadow:0 10px 30px rgba(30,42,38,.08)}
+  .notice h2{font-family:var(--display);font-size:1.05rem;font-weight:600;margin-bottom:.5rem}
+  .notice p{font-size:.98rem;color:var(--ink-soft)}
+  .notice strong{color:var(--ink)}
+  section.wp{margin-top:3.6rem;position:relative}
+  .wp-tag{display:flex;align-items:baseline;gap:.85rem;margin-bottom:1.1rem}
+  .wp-mark{font-family:var(--mono);font-weight:600;font-size:.82rem;color:#fff;background:var(--pine);padding:.28rem .6rem;border-radius:6px;letter-spacing:.06em;position:relative;flex-shrink:0}
+  .wp-mark::after{content:"";position:absolute;left:-7px;top:50%;transform:translateY(-50%) rotate(45deg);width:9px;height:9px;background:var(--signal);border-radius:2px}
+  .wp h2{font-family:var(--display);font-weight:800;font-size:clamp(1.5rem,3.4vw,1.95rem);letter-spacing:-.015em}
+  .wp p{margin-bottom:1rem}
+  .wp p:last-child{margin-bottom:0}
+  code{font-family:var(--mono);font-size:.88em;background:#E7EDE7;border-radius:4px;padding:.1em .4em;color:var(--pine-deep)}
+  .term{background:var(--terminal);color:var(--phosphor);font-family:var(--mono);font-size:.88rem;line-height:1.65;border-radius:10px;padding:1.1rem 1.3rem;margin:1.2rem 0;overflow-x:auto}
+  .term .cmt{color:#6E8F7E}
+  .term .p{color:#FFB199}
+  .keypoint{border:1px solid var(--contour);background:var(--card);border-radius:10px;padding:1.2rem 1.4rem;margin:1.4rem 0}
+  .keypoint .kp-label{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--signal);display:block;margin-bottom:.45rem}
+  .keypoint p{font-size:1rem;margin:0}
+  dl.defs{margin:1.2rem 0}
+  dl.defs dt{font-family:var(--display);font-weight:600;font-size:1.05rem;margin-top:1.1rem;color:var(--pine-deep)}
+  dl.defs dt code{background:none;padding:0;color:var(--signal);font-size:.95em}
+  dl.defs dd{margin-top:.25rem;color:var(--ink)}
+  ol.route{counter-reset:step;list-style:none;margin:1.4rem 0}
+  ol.route li{counter-increment:step;position:relative;padding:0 0 1.5rem 3.2rem}
+  ol.route li::before{content:counter(step,decimal-leading-zero);position:absolute;left:0;top:.1rem;font-family:var(--mono);font-weight:600;font-size:.8rem;color:var(--pine);border:1.5px solid var(--pine);border-radius:8px;width:2.2rem;height:1.7rem;display:flex;align-items:center;justify-content:center;background:var(--card)}
+  ol.route li::after{content:"";position:absolute;left:1.05rem;top:2.1rem;bottom:.3rem;width:1.5px;background:var(--contour)}
+  ol.route li:last-child::after{display:none}
+  ol.route li strong{font-family:var(--display);font-weight:600;display:block;margin-bottom:.2rem}
+  ol.route li p{font-size:1rem;color:var(--ink);margin:0}
+  .hazard{display:flex;gap:1rem;align-items:flex-start;border:1px solid var(--contour);background:var(--card);border-radius:10px;padding:1.05rem 1.2rem;margin:.9rem 0}
+  .hazard .hz-ico{flex-shrink:0;width:2rem;height:2rem;border-radius:6px;background:#FCEAE2;color:var(--signal);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:1rem;transform:rotate(45deg)}
+  .hazard .hz-ico span{transform:rotate(-45deg)}
+  .hazard div p{font-size:.99rem;margin:0}
+  .hazard strong{font-family:var(--display);font-weight:600}
+  .checkpoint{background:var(--pine-deep);color:#EDF5EF;border-radius:14px;padding:2rem 1.8rem;margin-top:1.4rem;position:relative;overflow:hidden}
+  .checkpoint::before{content:"▲";position:absolute;right:1.4rem;top:1.1rem;color:var(--signal);font-size:1.2rem}
+  .checkpoint ol{list-style:none;counter-reset:q}
+  .checkpoint li{counter-increment:q;padding:.85rem 0 .85rem 2.6rem;position:relative;border-bottom:1px solid rgba(237,245,239,.14);font-size:1.02rem}
+  .checkpoint li:last-of-type{border-bottom:none}
+  .checkpoint li::before{content:"Q" counter(q);position:absolute;left:0;top:.95rem;font-family:var(--mono);font-size:.72rem;font-weight:600;color:var(--phosphor);border:1px solid rgba(159,232,194,.5);border-radius:5px;padding:.12rem .4rem}
+  .checkpoint .cp-note{margin-top:1.2rem;font-size:.95rem;color:#BBD3C3;font-style:italic}
+  .checkpoint code{background:rgba(159,232,194,.15);color:var(--phosphor)}
+  figure.infografia{margin:1.8rem 0;background:var(--card);border:1px solid var(--contour);border-radius:14px;padding:1.4rem 1.2rem .9rem;box-shadow:0 8px 24px rgba(30,42,38,.06)}
+  figure.infografia svg{width:100%;height:auto;display:block}
+  figure.infografia figcaption{font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);text-align:center;padding:.8rem .4rem .2rem}
+  footer{border-top:1px solid var(--contour);margin-top:4rem;padding:2.2rem 1.5rem;text-align:center}
+  footer .motto{font-family:var(--display);font-weight:800;font-size:1.3rem;color:var(--pine-deep)}
+  footer .legal{font-family:var(--mono);font-size:.74rem;color:var(--ink-soft);margin-top:.6rem;letter-spacing:.05em}
+  footer .quote{font-style:italic;color:var(--ink-soft);max-width:36em;margin:0 auto 1.2rem;font-size:.98rem}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="hero-contours" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g fill="none" stroke="#EDF5EF" stroke-width="1.2">
+      <path d="M-50,340 C150,290 280,360 480,310 S820,250 1050,300 S1250,330 1300,310"/>
+      <path d="M-50,300 C160,250 300,320 500,270 S830,210 1060,260 S1250,290 1300,270"/>
+      <path d="M-50,255 C180,205 320,275 520,225 S840,165 1070,215 S1250,245 1300,225"/>
+      <path d="M-50,205 C200,160 350,225 545,180 S850,120 1080,168 S1250,200 1300,180"/>
+      <path d="M-50,150 C220,110 380,170 565,130 S860,75 1090,118 S1250,150 1300,132"/>
+      <path d="M-50,95 C240,60 410,115 585,80 S870,32 1100,70 S1250,100 1300,84"/>
+      <circle cx="700" cy="180" r="3.5" fill="#E4572E" stroke="none"/>
+      <text x="713" y="184" font-family="IBM Plex Mono" font-size="11" fill="#EDF5EF" stroke="none">cota 01 · /compact</text>
+    </g>
+  </svg>
+  <div class="hero-inner">
+    <span class="eyebrow">CodeFlow · Módulo 00 · Guía de Campo</span>
+    <h1><span class="ex">ex01</span> — Session Management</h1>
+    <p class="lead">El contexto es la memoria de trabajo de tu agente. Y como la memoria en C: si no la gestionas tú, te explota en la cara. Este capítulo va de no dejar que explote.</p>
+    <div class="hero-meta">
+      <span class="chip">requiere: ex00 terminado</span>
+      <span class="chip">~2-3 h de trabajo real</span>
+      <span class="chip hot">aquí no hay soluciones</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <aside class="notice">
+    <h2>Antes de empezar</h2>
+    <p>Este ejercicio se hace <strong>sobre el proyecto del ex00</strong> — la calculadora con tu <code>CLAUDE.md</code> ya afinado. Si te saltaste el ex00, vuelve: aquí vas a observar cómo Claude recuerda (y olvida), y para eso necesitas un terreno que conozcas bien.</p>
+  </aside>
+
+  <!-- ════════ WP 01 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·01</span><h2>Rumbo — qué vas a aprender y por qué importa</h2></div>
+    <p>En el ex00 viste que todo lo que Claude «sabe» vive en su ventana de contexto. Lo que no viste es lo que pasa cuando esa ventana se llena: Claude empieza a olvidar el principio de la conversación, a repetirse, a releer archivos que ya había leído. Y mientras tanto, el contador de tokens gira como un taxímetro en hora punta.</p>
+    <p>Si programas en C, ya tienes la intuición: el contexto es tu heap. Cada mensaje, cada archivo leído, cada output de <code>make</code> es un <code>malloc</code> que nadie libera solo. En este ejercicio aprenderás las tres herramientas de gestión: <strong>compactar</strong> (resumir lo acumulado), <strong>limpiar</strong> (borrón y cuenta nueva) e <strong>interrumpir</strong> (cortar a Claude en plena faena). Y lo harás con método científico: un escenario de 9 pasos donde el experimento eres tú observando qué recuerda tu agente.</p>
+    <div class="keypoint">
+      <span class="kp-label">La idea que lo sostiene todo</span>
+      <p>Gestionar el contexto no es una optimización para tacaños de tokens. Es <strong>control de calidad</strong>: un agente con el contexto saturado razona peor. Memoria limpia, agente fino.</p>
+    </div>
+  </section>
+
+  <!-- ════════ WP 02 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·02</span><h2>Terreno — los conceptos, desde cero</h2></div>
+    <dl class="defs">
+      <dt><code>/compact</code> — compresión con pérdida</dt>
+      <dd>Pide a Claude que resuma toda la conversación acumulada y siga trabajando solo con ese resumen. Es compresión <em>lossy</em>, como un JPEG: conserva lo esencial (decisiones, estado del proyecto, qué se hizo) y pierde el detalle fino (el output exacto de aquel <code>make</code>, la frase literal del paso 2). El espacio liberado es real; la pérdida, también.</dd>
+      <dt><code>/compact</code> con instrucciones — tú eliges qué sobrevive</dt>
+      <dd>Puedes pasarle prioridades: «conserva las decisiones sobre el método nuevo y los errores de compilación». Es la diferencia entre dejar que el algoritmo de compresión decida y decidir tú. La mitad del ejercicio consiste en comparar ambos resultados.</dd>
+      <dt><code>/clear</code> — el <code>free()</code> total</dt>
+      <dd>Vacía el historial de la sesión entera (ojo: la conversación; tus archivos en disco se quedan como están). No queda resumen, no queda nada — salvo lo que se reinyecta solo al arrancar: tu <code>CLAUDE.md</code>. Aquí es donde el contrato del ex00 demuestra su valor: es lo único que sobrevive a un borrado total.</dd>
+      <dt><code>Esc</code> y <code>Esc Esc</code> — el freno de mano</dt>
+      <dd>Un <code>Esc</code> corta en seco lo que Claude esté haciendo — crítico cuando ves que se ha lanzado a modificar lo que no debe. <code>Esc Esc</code> abre el menú de <em>rewind</em>: rebobinas la conversación y/o el código a un checkpoint anterior — el <code>git reset</code> de la sesión, con la finura de poder revertir cada cosa por separado. Interrumpir a tiempo es más barato que deshacer.</dd>
+    </dl>
+
+    <figure class="infografia">
+      <svg viewBox="0 0 720 430" role="img" aria-label="Comparación del estado del contexto antes y después de compact y clear">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#E4572E"/>
+          </marker>
+        </defs>
+        <!-- columna A: sesión llena -->
+        <text x="120" y="34" font-family="Bricolage Grotesque" font-size="15" font-weight="600" fill="#1E2A26" text-anchor="middle">Sesión cargada</text>
+        <rect x="60" y="50" width="120" height="300" rx="10" fill="none" stroke="#2E5E4E" stroke-width="2"/>
+        <line x1="52" y1="78" x2="188" y2="78" stroke="#E4572E" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <text x="120" y="70" font-family="IBM Plex Mono" font-size="9.5" fill="#A03C1C" text-anchor="middle">límite de la ventana</text>
+        <rect x="66" y="86" width="108" height="170" rx="6" fill="#E7EDE7"/>
+        <text x="120" y="160" font-family="IBM Plex Mono" font-size="10" fill="#4A5A53" text-anchor="middle">conversación</text>
+        <text x="120" y="175" font-family="IBM Plex Mono" font-size="10" fill="#4A5A53" text-anchor="middle">+ archivos leídos</text>
+        <text x="120" y="190" font-family="IBM Plex Mono" font-size="10" fill="#4A5A53" text-anchor="middle">+ outputs de bash</text>
+        <rect x="66" y="262" width="108" height="48" rx="6" fill="#E1EBE4" stroke="#2E5E4E" stroke-width="1.2"/>
+        <text x="120" y="290" font-family="IBM Plex Mono" font-size="10.5" font-weight="600" fill="#1F4438" text-anchor="middle">CLAUDE.md</text>
+        <rect x="66" y="316" width="108" height="28" rx="6" fill="#10201A"/>
+        <text x="120" y="334" font-family="IBM Plex Mono" font-size="9.5" fill="#9FE8C2" text-anchor="middle">system prompt</text>
+
+        <!-- flecha compact -->
+        <path d="M196,150 L268,150" stroke="#E4572E" stroke-width="2.5" marker-end="url(#arr)"/>
+        <text x="232" y="138" font-family="IBM Plex Mono" font-size="11" font-weight="600" fill="#A03C1C" text-anchor="middle">/compact</text>
+
+        <!-- columna B -->
+        <text x="340" y="34" font-family="Bricolage Grotesque" font-size="15" font-weight="600" fill="#1E2A26" text-anchor="middle">Tras /compact</text>
+        <rect x="280" y="50" width="120" height="300" rx="10" fill="none" stroke="#2E5E4E" stroke-width="2"/>
+        <rect x="286" y="196" width="108" height="60" rx="6" fill="#FCEAE2" stroke="#E4572E" stroke-width="1.5"/>
+        <text x="340" y="221" font-family="IBM Plex Mono" font-size="10.5" font-weight="600" fill="#A03C1C" text-anchor="middle">RESUMEN</text>
+        <text x="340" y="237" font-family="IBM Plex Mono" font-size="9.5" fill="#A03C1C" text-anchor="middle">(lossy)</text>
+        <rect x="286" y="262" width="108" height="48" rx="6" fill="#E1EBE4" stroke="#2E5E4E" stroke-width="1.2"/>
+        <text x="340" y="290" font-family="IBM Plex Mono" font-size="10.5" font-weight="600" fill="#1F4438" text-anchor="middle">CLAUDE.md</text>
+        <rect x="286" y="316" width="108" height="28" rx="6" fill="#10201A"/>
+        <text x="340" y="334" font-family="IBM Plex Mono" font-size="9.5" fill="#9FE8C2" text-anchor="middle">system prompt</text>
+        <text x="340" y="100" font-family="IBM Plex Mono" font-size="9.5" fill="#2E5E4E" text-anchor="middle">sobrevive: decisiones,</text>
+        <text x="340" y="114" font-family="IBM Plex Mono" font-size="9.5" fill="#2E5E4E" text-anchor="middle">estado, qué se hizo</text>
+        <text x="340" y="134" font-family="IBM Plex Mono" font-size="9.5" fill="#E4572E" text-anchor="middle">se pierde: detalle fino,</text>
+        <text x="340" y="148" font-family="IBM Plex Mono" font-size="9.5" fill="#E4572E" text-anchor="middle">outputs literales</text>
+
+        <!-- flecha clear -->
+        <path d="M416,150 L488,150" stroke="#E4572E" stroke-width="2.5" marker-end="url(#arr)"/>
+        <text x="452" y="138" font-family="IBM Plex Mono" font-size="11" font-weight="600" fill="#A03C1C" text-anchor="middle">/clear</text>
+
+        <!-- columna C -->
+        <text x="560" y="34" font-family="Bricolage Grotesque" font-size="15" font-weight="600" fill="#1E2A26" text-anchor="middle">Tras /clear</text>
+        <rect x="500" y="50" width="120" height="300" rx="10" fill="none" stroke="#2E5E4E" stroke-width="2"/>
+        <rect x="506" y="262" width="108" height="48" rx="6" fill="#E1EBE4" stroke="#2E5E4E" stroke-width="1.2"/>
+        <text x="560" y="290" font-family="IBM Plex Mono" font-size="10.5" font-weight="600" fill="#1F4438" text-anchor="middle">CLAUDE.md</text>
+        <rect x="506" y="316" width="108" height="28" rx="6" fill="#10201A"/>
+        <text x="560" y="334" font-family="IBM Plex Mono" font-size="9.5" fill="#9FE8C2" text-anchor="middle">system prompt</text>
+        <text x="560" y="150" font-family="IBM Plex Mono" font-size="9.5" fill="#4A5A53" text-anchor="middle">borrón y cuenta nueva:</text>
+        <text x="560" y="164" font-family="IBM Plex Mono" font-size="9.5" fill="#4A5A53" text-anchor="middle">solo queda el contrato</text>
+
+        <text x="360" y="408" font-family="IBM Plex Mono" font-size="12" fill="#1F4438" text-anchor="middle">Tu CLAUDE.md sobrevive a todo. Por eso el ex00 va antes que este.</text>
+      </svg>
+      <figcaption>Fig. 1 — Qué sobrevive y qué se pierde: /compact comprime, /clear arrasa</figcaption>
+    </figure>
+
+    <div class="keypoint">
+      <span class="kp-label">El matiz que separa a un junior de alguien que controla</span>
+      <p>Tras un <code>/compact</code>, Claude no «recuerda menos»: recuerda <strong>otra cosa</strong> — un resumen que él mismo escribió. Si el resumen omitió un detalle, ese detalle ya no existe para él, y lo que es peor: Claude no sabe que lo perdió. Por eso el paso 9 del escenario es el corazón del ejercicio.</p>
+    </div>
+  </section>
+
+  <!-- ════════ WP 03 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·03</span><h2>Ruta — cómo atacar el ejercicio</h2></div>
+    <p>El subject te da un escenario guiado de 9 pasos. La tentación es hacerlo del tirón como quien rellena un formulario. Error: esto es un experimento de laboratorio, y un experimento sin registro es una anécdota.</p>
+    <ol class="route">
+      <li><strong>Prepara el cuaderno de laboratorio antes de arrancar.</strong><p>Abre <code>session_log.txt</code> (tienes la plantilla en el starter) y comprométete a anotar cada paso <em>en el momento</em>: qué pediste, qué hizo Claude, qué leyó, qué te llamó la atención. El log se escribe en caliente o no sirve.</p></li>
+      <li><strong>Ejecuta los pasos 1–6 con un ojo en el taxímetro.</strong><p>Análisis, localizar la función, método nuevo, <code>make</code>, error deliberado, diagnóstico. Mientras Claude trabaja, fíjate en qué relee y cuánto contexto consume cada tipo de operación. Esa observación alimenta el bonus casi gratis.</p></li>
+      <li><strong>El paso 7 es el momento de la verdad: anota ANTES de compactar.</strong><p>Justo antes del <code>/compact</code>, escribe en el log 3-4 detalles concretos de la sesión (un nombre de variable del paso 3, el error exacto del paso 5). Son tus <em>testigos</em>: luego comprobarás cuáles sobrevivieron al resumen.</p></li>
+      <li><strong>Pasos 8–9: interroga a tu agente.</strong><p>Pide la modificación relacionada con el paso 3 y observa: ¿retoma el hilo o tiene que releer el archivo? Pregúntale por tus testigos. Documenta qué recordó, qué perdió y qué tuvo que reconstruir. Esto es la chicha del NOTES.md.</p></li>
+      <li><strong>Repite la jugada con <code>/compact</code> + instrucciones.</strong><p>Dale prioridades concretas y compara los dos resúmenes. La pregunta a responder: ¿qué conservó el compact dirigido que el automático tiró a la basura?</p></li>
+      <li><strong>Demuestra <code>/clear</code> y el escape donde duelen.</strong><p>Para el clear: hazlo y pregúntale a Claude por algo de la sesión anterior — su cara de póker es tu evidencia. Para el escape: lánzale una tarea larga e interrumpe a mitad. Documenta cuándo usarías cada cosa: ese criterio es lo que se evalúa.</p></li>
+    </ol>
+    <div class="term">
+      <span class="cmt"># Tus testigos, anotados antes del /compact (ejemplo de formato)</span><br>
+      <span class="p">PASO 7-PRE</span> | testigo 1: el método nuevo se llama ______<br>
+      <span class="p">PASO 7-PRE</span> | testigo 2: el error del paso 5 era ______ en línea ____<br>
+      <span class="p">PASO 9-POST</span> | ¿recordaba el testigo 1? S/N — ¿tuvo que releer? S/N
+    </div>
+  </section>
+
+  <!-- ════════ WP 04 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·04</span><h2>Zonas de riesgo — donde se atasca la gente</h2></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>Rellenar el log de memoria, al final.</strong> «Ya lo apunto luego» es la frase con la que mueren los ejercicios de observación. El valor está en los detalles del momento — qué releyó, qué dudó — y eso a las dos horas ya no lo recuerdas ni tú. Irónico, ¿no? El ejercicio va exactamente de eso.</p></div></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>Confundir <code>/compact</code> con <code>/clear</code>.</strong> Uno comprime y sigue; el otro arrasa y empieza. Si en la defensa (o en el checkpoint) no puedes decir cuándo usarías cada uno con un ejemplo concreto, no has terminado el ejercicio — has terminado de teclearlo.</p></div></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>Creer que <code>/compact</code> es gratis.</strong> No lo es por partida doble: generar el resumen consume tokens, y el resumen pierde matices. Compactar cada diez minutos «por higiene» es como hacer <code>defrag</code> compulsivo: pura superstición con coste real.</p></div></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>No verificar la pérdida.</strong> El error sutil del ejercicio: tras compactar, Claude responde con seguridad total — también sobre lo que ya no sabe. Si no preparaste testigos (paso 3 de la Ruta), no tienes forma de distinguir memoria real de reconstrucción convincente. Y esa distinción ES el ejercicio.</p></div></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>Estrategias de ahorro genéricas.</strong> El subject pide al menos 2 estrategias <em>propias</em>. «Usar menos tokens» no es una estrategia, es el objetivo. Una estrategia es: «pido a Claude que no vuelque archivos enteros en sus respuestas» o «una sesión por tarea, con @ para acotar». Concretas y nacidas de TU sesión.</p></div></div>
+  </section>
+
+  <!-- ════════ WP 05 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·05</span><h2>Checkpoint — ¿defenderías esto mañana?</h2></div>
+    <p>Sin mirar el log, sin abrir la terminal:</p>
+    <div class="checkpoint">
+      <ol>
+        <li>¿Qué pierde exactamente un <code>/compact</code> y por qué Claude no puede avisarte de lo que perdió?</li>
+        <li>Dame un caso concreto donde <code>/clear</code> sea mejor opción que <code>/compact</code>, y otro al revés.</li>
+        <li>¿Qué es lo único que sobrevive a un <code>/clear</code>, y qué decisión del ex00 hace que eso sea una ventaja?</li>
+        <li>Claude se lanza a refactorizar un archivo que no debía tocar. ¿Qué haces en los próximos dos segundos, y qué harías después?</li>
+        <li>De tus dos estrategias de ahorro: ¿cuál escalaría a un repo de 10.000 archivos y cuál no? ¿Por qué?</li>
+      </ol>
+      <p class="cp-note">Si dudas en la Q1, vuelve a la Fig. 1. Si dudas en la Q4, no has interrumpido a Claude ni una vez — y eso se nota.</p>
+    </div>
+  </section>
+
+</main>
+
+<nav aria-label="Navegación de capítulos" style="max-width:760px;margin:3.2rem auto 0;padding:0 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:.82rem">
+  <a href="guia-campo-ex00.html" style="color:#2E5E4E;text-decoration:none;border:1.5px solid #CBD8CE;border-radius:8px;padding:.55rem .9rem;background:#FFFFFF">&#8592; ex00 · Init & Context</a>
+  <a href="guia-campo-index.html" style="color:#4A5A53;text-decoration:none;padding:.55rem .4rem;letter-spacing:.08em;text-transform:uppercase;font-size:.72rem">índice</a>
+  <a href="guia-campo-ex02.html" style="color:#FFFFFF;background:#2E5E4E;text-decoration:none;border-radius:8px;padding:.55rem .9rem">ex02 · HookGuard &#8594;</a>
+</nav>
+
+<footer>
+  <p class="quote">«El contexto es tu recurso más valioso en Claude Code. Gestionarlo bien es como gestionar la memoria en C: si no lo controlas, te explota en la cara.» — Subject, Módulo 00</p>
+  <p class="motto">¡Por Tutatis!!</p>
+  <p class="legal">© 2026 Mikel Zabal — CodingWithZabal · Guía de Campo · CodeFlow Módulo 00 · cap. ex01</p>
+</footer>
+
+</body>
+</html>

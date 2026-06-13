@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Campo — ex00: Init &amp; Context | CodeFlow Módulo 00</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F6F2;
+    --ink:#1E2A26;
+    --ink-soft:#4A5A53;
+    --contour:#CBD8CE;
+    --pine:#2E5E4E;
+    --pine-deep:#1F4438;
+    --signal:#E4572E;
+    --terminal:#10201A;
+    --phosphor:#9FE8C2;
+    --card:#FFFFFF;
+    --display:'Bricolage Grotesque',sans-serif;
+    --body:'Source Serif 4',Georgia,serif;
+    --mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:1.075rem;line-height:1.7}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;overflow:hidden;background:var(--pine-deep);color:#EDF5EF;padding:4.5rem 1.5rem 3.5rem}
+  .hero-contours{position:absolute;inset:0;opacity:.16;pointer-events:none}
+  .hero-inner{position:relative;max-width:760px;margin:0 auto}
+  .eyebrow{font-family:var(--mono);font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--phosphor);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+  .eyebrow::before{content:"";display:inline-block;width:2.2rem;height:2px;background:var(--signal)}
+  .hero h1{font-family:var(--display);font-weight:800;font-size:clamp(2.4rem,6vw,4rem);line-height:1.04;margin:.9rem 0 1rem;letter-spacing:-.02em}
+  .hero h1 .ex{color:var(--signal)}
+  .hero p.lead{font-size:1.18rem;max-width:34em;color:#D6E4DA}
+  .hero-meta{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.6rem}
+  .chip{font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;border:1px solid rgba(237,245,239,.35);border-radius:999px;padding:.3rem .75rem;color:#D6E4DA}
+  .chip.hot{border-color:var(--signal);color:#FFD9CB}
+
+  /* ---------- LAYOUT ---------- */
+  main{max-width:760px;margin:0 auto;padding:0 1.5rem 4rem}
+
+  .notice{background:var(--card);border:1px solid var(--contour);border-left:4px solid var(--signal);border-radius:10px;padding:1.4rem 1.5rem;margin:-2.2rem auto 0;position:relative;box-shadow:0 10px 30px rgba(30,42,38,.08)}
+  .notice h2{font-family:var(--display);font-size:1.05rem;font-weight:600;margin-bottom:.5rem}
+  .notice p{font-size:.98rem;color:var(--ink-soft)}
+  .notice p + p{margin-top:.6rem}
+  .notice strong{color:var(--ink)}
+
+  /* ---------- WAYPOINTS ---------- */
+  section.wp{margin-top:3.6rem;position:relative}
+  .wp-tag{display:flex;align-items:baseline;gap:.85rem;margin-bottom:1.1rem}
+  .wp-mark{font-family:var(--mono);font-weight:600;font-size:.82rem;color:#fff;background:var(--pine);padding:.28rem .6rem;border-radius:6px;letter-spacing:.06em;position:relative;flex-shrink:0}
+  .wp-mark::after{content:"";position:absolute;left:-7px;top:50%;transform:translateY(-50%) rotate(45deg);width:9px;height:9px;background:var(--signal);border-radius:2px}
+  .wp h2{font-family:var(--display);font-weight:800;font-size:clamp(1.5rem,3.4vw,1.95rem);letter-spacing:-.015em}
+  .wp p{margin-bottom:1rem}
+  .wp p:last-child{margin-bottom:0}
+  .wp a{color:var(--pine);text-decoration-color:var(--contour);text-underline-offset:3px}
+  code{font-family:var(--mono);font-size:.88em;background:#E7EDE7;border-radius:4px;padding:.1em .4em;color:var(--pine-deep)}
+
+  .term{background:var(--terminal);color:var(--phosphor);font-family:var(--mono);font-size:.88rem;line-height:1.65;border-radius:10px;padding:1.1rem 1.3rem;margin:1.2rem 0;overflow-x:auto}
+  .term .cmt{color:#6E8F7E}
+  .term .p{color:#FFB199}
+
+  .keypoint{border:1px solid var(--contour);background:var(--card);border-radius:10px;padding:1.2rem 1.4rem;margin:1.4rem 0}
+  .keypoint .kp-label{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--signal);display:block;margin-bottom:.45rem}
+  .keypoint p{font-size:1rem;margin:0}
+
+  /* concept defs */
+  dl.defs{margin:1.2rem 0}
+  dl.defs dt{font-family:var(--display);font-weight:600;font-size:1.05rem;margin-top:1.1rem;color:var(--pine-deep)}
+  dl.defs dt code{background:none;padding:0;color:var(--signal);font-size:.95em}
+  dl.defs dd{margin-top:.25rem;color:var(--ink);}
+
+  /* route steps */
+  ol.route{counter-reset:step;list-style:none;margin:1.4rem 0}
+  ol.route li{counter-increment:step;position:relative;padding:0 0 1.5rem 3.2rem}
+  ol.route li::before{content:counter(step,decimal-leading-zero);position:absolute;left:0;top:.1rem;font-family:var(--mono);font-weight:600;font-size:.8rem;color:var(--pine);border:1.5px solid var(--pine);border-radius:8px;width:2.2rem;height:1.7rem;display:flex;align-items:center;justify-content:center;background:var(--card)}
+  ol.route li::after{content:"";position:absolute;left:1.05rem;top:2.1rem;bottom:.3rem;width:1.5px;background:var(--contour)}
+  ol.route li:last-child::after{display:none}
+  ol.route li strong{font-family:var(--display);font-weight:600;display:block;margin-bottom:.2rem}
+  ol.route li p{font-size:1rem;color:var(--ink);margin:0}
+
+  /* hazards */
+  .hazard{display:flex;gap:1rem;align-items:flex-start;border:1px solid var(--contour);background:var(--card);border-radius:10px;padding:1.05rem 1.2rem;margin:.9rem 0}
+  .hazard .hz-ico{flex-shrink:0;width:2rem;height:2rem;border-radius:6px;background:#FCEAE2;color:var(--signal);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:1rem;transform:rotate(45deg)}
+  .hazard .hz-ico span{transform:rotate(-45deg)}
+  .hazard div p{font-size:.99rem;margin:0}
+  .hazard strong{font-family:var(--display);font-weight:600}
+
+  /* checkpoint */
+  .checkpoint{background:var(--pine-deep);color:#EDF5EF;border-radius:14px;padding:2rem 1.8rem;margin-top:1.4rem;position:relative;overflow:hidden}
+  .checkpoint::before{content:"▲";position:absolute;right:1.4rem;top:1.1rem;color:var(--signal);font-size:1.2rem}
+  .checkpoint ol{list-style:none;counter-reset:q}
+  .checkpoint li{counter-increment:q;padding:.85rem 0 .85rem 2.6rem;position:relative;border-bottom:1px solid rgba(237,245,239,.14);font-size:1.02rem}
+  .checkpoint li:last-of-type{border-bottom:none}
+  .checkpoint li::before{content:"Q" counter(q);position:absolute;left:0;top:.95rem;font-family:var(--mono);font-size:.72rem;font-weight:600;color:var(--phosphor);border:1px solid rgba(159,232,194,.5);border-radius:5px;padding:.12rem .4rem}
+  .checkpoint .cp-note{margin-top:1.2rem;font-size:.95rem;color:#BBD3C3;font-style:italic}
+
+  /* infografía */
+  figure.infografia{margin:1.8rem 0;background:var(--card);border:1px solid var(--contour);border-radius:14px;padding:1.4rem 1.2rem .9rem;box-shadow:0 8px 24px rgba(30,42,38,.06)}
+  figure.infografia svg{width:100%;height:auto;display:block}
+  figure.infografia figcaption{font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);text-align:center;padding:.8rem .4rem .2rem}
+
+  footer{border-top:1px solid var(--contour);margin-top:4rem;padding:2.2rem 1.5rem;text-align:center}
+  footer .motto{font-family:var(--display);font-weight:800;font-size:1.3rem;color:var(--pine-deep)}
+  footer .legal{font-family:var(--mono);font-size:.74rem;color:var(--ink-soft);margin-top:.6rem;letter-spacing:.05em}
+  footer .quote{font-style:italic;color:var(--ink-soft);max-width:36em;margin:0 auto 1.2rem;font-size:.98rem}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="hero-contours" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g fill="none" stroke="#EDF5EF" stroke-width="1.2">
+      <path d="M-50,340 C150,290 280,360 480,310 S820,250 1050,300 S1250,330 1300,310"/>
+      <path d="M-50,300 C160,250 300,320 500,270 S830,210 1060,260 S1250,290 1300,270"/>
+      <path d="M-50,255 C180,205 320,275 520,225 S840,165 1070,215 S1250,245 1300,225"/>
+      <path d="M-50,205 C200,160 350,225 545,180 S850,120 1080,168 S1250,200 1300,180"/>
+      <path d="M-50,150 C220,110 380,170 565,130 S860,75 1090,118 S1250,150 1300,132"/>
+      <path d="M-50,95 C240,60 410,115 585,80 S870,32 1100,70 S1250,100 1300,84"/>
+      <circle cx="905" cy="120" r="3.5" fill="#E4572E" stroke="none"/>
+      <text x="918" y="124" font-family="IBM Plex Mono" font-size="11" fill="#EDF5EF" stroke="none">cota 00 · /init</text>
+    </g>
+  </svg>
+  <div class="hero-inner">
+    <span class="eyebrow">CodeFlow · Módulo 00 · Guía de Campo</span>
+    <h1><span class="ex">ex00</span> — Init &amp; Context</h1>
+    <p class="lead">Antes de pedirle nada a Claude Code, necesitas que sepa dónde está. Este capítulo va de eso: de abrir el mapa antes de echar a andar.</p>
+    <div class="hero-meta">
+      <span class="chip">terminal · git · c++ básico</span>
+      <span class="chip">~2-3 h de trabajo real</span>
+      <span class="chip hot">aquí no hay soluciones</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <aside class="notice">
+    <h2>Cómo se usa esta guía (léelo, en serio)</h2>
+    <p>Esto <strong>no es un solucionario</strong>. Es el apoyo que en 42 te daría el compañero de mesa: te explica los conceptos, te dice por dónde atacar y dónde está el barro. El trabajo lo haces tú — entre otras cosas porque en la evaluación tendrás que <strong>explicar cada decisión</strong>, y eso no se puede copiar.</p>
+    <p>Si vienes de cursos tradicionales: en la metodología 42 no hay temario ni profesor. Hay un subject (el enunciado) y tu capacidad de buscarte la vida — en 42 Urduliz a veces ni siquiera te dan documentación oficial, así que considera esta guía un lujo. El subject manda siempre: si algo aquí parece contradecirlo, gana el subject.</p>
+  </aside>
+
+  <!-- ════════ WP 01 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·01</span><h2>Rumbo — qué vas a aprender y por qué importa</h2></div>
+    <p>Imagina que contratas a un becario brillante. Brillantísimo. Le das tu portátil, no le cuentas nada del proyecto, y le dices «mejora el código». ¿Qué puede salir mal? Todo. No porque sea malo, sino porque <strong>no sabe dónde está</strong>: no conoce tus reglas de compilación, tu estilo, qué carpetas son intocables. Eso es Claude Code sin un <code>CLAUDE.md</code>.</p>
+    <p>Si vienes de C++, piénsalo como un header: el <code>.hpp</code> declara el contrato antes de que nadie implemente nada. El <code>CLAUDE.md</code> es exactamente eso — el contrato entre tú y tu agente. En este ejercicio aprenderás a generarlo (<code>/init</code>), a afinarlo a mano, y a controlar qué archivos entran en juego con <code>@</code>.</p>
+    <div class="keypoint">
+      <span class="kp-label">La idea que lo sostiene todo</span>
+      <p>El objetivo del módulo no es que Claude Code trabaje por ti. Es que <strong>tú controles a Claude Code</strong>. Y el control empieza por definir el terreno antes de soltar al agente en él.</p>
+    </div>
+  </section>
+
+  <!-- ════════ WP 02 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·02</span><h2>Terreno — los conceptos, desde cero</h2></div>
+    <p>Cuatro piezas. Si entiendes estas cuatro, el ejercicio se monta solo.</p>
+    <dl class="defs">
+      <dt>La ventana de contexto</dt>
+      <dd>Es la memoria de trabajo de Claude: todo lo que «sabe» durante una sesión tiene que caber ahí. Es RAM, no disco — limitada, volátil, y cada cosa que metes ocupa sitio (tokens). Gestionarla bien es el tema del ex01, pero ya desde aquí conviene que la tengas en la cabeza.</dd>
+      <dt><code>CLAUDE.md</code></dt>
+      <dd>Un archivo markdown en la raíz del proyecto que Claude lee automáticamente <em>al arrancar cada sesión</em> y se inyecta en su contexto. Es donde escribes lo que de otra forma tendrías que repetir cada vez: flags de compilación, convenciones, zonas prohibidas, idioma.</dd>
+      <dt><code>/init</code></dt>
+      <dd>Un comando que le dice a Claude: explora este repo y redáctame un borrador de <code>CLAUDE.md</code>. Palabra clave: <em>borrador</em>. Claude mirará tu Makefile, tu estructura, y deducirá cosas. Algunas bien, otras regular. Tu trabajo es auditarlo.</dd>
+      <dt>Referencias con <code>@</code></dt>
+      <dd>Escribir <code>@src/Calculator.cpp</code> en un prompt mete ese archivo en el contexto, directamente. Es un <code>#include</code> selectivo: tú decides qué entra en lugar de dejar que Claude explore (y queme tokens) por su cuenta. Con <code>@tests/</code> haces lo mismo con una carpeta entera.</dd>
+    </dl>
+
+    <figure class="infografia">
+      <svg viewBox="0 0 720 460" role="img" aria-label="Diagrama de las capas del contexto de Claude Code">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#E4572E"/>
+          </marker>
+        </defs>
+        <!-- bracket / ventana -->
+        <rect x="30" y="28" width="430" height="370" rx="14" fill="none" stroke="#2E5E4E" stroke-width="2" stroke-dasharray="7 6"/>
+        <text x="46" y="56" font-family="IBM Plex Mono" font-size="13" font-weight="600" fill="#1F4438" letter-spacing="1.5">VENTANA DE CONTEXTO</text>
+        <text x="46" y="74" font-family="IBM Plex Mono" font-size="11" fill="#4A5A53">limitada — todo lo que Claude «sabe» cabe aquí</text>
+
+        <!-- capa 1: system prompt -->
+        <rect x="56" y="92" width="378" height="52" rx="8" fill="#E7EDE7"/>
+        <text x="74" y="114" font-family="Bricolage Grotesque" font-size="15" font-weight="600" fill="#1E2A26">System prompt</text>
+        <text x="74" y="132" font-family="IBM Plex Mono" font-size="11" fill="#4A5A53">de fábrica — no lo tocas tú</text>
+
+        <!-- capa 2: CLAUDE.md (destacada) -->
+        <rect x="56" y="154" width="378" height="62" rx="8" fill="#FCEAE2" stroke="#E4572E" stroke-width="2"/>
+        <text x="74" y="178" font-family="Bricolage Grotesque" font-size="15" font-weight="600" fill="#1E2A26">CLAUDE.md — tu contrato</text>
+        <text x="74" y="196" font-family="IBM Plex Mono" font-size="11" fill="#A03C1C">se inyecta solo, al inicio de CADA sesión</text>
+        <text x="74" y="210" font-family="IBM Plex Mono" font-size="11" fill="#A03C1C">cada línea ocupa tokens: sé concreto, sé breve</text>
+
+        <!-- capa 3: @referencias -->
+        <rect x="56" y="226" width="378" height="52" rx="8" fill="#E1EBE4" stroke="#2E5E4E" stroke-width="1.5"/>
+        <text x="74" y="248" font-family="Bricolage Grotesque" font-size="15" font-weight="600" fill="#1E2A26">@referencias</text>
+        <text x="74" y="266" font-family="IBM Plex Mono" font-size="11" fill="#2E5E4E">lo que TÚ decides meter — @src/… @tests/</text>
+
+        <!-- capa 4: conversación -->
+        <rect x="56" y="288" width="378" height="88" rx="8" fill="#E7EDE7"/>
+        <text x="74" y="312" font-family="Bricolage Grotesque" font-size="15" font-weight="600" fill="#1E2A26">Conversación + outputs de herramientas</text>
+        <text x="74" y="330" font-family="IBM Plex Mono" font-size="11" fill="#4A5A53">tus prompts, lecturas de archivos, salidas de bash…</text>
+        <text x="74" y="348" font-family="IBM Plex Mono" font-size="11" fill="#E4572E">⚠ crece sola durante la sesión: vigílala (→ ex01)</text>
+        <path d="M412,300 L412,366" stroke="#E4572E" stroke-width="2" marker-end="url(#arr)"/>
+
+        <!-- flecha hacia el modelo -->
+        <path d="M460,213 C520,213 520,213 560,213" stroke="#E4572E" stroke-width="2.5" fill="none" marker-end="url(#arr)"/>
+
+        <!-- modelo -->
+        <rect x="572" y="160" width="118" height="106" rx="14" fill="#10201A"/>
+        <text x="631" y="206" font-family="IBM Plex Mono" font-size="14" font-weight="600" fill="#9FE8C2" text-anchor="middle">claude</text>
+        <text x="631" y="226" font-family="IBM Plex Mono" font-size="11" fill="#6E8F7E" text-anchor="middle">razona con lo</text>
+        <text x="631" y="241" font-family="IBM Plex Mono" font-size="11" fill="#6E8F7E" text-anchor="middle">que hay dentro</text>
+
+        <!-- leyenda inferior -->
+        <text x="360" y="436" font-family="IBM Plex Mono" font-size="12" fill="#1F4438" text-anchor="middle">Si no está en la ventana, para Claude no existe. Si sobra, pagas tokens por ruido.</text>
+      </svg>
+      <figcaption>Fig. 1 — Anatomía del contexto: qué ve Claude Code y quién lo pone ahí</figcaption>
+    </figure>
+
+    <div class="keypoint">
+      <span class="kp-label">El matiz que separa a un junior de alguien que controla</span>
+      <p><code>CLAUDE.md</code> es <strong>contexto, no configuración forzada</strong>. Claude lo trata como instrucciones que sigue — y las sigue mejor cuanto más concretas son — pero no es un firewall. La garantía dura, la que bloquea de verdad, llega en el ex02 con los hooks. Guárdate este matiz: en la defensa vale oro.</p>
+    </div>
+  </section>
+
+  <!-- ════════ WP 03 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·03</span><h2>Ruta — cómo atacar el ejercicio</h2></div>
+    <p>No te doy el <code>CLAUDE.md</code> hecho. Te doy el orden de ataque que te ahorra dar vueltas:</p>
+    <ol class="route">
+      <li><strong>Checkpoint de git, antes de nada.</strong><p>El subject lo exige y tiene toda la razón: commit antes de dejar que Claude toque una sola línea. Es tu punto de retorno. Sin red no se trabaja con agentes.</p></li>
+      <li><strong>Lanza <code>/init</code> y lee el resultado como un evaluador.</strong><p>¿Qué detectó del Makefile? ¿Qué dedujo de la estructura? ¿Qué se ha inventado o le falta? Apúntalo en <code>NOTES.md</code> <em>ahora</em>, en caliente — ese análisis crítico es la mitad del ejercicio, no un trámite de última hora.</p></li>
+      <li><strong>Escribe las 4 secciones a mano.</strong><p>Compilación, estilo, directorios permitidos, idioma. Regla de oro: instrucciones <em>verificables</em> — «flags <code>-Wall -Wextra -Werror</code>, prohibido <code>printf</code>, solo tocas <code>src/</code> e <code>inc/</code>». Si una norma no se puede comprobar mirando el código, reescríbela hasta que se pueda (más sobre esto en las Zonas de riesgo).</p></li>
+      <li><strong>Llévale la contraria.</strong><p>Pídele a Claude justo lo que le has prohibido: que toque algo en <code>tests/</code>, que meta un <code>printf</code>. Si tu contrato funciona, se negará o te avisará. Y sí, vas a celebrar que una IA te diga que no — bienvenido al ex00. Esa negativa <em>es</em> tu screenshot: captura el antes y el después.</p></li>
+      <li><strong>Experimenta con <code>@</code> comparando.</strong><p>Haz la misma pregunta dos veces: una a pelo y otra con <code>@src/Calculator.cpp</code>. Observa qué archivos lee en cada caso. La diferencia es la demostración que te piden — y de paso entenderás en tus carnes lo de los tokens.</p></li>
+    </ol>
+    <div class="term">
+      <span class="cmt"># El ciclo del ejercicio, en cuatro líneas</span><br>
+      <span class="p">$</span> git add . &amp;&amp; git commit -m "checkpoint: antes de /init"<br>
+      <span class="p">$</span> claude<br>
+      <span class="p">&gt;</span> /init<br>
+      <span class="cmt"># …y a partir de aquí: auditar, afinar, provocar, capturar.</span>
+    </div>
+  </section>
+
+  <!-- ════════ WP 04 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·04</span><h2>Zonas de riesgo — donde se atasca la gente</h2></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>Tragarse el <code>/init</code> sin leerlo.</strong> El ejercicio pide análisis crítico del original frente a tu versión. Si tu NOTES.md dice «estaba bien, lo dejé igual», acabas de regalar media nota.</p></div></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>Escribir deseos en vez de reglas.</strong> Un deseo es algo que no se puede comprobar; una regla, sí. «Escribe código limpio» es un deseo: Claude lo interpretará como le dé la gana, y siempre te dirá que ya lo hace. «Funciones de 25 líneas máximo, cada <code>new</code> con su <code>delete</code>, variables en <code>snake_case</code>» son reglas: o se cumplen o no. Cuanto más concreta la instrucción, más consistentemente la sigue Claude. Test rápido: si no puedes verificar la norma mirando el código, no es una norma.</p></div></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>Creer que <code>@archivo</code> restringe permisos.</strong> No: <code>@</code> <em>añade</em> al contexto, no limita lo que Claude puede tocar. La limitación de directorios es una instrucción de tu <code>CLAUDE.md</code>. Son dos mecanismos distintos y en la defensa te van a preguntar la diferencia. Casi seguro.</p></div></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>El <code>CLAUDE.md</code> kilométrico.</strong> Cada línea viaja en el contexto de cada sesión: con un contrato de 400 líneas estás pagando tokens por contarle tu vida a Claude, y encima diluyes las reglas que de verdad importan. Si una norma no cambia el comportamiento del agente, fuera. Sin piedad.</p></div></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>Screenshots de paisaje.</strong> Una captura de Claude saludando no demuestra nada. La evidencia es Claude <em>negándose</em> a tocar <code>tests/</code>, o leyendo solo el archivo que le diste con <code>@</code>. Captura el momento de la prueba, no la sesión entera.</p></div></div>
+  </section>
+
+  <!-- ════════ WP 05 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·05</span><h2>Checkpoint — ¿defenderías esto mañana?</h2></div>
+    <p>En 42 hay una regla que aquí es ley: <em>si no puedes explicarlo, no lo entregues</em>. Antes de dar el ex00 por cerrado, respóndete esto sin mirar nada:</p>
+    <div class="checkpoint">
+      <ol>
+        <li>¿Qué diferencia hay entre una regla escrita en <code>CLAUDE.md</code> y la misma regla escrita en un prompt durante la sesión? ¿Cuándo usarías cada una?</li>
+        <li>¿Por qué <code>@tests/</code> ahorra tokens frente a dejar que Claude explore el repo por su cuenta?</li>
+        <li>Tu <code>CLAUDE.md</code> dice «solo puedes modificar <code>src/</code> e <code>inc/</code>» y tú, en la sesión, le pides tocar <code>tests/</code>. ¿Qué crees que pasa, y por qué la respuesta correcta empieza por «depende»?</li>
+        <li>¿Por qué el subject te obliga a hacer commit <em>antes</em> de soltar a Claude sobre tu código, y no después?</li>
+      </ol>
+      <p class="cp-note">Si las cuatro te salen del tirón, estás listo para defender. Si alguna chirría, vuelve al Terreno (WP·02) — no es opcional, es exactamente para esto.</p>
+    </div>
+  </section>
+
+</main>
+
+<nav aria-label="Navegación de capítulos" style="max-width:760px;margin:3.2rem auto 0;padding:0 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:.82rem">
+  <a href="guia-campo-base.html" style="color:#2E5E4E;text-decoration:none;border:1.5px solid #CBD8CE;border-radius:8px;padding:.55rem .9rem;background:#FFFFFF">&#8592; Campamento Base</a>
+  <a href="guia-campo-index.html" style="color:#4A5A53;text-decoration:none;padding:.55rem .4rem;letter-spacing:.08em;text-transform:uppercase;font-size:.72rem">índice</a>
+  <a href="guia-campo-ex01.html" style="color:#FFFFFF;background:#2E5E4E;text-decoration:none;border-radius:8px;padding:.55rem .9rem">ex01 · Session Mgmt &#8594;</a>
+</nav>
+
+<footer>
+  <p class="quote">«El CLAUDE.md es el contrato entre tú y Claude Code. Un buen CLAUDE.md es la diferencia entre un agente útil y uno peligroso.» — Subject, Módulo 00</p>
+  <p class="motto">¡Por Tutatis!!</p>
+  <p class="legal">© 2026 Mikel Zabal — CodingWithZabal · Guía de Campo · CodeFlow Módulo 00 · cap. ex00</p>
+</footer>
+
+</body>
+</html>

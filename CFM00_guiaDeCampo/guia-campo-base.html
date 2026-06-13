@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Campo — Campamento Base | CodeFlow Módulo 00</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F6F2;
+    --ink:#1E2A26;
+    --ink-soft:#4A5A53;
+    --contour:#CBD8CE;
+    --pine:#2E5E4E;
+    --pine-deep:#1F4438;
+    --signal:#E4572E;
+    --terminal:#10201A;
+    --phosphor:#9FE8C2;
+    --card:#FFFFFF;
+    --display:'Bricolage Grotesque',sans-serif;
+    --body:'Source Serif 4',Georgia,serif;
+    --mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:1.075rem;line-height:1.7}
+
+  .hero{position:relative;overflow:hidden;background:var(--pine-deep);color:#EDF5EF;padding:4.5rem 1.5rem 3.5rem}
+  .hero-contours{position:absolute;inset:0;opacity:.16;pointer-events:none}
+  .hero-inner{position:relative;max-width:760px;margin:0 auto}
+  .eyebrow{font-family:var(--mono);font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--phosphor);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+  .eyebrow::before{content:"";display:inline-block;width:2.2rem;height:2px;background:var(--signal)}
+  .hero h1{font-family:var(--display);font-weight:800;font-size:clamp(2.4rem,6vw,4rem);line-height:1.04;margin:.9rem 0 1rem;letter-spacing:-.02em}
+  .hero h1 .ex{color:var(--signal)}
+  .hero p.lead{font-size:1.18rem;max-width:34em;color:#D6E4DA}
+  .hero-meta{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.6rem}
+  .chip{font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;border:1px solid rgba(237,245,239,.35);border-radius:999px;padding:.3rem .75rem;color:#D6E4DA}
+  .chip.hot{border-color:var(--signal);color:#FFD9CB}
+
+  main{max-width:760px;margin:0 auto;padding:0 1.5rem 4rem}
+
+  .notice{background:var(--card);border:1px solid var(--contour);border-left:4px solid var(--signal);border-radius:10px;padding:1.4rem 1.5rem;margin:-2.2rem auto 0;position:relative;box-shadow:0 10px 30px rgba(30,42,38,.08)}
+  .notice h2{font-family:var(--display);font-size:1.05rem;font-weight:600;margin-bottom:.5rem}
+  .notice p{font-size:.98rem;color:var(--ink-soft)}
+  .notice p + p{margin-top:.6rem}
+  .notice strong{color:var(--ink)}
+
+  section.wp{margin-top:3.6rem;position:relative}
+  .wp-tag{display:flex;align-items:baseline;gap:.85rem;margin-bottom:1.1rem}
+  .wp-mark{font-family:var(--mono);font-weight:600;font-size:.82rem;color:#fff;background:var(--pine);padding:.28rem .6rem;border-radius:6px;letter-spacing:.06em;position:relative;flex-shrink:0}
+  .wp-mark::after{content:"";position:absolute;left:-7px;top:50%;transform:translateY(-50%) rotate(45deg);width:9px;height:9px;background:var(--signal);border-radius:2px}
+  .wp h2{font-family:var(--display);font-weight:800;font-size:clamp(1.5rem,3.4vw,1.95rem);letter-spacing:-.015em}
+  .wp p{margin-bottom:1rem}
+  .wp p:last-child{margin-bottom:0}
+  code{font-family:var(--mono);font-size:.88em;background:#E7EDE7;border-radius:4px;padding:.1em .4em;color:var(--pine-deep)}
+
+  .keypoint{border:1px solid var(--contour);background:var(--card);border-radius:10px;padding:1.2rem 1.4rem;margin:1.4rem 0}
+  .keypoint .kp-label{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--signal);display:block;margin-bottom:.45rem}
+  .keypoint p{font-size:1rem;margin:0}
+
+  /* reglas que descolocan */
+  .rule{display:flex;gap:1rem;align-items:flex-start;border:1px solid var(--contour);background:var(--card);border-radius:10px;padding:1.05rem 1.2rem;margin:.9rem 0}
+  .rule .rl-ico{flex-shrink:0;width:2rem;height:2rem;border-radius:6px;background:#E1EBE4;color:var(--pine-deep);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:.85rem}
+  .rule div p{font-size:.99rem;margin:0}
+  .rule strong{font-family:var(--display);font-weight:600}
+
+  /* checklist equipo */
+  ul.gear{list-style:none;margin:1.2rem 0}
+  ul.gear li{position:relative;padding:.55rem 0 .55rem 2.4rem;border-bottom:1px solid var(--contour);font-size:1rem}
+  ul.gear li:last-child{border-bottom:none}
+  ul.gear li::before{content:"";position:absolute;left:.2rem;top:.85rem;width:1rem;height:1rem;border:2px solid var(--pine);border-radius:4px}
+  ul.gear li::after{content:"✓";position:absolute;left:.42rem;top:.62rem;color:var(--signal);font-family:var(--mono);font-weight:600;font-size:.85rem}
+  ul.gear li span.why{display:block;font-size:.86rem;color:var(--ink-soft);font-family:var(--mono)}
+
+  .term{background:var(--terminal);color:var(--phosphor);font-family:var(--mono);font-size:.88rem;line-height:1.65;border-radius:10px;padding:1.1rem 1.3rem;margin:1.2rem 0;overflow-x:auto}
+  .term .cmt{color:#6E8F7E}
+  .term .p{color:#FFB199}
+
+  figure.infografia{margin:1.8rem 0;background:var(--card);border:1px solid var(--contour);border-radius:14px;padding:1.4rem 1.2rem .9rem;box-shadow:0 8px 24px rgba(30,42,38,.06)}
+  figure.infografia svg{width:100%;height:auto;display:block}
+  figure.infografia figcaption{font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);text-align:center;padding:.8rem .4rem .2rem}
+
+  footer{border-top:1px solid var(--contour);margin-top:4rem;padding:2.2rem 1.5rem;text-align:center}
+  footer .motto{font-family:var(--display);font-weight:800;font-size:1.3rem;color:var(--pine-deep)}
+  footer .legal{font-family:var(--mono);font-size:.74rem;color:var(--ink-soft);margin-top:.6rem;letter-spacing:.05em}
+  footer .quote{font-style:italic;color:var(--ink-soft);max-width:36em;margin:0 auto 1.2rem;font-size:.98rem}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="hero-contours" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g fill="none" stroke="#EDF5EF" stroke-width="1.2">
+      <path d="M-50,340 C150,290 280,360 480,310 S820,250 1050,300 S1250,330 1300,310"/>
+      <path d="M-50,300 C160,250 300,320 500,270 S830,210 1060,260 S1250,290 1300,270"/>
+      <path d="M-50,255 C180,205 320,275 520,225 S840,165 1070,215 S1250,245 1300,225"/>
+      <path d="M-50,205 C200,160 350,225 545,180 S850,120 1080,168 S1250,200 1300,180"/>
+      <path d="M-50,150 C220,110 380,170 565,130 S860,75 1090,118 S1250,150 1300,132"/>
+      <path d="M-50,95 C240,60 410,115 585,80 S870,32 1100,70 S1250,100 1300,84"/>
+      <circle cx="260" cy="305" r="3.5" fill="#E4572E" stroke="none"/>
+      <text x="273" y="309" font-family="IBM Plex Mono" font-size="11" fill="#EDF5EF" stroke="none">campamento base</text>
+    </g>
+  </svg>
+  <div class="hero-inner">
+    <span class="eyebrow">CodeFlow · Módulo 00 · Guía de Campo</span>
+    <h1>Campamento <span class="ex">Base</span></h1>
+    <p class="lead">Cómo se aprende cuando no hay temario, no hay profesor y nadie va a venir a salvarte. Léelo antes de tocar el ex00: son diez minutos que te ahorran semanas.</p>
+    <div class="hero-meta">
+      <span class="chip">metodología 42 · sin experiencia previa</span>
+      <span class="chip">lectura: ~10 min</span>
+      <span class="chip hot">empieza por aquí</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <aside class="notice">
+    <h2>¿Para quién es este módulo?</h2>
+    <p>Para gente que se maneja con la <strong>terminal</strong>, sabe usar <strong>git</strong> y lee código sin que le sangren los ojos. No hace falta ser experto: hace falta no asustarse cuando algo falla. Si nunca has abierto una terminal, este no es tu punto de entrada — vuelve cuando lo sea, que el módulo no se va a ninguna parte.</p>
+  </aside>
+
+  <!-- ════════ BASE ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">BASE</span><h2>Qué es CodeFlow y qué te llevas de aquí</h2></div>
+    <p>CodeFlow es un proyecto de aprendizaje al estilo de la escuela 42 — nacido en 42 Urduliz, mi campus — para aprender a usar Claude Code como herramienta profesional. No «usar» de pedirle cosas y cruzar los dedos: usar de <strong>controlar</strong>. Configurarlo, vigilarlo, interceptarlo, integrarlo en tus propios programas.</p>
+    <p>El Módulo 00 tiene cinco ejercicios progresivos. Al terminarlos sabrás definir el contrato de trabajo de tu agente (<code>CLAUDE.md</code>), gestionar su memoria de trabajo, ponerle guardarraíles con hooks, conectarlo a herramientas externas via MCP, y llamarlo desde tu propio código C++ con el SDK. Eso, hoy, es una habilidad profesional con nombre y apellidos.</p>
+    <div class="keypoint">
+      <span class="kp-label">El trato</span>
+      <p>Este módulo es gratis, completo y sin trampa ni cartón. A cambio te pido una sola cosa: <strong>no te copies a ti mismo el aprendizaje</strong>. Si dejas que Claude (o esta guía) haga el módulo por ti, el único estafado eres tú.</p>
+    </div>
+  </section>
+
+  <!-- ════════ MÉTODO ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">MÉTODO</span><h2>Aprender sin temario (y por qué funciona)</h2></div>
+    <p>En 42 no hay clases, no hay apuntes, no hay profesor. Hay tres cosas: un <strong>subject</strong> (el enunciado del proyecto), tus <strong>compañeros</strong>, y tu capacidad de buscarte la vida. Suena a abandono y es justo lo contrario: es el sistema de aprendizaje más eficaz que he probado, y vengo de la carnicería y de la topografía antes que del código, así que de aprender de cero a los cuarenta y pico sé un rato.</p>
+    <p>¿Por qué funciona? Porque lo que encuentras tú, peleándolo, <strong>hace click y ya no se olvida</strong>. Lo que te dan masticado se evapora en dos semanas. La neurociencia lo llama aprendizaje activo; en 42 lo llamamos «búscate la vida». Mismo perro.</p>
+    <p>Si no tienes un campus lleno de compañeros a los que preguntar, esta guía hace de compañero de mesa: te orienta, te explica los conceptos y te avisa de dónde está el barro. Lo que <em>no</em> hace es resolverte los ejercicios — porque entonces dejaría de funcionar el método.</p>
+    <figure class="infografia">
+      <svg viewBox="0 0 720 330" role="img" aria-label="Ciclo de trabajo de la metodología 42 aplicada a este módulo">
+        <defs>
+          <marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#2E5E4E"/>
+          </marker>
+        </defs>
+        <!-- ciclo: 5 nodos en anillo -->
+        <!-- nodo 1: subject -->
+        <rect x="290" y="22" width="140" height="50" rx="10" fill="#FCEAE2" stroke="#E4572E" stroke-width="2"/>
+        <text x="360" y="44" font-family="Bricolage Grotesque" font-size="14" font-weight="600" fill="#1E2A26" text-anchor="middle">1 · Lee el subject</text>
+        <text x="360" y="61" font-family="IBM Plex Mono" font-size="10" fill="#A03C1C" text-anchor="middle">entero. dos veces.</text>
+        <!-- nodo 2: investiga -->
+        <rect x="520" y="105" width="150" height="50" rx="10" fill="#E7EDE7"/>
+        <text x="595" y="127" font-family="Bricolage Grotesque" font-size="14" font-weight="600" fill="#1E2A26" text-anchor="middle">2 · Investiga</text>
+        <text x="595" y="144" font-family="IBM Plex Mono" font-size="10" fill="#4A5A53" text-anchor="middle">docs, pruebas, errores</text>
+        <!-- nodo 3: construye -->
+        <rect x="455" y="225" width="150" height="50" rx="10" fill="#E7EDE7"/>
+        <text x="530" y="247" font-family="Bricolage Grotesque" font-size="14" font-weight="600" fill="#1E2A26" text-anchor="middle">3 · Construye</text>
+        <text x="530" y="264" font-family="IBM Plex Mono" font-size="10" fill="#4A5A53" text-anchor="middle">tu solución, no una copiada</text>
+        <!-- nodo 4: explica -->
+        <rect x="115" y="225" width="150" height="50" rx="10" fill="#E1EBE4" stroke="#2E5E4E" stroke-width="1.5"/>
+        <text x="190" y="247" font-family="Bricolage Grotesque" font-size="14" font-weight="600" fill="#1E2A26" text-anchor="middle">4 · Explica</text>
+        <text x="190" y="264" font-family="IBM Plex Mono" font-size="10" fill="#2E5E4E" text-anchor="middle">NOTES.md, en tus palabras</text>
+        <!-- nodo 5: defiende -->
+        <rect x="50" y="105" width="150" height="50" rx="10" fill="#E7EDE7"/>
+        <text x="125" y="127" font-family="Bricolage Grotesque" font-size="14" font-weight="600" fill="#1E2A26" text-anchor="middle">5 · Defiende</text>
+        <text x="125" y="144" font-family="IBM Plex Mono" font-size="10" fill="#4A5A53" text-anchor="middle">checkpoint del capítulo</text>
+        <!-- flechas del ciclo -->
+        <path d="M432,55 C500,65 540,80 565,100" fill="none" stroke="#2E5E4E" stroke-width="2" marker-end="url(#arr2)"/>
+        <path d="M585,158 C575,185 560,205 545,222" fill="none" stroke="#2E5E4E" stroke-width="2" marker-end="url(#arr2)"/>
+        <path d="M452,252 C390,256 330,256 270,252" fill="none" stroke="#2E5E4E" stroke-width="2" marker-end="url(#arr2)"/>
+        <path d="M170,222 C150,200 138,182 130,160" fill="none" stroke="#2E5E4E" stroke-width="2" marker-end="url(#arr2)"/>
+        <path d="M152,102 C200,75 240,62 285,52" fill="none" stroke="#2E5E4E" stroke-width="2" marker-end="url(#arr2)"/>
+        <!-- centro -->
+        <text x="360" y="165" font-family="IBM Plex Mono" font-size="12" font-weight="600" fill="#1F4438" text-anchor="middle" letter-spacing="1.5">EL CICLO 42</text>
+        <text x="360" y="184" font-family="IBM Plex Mono" font-size="11" fill="#4A5A53" text-anchor="middle">si te atascas: vuelve al paso 1,</text>
+        <text x="360" y="200" font-family="IBM Plex Mono" font-size="11" fill="#4A5A53" text-anchor="middle">casi siempre estaba en el subject</text>
+        <text x="360" y="318" font-family="IBM Plex Mono" font-size="12" fill="#1F4438" text-anchor="middle">El paso 4 no es burocracia: explicar ES la prueba de que has aprendido.</text>
+      </svg>
+      <figcaption>Fig. 1 — El ciclo de trabajo, ejercicio a ejercicio</figcaption>
+    </figure>
+  </section>
+
+  <!-- ════════ REGLAS ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">REGLAS</span><h2>Las normas que descolocan al que viene de fuera</h2></div>
+    <p>Cuatro reglas del subject que en 42 son el pan de cada día, pero que al que viene de cursos tradicionales le hacen cortocircuito. Mejor que te las cuente ahora y no que las descubras con un cero:</p>
+    <div class="rule"><div class="rl-ico">M/B</div><div><p><strong>El bonus nunca compensa un mandatory incompleto.</strong> Cada ejercicio tiene parte obligatoria y parte bonus. Si la obligatoria no funciona <em>completa</em>, el bonus ni se mira. Traducción: nada de irte a hacer la parte chula dejando la base coja. Primero la cimentación, luego el ático.</p></div></div>
+    <div class="rule"><div class="rl-ico">N.md</div><div><p><strong>Sin NOTES.md, el ejercicio vale 0. Aunque funcione.</strong> En cada ejercicio escribes, en tus propias palabras, qué hace tu solución y por qué funciona. No es papeleo: es el mecanismo anticopia más simple del mundo. Lo que no puedes explicar, no lo has aprendido — solo lo has ejecutado.</p></div></div>
+    <div class="rule"><div class="rl-ico">DEF</div><div><p><strong>Todo se defiende.</strong> En 42, otro estudiante te evalúa cara a cara: te pide que expliques cada línea, que modifiques un hook en vivo, que ejecutes tu programa sobre un archivo que no has visto. Aquí no tendrás evaluador, así que cada capítulo de esta guía termina con un <em>checkpoint</em>: las preguntas que te haría yo. Hazte trampas ahí y el único que suspende eres tú.</p></div></div>
+    <div class="rule"><div class="rl-ico">GIT</div><div><p><strong>Commit antes de soltar al agente. Siempre.</strong> Cada ejercicio en su rama, y checkpoint de git antes de dejar que Claude Code toque tu código. Trabajar con agentes sin red de seguridad no es de valientes, es de ingenuos.</p></div></div>
+  </section>
+
+  <!-- ════════ EQUIPO ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">EQUIPO</span><h2>Lo que llevas en la mochila</h2></div>
+    <p>Revisa esto antes de empezar — atascarse en el ex02 por no tener <code>jq</code> instalado es una muerte tonta:</p>
+    <ul class="gear">
+      <li>Claude Code instalado y autenticado (cuenta Pro o superior, o API key de Anthropic Console)<span class="why">es la herramienta que vas a aprender a controlar — sin ella no hay módulo</span></li>
+      <li>Node.js ≥ 18<span class="why">lo necesitan el SDK (ex04) y los servidores MCP (ex03)</span></li>
+      <li>jq instalado<span class="why">para inspeccionar el JSON de los hooks (ex02) — sudo apt install jq / brew install jq</span></li>
+      <li>Git, y soltura básica con ramas y commits<span class="why">cada ejercicio vive en su rama; el checkpoint previo es ley</span></li>
+      <li>Compilador C++ con -Wall -Wextra -Werror y -std=c++17<span class="why">los ejercicios con código compilan con flags estrictas, como debe ser</span></li>
+      <li>Tu editor de siempre<span class="why">vim, nvim, VSCode… aquí no hay guerra santa, usa el que te haga rápido</span></li>
+    </ul>
+    <div class="term">
+      <span class="cmt"># Chequeo rápido de mochila</span><br>
+      <span class="p">$</span> claude --version &amp;&amp; node --version &amp;&amp; jq --version &amp;&amp; git --version<br>
+      <span class="cmt"># Si las cuatro responden, estás listo. Si alguna falla, arréglala AHORA.</span>
+    </div>
+  </section>
+
+  <!-- ════════ RUTA ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">RUTA</span><h2>El mapa del módulo</h2></div>
+    <p>Cinco ejercicios, en orden de cota. Y el orden importa: <strong>cada uno construye sobre el anterior</strong>. El ex01 usa el proyecto del ex00, el ex04 recicla los hooks del ex02… Saltarte uno es subir una montaña empezando por la mitad.</p>
+    <figure class="infografia">
+      <svg viewBox="0 0 720 400" role="img" aria-label="Perfil topográfico del módulo: cinco ejercicios en dificultad ascendente">
+        <defs>
+          <linearGradient id="relieve" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2E5E4E" stop-opacity=".22"/>
+            <stop offset="100%" stop-color="#2E5E4E" stop-opacity=".04"/>
+          </linearGradient>
+        </defs>
+        <!-- perfil del terreno -->
+        <path d="M30,330 L130,318 C170,313 190,300 230,288 C270,276 290,262 330,246 C370,230 390,214 430,194 C470,174 490,156 530,130 C570,104 600,84 660,62 L690,54 L690,355 L30,355 Z" fill="url(#relieve)"/>
+        <path d="M30,330 L130,318 C170,313 190,300 230,288 C270,276 290,262 330,246 C370,230 390,214 430,194 C470,174 490,156 530,130 C570,104 600,84 660,62 L690,54" fill="none" stroke="#2E5E4E" stroke-width="2.5"/>
+        <!-- línea base -->
+        <line x1="30" y1="355" x2="690" y2="355" stroke="#CBD8CE" stroke-width="1.5"/>
+
+        <!-- WAYPOINTS -->
+        <!-- ex00 -->
+        <circle cx="130" cy="318" r="6" fill="#E4572E"/>
+        <line x1="130" y1="318" x2="130" y2="282" stroke="#E4572E" stroke-width="1.5"/>
+        <text x="130" y="268" font-family="IBM Plex Mono" font-size="12" font-weight="600" fill="#1F4438" text-anchor="middle">ex00</text>
+        <text x="130" y="376" font-family="IBM Plex Mono" font-size="10.5" fill="#4A5A53" text-anchor="middle">Init &amp; Context</text>
+        <!-- ex01 -->
+        <circle cx="260" cy="271" r="6" fill="#E4572E"/>
+        <line x1="260" y1="271" x2="260" y2="235" stroke="#E4572E" stroke-width="1.5"/>
+        <text x="260" y="221" font-family="IBM Plex Mono" font-size="12" font-weight="600" fill="#1F4438" text-anchor="middle">ex01</text>
+        <text x="260" y="376" font-family="IBM Plex Mono" font-size="10.5" fill="#4A5A53" text-anchor="middle">Sesión y contexto</text>
+        <!-- ex02 -->
+        <circle cx="395" cy="211" r="6" fill="#E4572E"/>
+        <line x1="395" y1="211" x2="395" y2="175" stroke="#E4572E" stroke-width="1.5"/>
+        <text x="395" y="161" font-family="IBM Plex Mono" font-size="12" font-weight="600" fill="#1F4438" text-anchor="middle">ex02</text>
+        <text x="395" y="376" font-family="IBM Plex Mono" font-size="10.5" fill="#4A5A53" text-anchor="middle">HookGuard</text>
+        <!-- ex03 -->
+        <circle cx="530" cy="130" r="6" fill="#E4572E"/>
+        <line x1="530" y1="130" x2="530" y2="94" stroke="#E4572E" stroke-width="1.5"/>
+        <text x="530" y="80" font-family="IBM Plex Mono" font-size="12" font-weight="600" fill="#1F4438" text-anchor="middle">ex03</text>
+        <text x="530" y="376" font-family="IBM Plex Mono" font-size="10.5" fill="#4A5A53" text-anchor="middle">PlayBot · MCP</text>
+        <!-- ex04 cumbre -->
+        <circle cx="660" cy="62" r="7" fill="#E4572E"/>
+        <path d="M660,55 L660,28 L678,34 L660,40" fill="#E4572E"/>
+        <text x="648" y="34" font-family="IBM Plex Mono" font-size="12" font-weight="600" fill="#1F4438" text-anchor="end">ex04 · cumbre</text>
+        <text x="660" y="376" font-family="IBM Plex Mono" font-size="10.5" fill="#4A5A53" text-anchor="middle">SDK Bridge · C++</text>
+
+        <!-- anotaciones de cota -->
+        <text x="40" y="320" font-family="IBM Plex Mono" font-size="10" fill="#4A5A53">cota base:</text>
+        <text x="40" y="334" font-family="IBM Plex Mono" font-size="10" fill="#4A5A53">config y contexto</text>
+        <text x="560" y="190" font-family="IBM Plex Mono" font-size="10" fill="#4A5A53">de aquí arriba ya</text>
+        <text x="560" y="204" font-family="IBM Plex Mono" font-size="10" fill="#4A5A53">integras, no solo usas</text>
+      </svg>
+      <figcaption>Fig. 2 — Perfil del módulo: dificultad ascendente, ejercicios encadenados</figcaption>
+    </figure>
+    <p><strong>Cómo combinar subject y guía:</strong> primero lee el subject del módulo entero — de verdad, entero, que el propio subject te lo pide y la gente no lo hace ni a tiros. Después, por cada ejercicio: lee el enunciado, lee el capítulo de esta guía, y al barro. El subject manda; la guía acompaña.</p>
+    <div class="keypoint">
+      <span class="kp-label">Siguiente parada</span>
+      <p>Mochila revisada, reglas claras, mapa abierto. Te espero en el <strong>capítulo ex00 — Init &amp; Context</strong>: vamos a enseñarle a tu agente dónde está parado.</p>
+    </div>
+  </section>
+
+</main>
+
+<nav aria-label="Navegación de capítulos" style="max-width:760px;margin:3.2rem auto 0;padding:0 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:.82rem">
+  <a href="guia-campo-index.html" style="color:#2E5E4E;text-decoration:none;border:1.5px solid #CBD8CE;border-radius:8px;padding:.55rem .9rem;background:#FFFFFF">&#8592; Índice</a>
+  <a href="guia-campo-index.html" style="color:#4A5A53;text-decoration:none;padding:.55rem .4rem;letter-spacing:.08em;text-transform:uppercase;font-size:.72rem">índice</a>
+  <a href="guia-campo-ex00.html" style="color:#FFFFFF;background:#2E5E4E;text-decoration:none;border-radius:8px;padding:.55rem .9rem">ex00 · Init & Context &#8594;</a>
+</nav>
+
+<footer>
+  <p class="quote">«El objetivo de este módulo no es que Claude Code trabaje por ti. Es que tú demuestres que controlas a Claude Code.» — Subject, Módulo 00</p>
+  <p class="motto">¡Por Tutatis!!</p>
+  <p class="legal">© 2026 Mikel Zabal — CodingWithZabal · Guía de Campo · CodeFlow Módulo 00 · Campamento Base</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Campo — ex02: HookGuard | CodeFlow Módulo 00</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F6F2; --ink:#1E2A26; --ink-soft:#4A5A53; --contour:#CBD8CE;
+    --pine:#2E5E4E; --pine-deep:#1F4438; --signal:#E4572E;
+    --terminal:#10201A; --phosphor:#9FE8C2; --card:#FFFFFF;
+    --display:'Bricolage Grotesque',sans-serif; --body:'Source Serif 4',Georgia,serif; --mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:1.075rem;line-height:1.7}
+  .hero{position:relative;overflow:hidden;background:var(--pine-deep);color:#EDF5EF;padding:4.5rem 1.5rem 3.5rem}
+  .hero-contours{position:absolute;inset:0;opacity:.16;pointer-events:none}
+  .hero-inner{position:relative;max-width:760px;margin:0 auto}
+  .eyebrow{font-family:var(--mono);font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--phosphor);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+  .eyebrow::before{content:"";display:inline-block;width:2.2rem;height:2px;background:var(--signal)}
+  .hero h1{font-family:var(--display);font-weight:800;font-size:clamp(2.4rem,6vw,4rem);line-height:1.04;margin:.9rem 0 1rem;letter-spacing:-.02em}
+  .hero h1 .ex{color:var(--signal)}
+  .hero p.lead{font-size:1.18rem;max-width:34em;color:#D6E4DA}
+  .hero-meta{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.6rem}
+  .chip{font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;border:1px solid rgba(237,245,239,.35);border-radius:999px;padding:.3rem .75rem;color:#D6E4DA}
+  .chip.hot{border-color:var(--signal);color:#FFD9CB}
+  main{max-width:760px;margin:0 auto;padding:0 1.5rem 4rem}
+  .notice{background:var(--card);border:1px solid var(--contour);border-left:4px solid var(--signal);border-radius:10px;padding:1.4rem 1.5rem;margin:-2.2rem auto 0;position:relative;box-shadow:0 10px 30px rgba(30,42,38,.08)}
+  .notice h2{font-family:var(--display);font-size:1.05rem;font-weight:600;margin-bottom:.5rem}
+  .notice p{font-size:.98rem;color:var(--ink-soft)}
+  .notice strong{color:var(--ink)}
+  section.wp{margin-top:3.6rem;position:relative}
+  .wp-tag{display:flex;align-items:baseline;gap:.85rem;margin-bottom:1.1rem}
+  .wp-mark{font-family:var(--mono);font-weight:600;font-size:.82rem;color:#fff;background:var(--pine);padding:.28rem .6rem;border-radius:6px;letter-spacing:.06em;position:relative;flex-shrink:0}
+  .wp-mark::after{content:"";position:absolute;left:-7px;top:50%;transform:translateY(-50%) rotate(45deg);width:9px;height:9px;background:var(--signal);border-radius:2px}
+  .wp h2{font-family:var(--display);font-weight:800;font-size:clamp(1.5rem,3.4vw,1.95rem);letter-spacing:-.015em}
+  .wp p{margin-bottom:1rem}
+  .wp p:last-child{margin-bottom:0}
+  code{font-family:var(--mono);font-size:.88em;background:#E7EDE7;border-radius:4px;padding:.1em .4em;color:var(--pine-deep)}
+  .term{background:var(--terminal);color:var(--phosphor);font-family:var(--mono);font-size:.88rem;line-height:1.65;border-radius:10px;padding:1.1rem 1.3rem;margin:1.2rem 0;overflow-x:auto}
+  .term .cmt{color:#6E8F7E}
+  .term .p{color:#FFB199}
+  .keypoint{border:1px solid var(--contour);background:var(--card);border-radius:10px;padding:1.2rem 1.4rem;margin:1.4rem 0}
+  .keypoint .kp-label{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--signal);display:block;margin-bottom:.45rem}
+  .keypoint p{font-size:1rem;margin:0}
+  dl.defs{margin:1.2rem 0}
+  dl.defs dt{font-family:var(--display);font-weight:600;font-size:1.05rem;margin-top:1.1rem;color:var(--pine-deep)}
+  dl.defs dt code{background:none;padding:0;color:var(--signal);font-size:.95em}
+  dl.defs dd{margin-top:.25rem;color:var(--ink)}
+  ol.route{counter-reset:step;list-style:none;margin:1.4rem 0}
+  ol.route li{counter-increment:step;position:relative;padding:0 0 1.5rem 3.2rem}
+  ol.route li::before{content:counter(step,decimal-leading-zero);position:absolute;left:0;top:.1rem;font-family:var(--mono);font-weight:600;font-size:.8rem;color:var(--pine);border:1.5px solid var(--pine);border-radius:8px;width:2.2rem;height:1.7rem;display:flex;align-items:center;justify-content:center;background:var(--card)}
+  ol.route li::after{content:"";position:absolute;left:1.05rem;top:2.1rem;bottom:.3rem;width:1.5px;background:var(--contour)}
+  ol.route li:last-child::after{display:none}
+  ol.route li strong{font-family:var(--display);font-weight:600;display:block;margin-bottom:.2rem}
+  ol.route li p{font-size:1rem;color:var(--ink);margin:0}
+  .hazard{display:flex;gap:1rem;align-items:flex-start;border:1px solid var(--contour);background:var(--card);border-radius:10px;padding:1.05rem 1.2rem;margin:.9rem 0}
+  .hazard .hz-ico{flex-shrink:0;width:2rem;height:2rem;border-radius:6px;background:#FCEAE2;color:var(--signal);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:1rem;transform:rotate(45deg)}
+  .hazard .hz-ico span{transform:rotate(-45deg)}
+  .hazard div p{font-size:.99rem;margin:0}
+  .hazard strong{font-family:var(--display);font-weight:600}
+  .checkpoint{background:var(--pine-deep);color:#EDF5EF;border-radius:14px;padding:2rem 1.8rem;margin-top:1.4rem;position:relative;overflow:hidden}
+  .checkpoint::before{content:"▲";position:absolute;right:1.4rem;top:1.1rem;color:var(--signal);font-size:1.2rem}
+  .checkpoint ol{list-style:none;counter-reset:q}
+  .checkpoint li{counter-increment:q;padding:.85rem 0 .85rem 2.6rem;position:relative;border-bottom:1px solid rgba(237,245,239,.14);font-size:1.02rem}
+  .checkpoint li:last-of-type{border-bottom:none}
+  .checkpoint li::before{content:"Q" counter(q);position:absolute;left:0;top:.95rem;font-family:var(--mono);font-size:.72rem;font-weight:600;color:var(--phosphor);border:1px solid rgba(159,232,194,.5);border-radius:5px;padding:.12rem .4rem}
+  .checkpoint .cp-note{margin-top:1.2rem;font-size:.95rem;color:#BBD3C3;font-style:italic}
+  .checkpoint code{background:rgba(159,232,194,.15);color:var(--phosphor)}
+  figure.infografia{margin:1.8rem 0;background:var(--card);border:1px solid var(--contour);border-radius:14px;padding:1.4rem 1.2rem .9rem;box-shadow:0 8px 24px rgba(30,42,38,.06)}
+  figure.infografia svg{width:100%;height:auto;display:block}
+  figure.infografia figcaption{font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);text-align:center;padding:.8rem .4rem .2rem}
+  footer{border-top:1px solid var(--contour);margin-top:4rem;padding:2.2rem 1.5rem;text-align:center}
+  footer .motto{font-family:var(--display);font-weight:800;font-size:1.3rem;color:var(--pine-deep)}
+  footer .legal{font-family:var(--mono);font-size:.74rem;color:var(--ink-soft);margin-top:.6rem;letter-spacing:.05em}
+  footer .quote{font-style:italic;color:var(--ink-soft);max-width:36em;margin:0 auto 1.2rem;font-size:.98rem}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="hero-contours" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g fill="none" stroke="#EDF5EF" stroke-width="1.2">
+      <path d="M-50,340 C150,290 280,360 480,310 S820,250 1050,300 S1250,330 1300,310"/>
+      <path d="M-50,300 C160,250 300,320 500,270 S830,210 1060,260 S1250,290 1300,270"/>
+      <path d="M-50,255 C180,205 320,275 520,225 S840,165 1070,215 S1250,245 1300,225"/>
+      <path d="M-50,205 C200,160 350,225 545,180 S850,120 1080,168 S1250,200 1300,180"/>
+      <path d="M-50,150 C220,110 380,170 565,130 S860,75 1090,118 S1250,150 1300,132"/>
+      <path d="M-50,95 C240,60 410,115 585,80 S870,32 1100,70 S1250,100 1300,84"/>
+      <circle cx="500" cy="240" r="3.5" fill="#E4572E" stroke="none"/>
+      <text x="513" y="244" font-family="IBM Plex Mono" font-size="11" fill="#EDF5EF" stroke="none">cota 02 · exit 2</text>
+    </g>
+  </svg>
+  <div class="hero-inner">
+    <span class="eyebrow">CodeFlow · Módulo 00 · Guía de Campo</span>
+    <h1><span class="ex">ex02</span> — HookGuard</h1>
+    <p class="lead">En el ex00 le pediste las cosas por favor. Hoy aprendes a obligar: hooks que interceptan, bloquean y verifican lo que tu agente hace. El guardarraíl, por fin.</p>
+    <div class="hero-meta">
+      <span class="chip">requiere: ex00 y ex01 · jq instalado</span>
+      <span class="chip">~3-4 h de trabajo real</span>
+      <span class="chip hot">aquí no hay soluciones</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <aside class="notice">
+    <h2>El capítulo más importante del módulo</h2>
+    <p>Lo digo en serio. Si solo pudieras llevarte un concepto de todo el Módulo 00, que sea este: la diferencia entre <strong>pedirle algo a un agente y garantizar que lo cumple</strong>. Los hooks son esa garantía. Todo lo profesional que hagas con agentes de aquí en adelante se apoya en esto.</p>
+  </aside>
+
+  <!-- ════════ WP 01 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·01</span><h2>Rumbo — qué vas a aprender y por qué importa</h2></div>
+    <p>¿Recuerdas el matiz del ex00? <code>CLAUDE.md</code> es contexto: instrucciones que Claude sigue porque se las has dado, no porque algo le impida saltárselas. Para un «usa español» vale de sobra. Para un «jamás ejecutes <code>rm -rf</code>»... ¿de verdad quieres que eso dependa de que el agente esté fino hoy?</p>
+    <p>Si vienes de C, los hooks te van a sonar a casa: son <strong>signal handlers</strong>. Igual que registras un handler para interceptar <code>SIGINT</code> antes de que tu proceso muera, registras un hook <code>PreToolUse</code> para interceptar un comando antes de que se ejecute. Tu script recibe la señal (un JSON por stdin), la examina, y decide: dejar pasar o cortar. Claude ni opina — el hook es código tuyo, determinista, corriendo fuera del modelo.</p>
+    <div class="keypoint">
+      <span class="kp-label">La idea que lo sostiene todo</span>
+      <p><code>CLAUDE.md</code> persuade; el hook <strong>impone</strong>. El contrato dice las reglas; el guardia las hace cumplir. Un sistema profesional necesita los dos — y saber qué regla va en cuál es exactamente la madurez que este ejercicio te da.</p>
+    </div>
+  </section>
+
+  <!-- ════════ WP 02 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·02</span><h2>Terreno — los conceptos, desde cero</h2></div>
+    <p>El ciclo de vida de un hook, pieza a pieza:</p>
+    <dl class="defs">
+      <dt>El evento — cuándo se dispara</dt>
+      <dd><code>PreToolUse</code> salta <em>antes</em> de que Claude ejecute una herramienta (Bash, Write, Read…); <code>PostToolUse</code> salta <em>después</em>, con el resultado ya en la mano. El primero es tu guardián; el segundo, tu verificador. Hay más eventos (Notification, Stop — los verás en el bonus), pero el patrón es siempre el mismo.</dd>
+      <dt>El matcher — a qué herramienta vigilas</dt>
+      <dd>En <code>settings.json</code>, cada hook declara qué herramienta le interesa: <code>"Bash"</code> para comandos, <code>"Write"</code> para escrituras, <code>"*"</code> para todo. Es el filtro de la señal: no quieres que tu verificador de compilación salte cada vez que Claude <em>lee</em> un archivo.</dd>
+      <dt>El stdin — qué información recibes</dt>
+      <dd>Tu script recibe por entrada estándar un JSON con los datos del evento: qué herramienta, con qué parámetros (el comando exacto de Bash, la ruta y contenido del Write…). La estructura cambia según la herramienta — y por eso el subject te obliga a espiarla con <code>jq</code> antes de escribir una sola línea de lógica.</dd>
+      <dt>El exit code — tu veredicto</dt>
+      <dd>Tu script habla con un código de salida: <code>exit 0</code> deja pasar; <code>exit 2</code> <strong>bloquea</strong>, y lo que escribas por stderr se le entrega a Claude como explicación. Ojo al detalle: es 2, no 1 — una convención específica de Claude Code que conviene grabarse a fuego.</dd>
+    </dl>
+
+    <figure class="infografia">
+      <svg viewBox="0 0 720 440" role="img" aria-label="Pipeline de un hook: Claude propone, PreToolUse decide, PostToolUse verifica">
+        <defs>
+          <marker id="arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2E5E4E"/></marker>
+          <marker id="arrR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#E4572E"/></marker>
+        </defs>
+        <!-- claude -->
+        <rect x="30" y="60" width="150" height="70" rx="12" fill="#10201A"/>
+        <text x="105" y="90" font-family="IBM Plex Mono" font-size="13" font-weight="600" fill="#9FE8C2" text-anchor="middle">claude</text>
+        <text x="105" y="110" font-family="IBM Plex Mono" font-size="10" fill="#6E8F7E" text-anchor="middle">quiere: Bash "rm -rf …"</text>
+        <!-- stdin json -->
+        <path d="M186,95 L250,95" stroke="#2E5E4E" stroke-width="2" marker-end="url(#arrG)"/>
+        <text x="218" y="84" font-family="IBM Plex Mono" font-size="9.5" fill="#4A5A53" text-anchor="middle">JSON → stdin</text>
+        <!-- pretooluse -->
+        <rect x="256" y="50" width="200" height="90" rx="12" fill="#FCEAE2" stroke="#E4572E" stroke-width="2"/>
+        <text x="356" y="78" font-family="Bricolage Grotesque" font-size="14" font-weight="600" fill="#1E2A26" text-anchor="middle">PreToolUse</text>
+        <text x="356" y="97" font-family="IBM Plex Mono" font-size="10.5" fill="#A03C1C" text-anchor="middle">hooks/guard.sh</text>
+        <text x="356" y="115" font-family="IBM Plex Mono" font-size="10" fill="#A03C1C" text-anchor="middle">examina con jq y decide</text>
+        <!-- exit 0 -->
+        <path d="M462,95 L540,95" stroke="#2E5E4E" stroke-width="2" marker-end="url(#arrG)"/>
+        <text x="500" y="84" font-family="IBM Plex Mono" font-size="10" font-weight="600" fill="#2E5E4E" text-anchor="middle">exit 0</text>
+        <!-- herramienta -->
+        <rect x="546" y="60" width="144" height="70" rx="12" fill="#E1EBE4" stroke="#2E5E4E" stroke-width="1.5"/>
+        <text x="618" y="90" font-family="Bricolage Grotesque" font-size="13" font-weight="600" fill="#1F4438" text-anchor="middle">La herramienta</text>
+        <text x="618" y="108" font-family="IBM Plex Mono" font-size="10" fill="#2E5E4E" text-anchor="middle">se ejecuta</text>
+        <!-- exit 2 bloqueado -->
+        <path d="M356,146 L356,205" stroke="#E4572E" stroke-width="2.5" marker-end="url(#arrR)"/>
+        <text x="406" y="178" font-family="IBM Plex Mono" font-size="10" font-weight="600" fill="#E4572E" text-anchor="middle">exit 2</text>
+        <rect x="246" y="211" width="220" height="64" rx="12" fill="#10201A"/>
+        <text x="356" y="237" font-family="IBM Plex Mono" font-size="12" font-weight="600" fill="#FFB199" text-anchor="middle">BLOQUEADO</text>
+        <text x="356" y="256" font-family="IBM Plex Mono" font-size="9.5" fill="#6E8F7E" text-anchor="middle">tu stderr vuelve a Claude:</text>
+        <text x="356" y="269" font-family="IBM Plex Mono" font-size="9.5" fill="#6E8F7E" text-anchor="middle">"rm -rf prohibido por política"</text>
+        <path d="M242,243 C150,243 105,200 105,140" fill="none" stroke="#E4572E" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#arrR)"/>
+        <!-- posttooluse -->
+        <path d="M618,136 L618,205" stroke="#2E5E4E" stroke-width="2" marker-end="url(#arrG)"/>
+        <rect x="520" y="211" width="196" height="84" rx="12" fill="#E1EBE4" stroke="#2E5E4E" stroke-width="1.5"/>
+        <text x="618" y="237" font-family="Bricolage Grotesque" font-size="14" font-weight="600" fill="#1E2A26" text-anchor="middle">PostToolUse</text>
+        <text x="618" y="256" font-family="IBM Plex Mono" font-size="10.5" fill="#2E5E4E" text-anchor="middle">compiler_check.sh</text>
+        <text x="618" y="274" font-family="IBM Plex Mono" font-size="10" fill="#2E5E4E" text-anchor="middle">make tras cada Write</text>
+        <!-- feedback a claude -->
+        <path d="M516,260 C300,330 140,260 105,140" fill="none" stroke="#2E5E4E" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#arrG)"/>
+        <text x="300" y="318" font-family="IBM Plex Mono" font-size="9.5" fill="#4A5A53" text-anchor="middle">si make falla, el error vuelve a Claude → corrige</text>
+        <!-- logs -->
+        <rect x="60" y="370" width="600" height="44" rx="10" fill="#F4F6F2" stroke="#CBD8CE"/>
+        <text x="360" y="397" font-family="IBM Plex Mono" font-size="11" fill="#1F4438" text-anchor="middle">Y todo, SIEMPRE, con timestamp en logs/ — un guardia que no registra no es un guardia, es un adorno.</text>
+      </svg>
+      <figcaption>Fig. 1 — El pipeline del hook: interceptar, decidir, verificar, registrar</figcaption>
+    </figure>
+
+    <div class="keypoint">
+      <span class="kp-label">El matiz que separa a un junior de alguien que controla</span>
+      <p>El stderr del <code>exit 2</code> no es un log: es un <strong>mensaje para Claude</strong>. Un hook que bloquea en silencio deja al agente reintentando a ciegas; uno que explica («comando bloqueado: rm -rf prohibido, usa make fclean») convierte el bloqueo en feedback que Claude usa para corregir el rumbo. Bloquear bien es comunicar.</p>
+    </div>
+  </section>
+
+  <!-- ════════ WP 03 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·03</span><h2>Ruta — cómo atacar el ejercicio</h2></div>
+    <p>El subject lo grita en mayúsculas y yo lo repito: el hook espía va PRIMERO. Es el <code>printf</code> de debug de los hooks — nunca asumas la estructura de un JSON que puedes volcar.</p>
+    <ol class="route">
+      <li><strong>Monta el espía y déjale hacer su trabajo.</strong><p>Hook <code>PostToolUse</code> con matcher <code>"*"</code> que vuelque el stdin a un log. Luego dale a Claude tareas que disparen Read, Write y Bash, y recoge la cosecha de JSONs.</p></li>
+      <li><strong>Estudia los JSONs como un mapa nuevo.</strong><p>Compáralos con los <code>sample_hooks/</code> del starter. ¿Qué campos comparten todos? ¿Dónde vive el comando en un evento Bash? ¿Y la ruta en un Write? Documenta cada estructura en NOTES.md — esto es literalmente la Parte 1 del subject y la base de todo lo demás.</p></li>
+      <li><strong>Escribe <code>guard.sh</code> sobre lo que SABES, no sobre lo que supones.</strong><p>Ahora que conoces el campo exacto donde viene el comando, el guardián se escribe casi solo: leer stdin, extraer con <code>jq</code>, buscar los patrones prohibidos, vereditar con el exit code y loguear con timestamp. Cada decisión, justificada — te la van a preguntar.</p></li>
+      <li><strong>Llévale la contraria (sí, otra vez).</strong><p>Pídele a Claude un <code>rm -rf</code> de una carpeta basura y un <code>sudo</code> cualquiera. El bloqueo con su mensaje en pantalla es tu evidencia. Y de regalo: observa cómo reacciona Claude al stderr de tu hook — ahí entiendes por qué el mensaje importa.</p></li>
+      <li><strong>El verificador: <code>compiler_check.sh</code>.</strong><p>Matcher Write, filtra que el archivo sea <code>.cpp</code>/<code>.hpp</code>, lanza <code>make</code>, registra OK/FAIL. La gracia está en el camino del fallo: provoca un Write que rompa la compilación y comprueba que el error llega de vuelta a Claude y que lo corrige. Ese ciclo cerrado es el ejercicio entero funcionando.</p></li>
+    </ol>
+    <div class="term">
+      <span class="cmt"># El espía mínimo viable — Parte 1 del subject, tal cual</span><br>
+      <span class="p">$</span> cat .claude/settings.json | jq .hooks   <span class="cmt"># verifica tu config</span><br>
+      <span class="p">$</span> jq . hook-log.json | less              <span class="cmt"># estudia la cosecha</span><br>
+      <span class="cmt"># Pregunta guía: ¿en qué campo vive el comando de Bash?</span>
+    </div>
+  </section>
+
+  <!-- ════════ WP 04 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·04</span><h2>Zonas de riesgo — donde se atasca la gente</h2></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>Escribir el hook antes de espiar el JSON.</strong> El clásico. Asumes el nombre de un campo, el hook falla en silencio, y te tiras una hora depurando bash cuando el problema era que el dato vivía en otra ruta del JSON. El subject puso la Parte 1 primero por algo: respétala.</p></div></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>Confundir <code>exit 1</code> con <code>exit 2</code>.</strong> En el resto del mundo Unix, cualquier código distinto de 0 es «error». Aquí no: el bloqueo con feedback a Claude es específicamente el 2. Si tu guardián «no bloquea» y el script parece correcto, revisa el exit code antes de tocar nada más.</p></div></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>El bloqueo mudo.</strong> <code>exit 2</code> sin nada por stderr deja a Claude ante una puerta cerrada sin cartel. Reintentará, se confundirá, o peor: buscará otro camino para hacer lo mismo. Dile siempre por qué y, si puedes, qué alternativa tiene.</p></div></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>Filtros de juguete.</strong> Tu <code>grep</code> pilla <code>rm -rf</code>... ¿y <code>rm  -rf</code> con dos espacios? ¿Y <code>sudo</code> en mitad de un comando encadenado con <code>&amp;&amp;</code>? No hace falta paranoia de producción en este ejercicio, pero sí que pienses los casos límite y documentes en NOTES.md cuáles cubres y cuáles no. Saber los límites de tu guardia también es controlarlo.</p></div></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>Rutas relativas que funcionan «en mi casa».</strong> <code>bash hooks/guard.sh</code> solo existe si lanzas <code>claude</code> desde la carpeta correcta. El starter las usa por simplicidad didáctica y el propio subject te avisa: el bonus de <code>settings.local.json</code> con rutas absolutas no es un capricho, es como se hace en serio.</p></div></div>
+  </section>
+
+  <!-- ════════ WP 05 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·05</span><h2>Checkpoint — ¿defenderías esto mañana?</h2></div>
+    <p>En la evaluación de este ejercicio se pide explicar cada línea de tus hooks y modificar uno en vivo. Calibra con esto:</p>
+    <div class="checkpoint">
+      <ol>
+        <li>¿Por qué prohibir <code>rm -rf</code> en un hook y no en <code>CLAUDE.md</code>? ¿Y por qué «responde en español» va en <code>CLAUDE.md</code> y no en un hook?</li>
+        <li>¿Qué significa cada exit code de un <code>PreToolUse</code>, y qué papel juega el stderr en el caso del 2?</li>
+        <li>Te pido en vivo: «haz que el guardián bloquee también <code>chmod 777</code>». ¿Qué línea tocas y cómo lo verificas en menos de un minuto?</li>
+        <li>¿Por qué el subject obliga a inspeccionar con <code>jq</code> antes de escribir lógica? Respóndelo con la analogía de C que prefieras.</li>
+        <li>Tu <code>compiler_check.sh</code> detecta un FAIL. Describe el viaje completo de ese error hasta que Claude corrige el código.</li>
+      </ol>
+      <p class="cp-note">La Q3 es el formato exacto de una defensa en 42: modificación en vivo, bajo reloj. Si te tiembla el pulso, practica antes — es entrenable.</p>
+    </div>
+  </section>
+
+</main>
+
+<nav aria-label="Navegación de capítulos" style="max-width:760px;margin:3.2rem auto 0;padding:0 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:.82rem">
+  <a href="guia-campo-ex01.html" style="color:#2E5E4E;text-decoration:none;border:1.5px solid #CBD8CE;border-radius:8px;padding:.55rem .9rem;background:#FFFFFF">&#8592; ex01 · Session Mgmt</a>
+  <a href="guia-campo-index.html" style="color:#4A5A53;text-decoration:none;padding:.55rem .4rem;letter-spacing:.08em;text-transform:uppercase;font-size:.72rem">índice</a>
+  <a href="guia-campo-ex03.html" style="color:#FFFFFF;background:#2E5E4E;text-decoration:none;border-radius:8px;padding:.55rem .9rem">ex03 · PlayBot &#8594;</a>
+</nav>
+
+<footer>
+  <p class="quote">«Siempre inspecciona con jq primero antes de escribir el hook funcional. No asumas la estructura del JSON — verifícala.» — Subject, Módulo 00</p>
+  <p class="motto">¡Por Tutatis!!</p>
+  <p class="legal">© 2026 Mikel Zabal — CodingWithZabal · Guía de Campo · CodeFlow Módulo 00 · cap. ex02</p>
+</footer>
+
+</body>
+</html>

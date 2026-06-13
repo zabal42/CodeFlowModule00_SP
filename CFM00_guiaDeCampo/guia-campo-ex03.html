@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Campo — ex03: PlayBot | CodeFlow Módulo 00</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F6F2; --ink:#1E2A26; --ink-soft:#4A5A53; --contour:#CBD8CE;
+    --pine:#2E5E4E; --pine-deep:#1F4438; --signal:#E4572E;
+    --terminal:#10201A; --phosphor:#9FE8C2; --card:#FFFFFF;
+    --display:'Bricolage Grotesque',sans-serif; --body:'Source Serif 4',Georgia,serif; --mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:1.075rem;line-height:1.7}
+  .hero{position:relative;overflow:hidden;background:var(--pine-deep);color:#EDF5EF;padding:4.5rem 1.5rem 3.5rem}
+  .hero-contours{position:absolute;inset:0;opacity:.16;pointer-events:none}
+  .hero-inner{position:relative;max-width:760px;margin:0 auto}
+  .eyebrow{font-family:var(--mono);font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--phosphor);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+  .eyebrow::before{content:"";display:inline-block;width:2.2rem;height:2px;background:var(--signal)}
+  .hero h1{font-family:var(--display);font-weight:800;font-size:clamp(2.4rem,6vw,4rem);line-height:1.04;margin:.9rem 0 1rem;letter-spacing:-.02em}
+  .hero h1 .ex{color:var(--signal)}
+  .hero p.lead{font-size:1.18rem;max-width:34em;color:#D6E4DA}
+  .hero-meta{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.6rem}
+  .chip{font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;border:1px solid rgba(237,245,239,.35);border-radius:999px;padding:.3rem .75rem;color:#D6E4DA}
+  .chip.hot{border-color:var(--signal);color:#FFD9CB}
+  main{max-width:760px;margin:0 auto;padding:0 1.5rem 4rem}
+  .notice{background:var(--card);border:1px solid var(--contour);border-left:4px solid var(--signal);border-radius:10px;padding:1.4rem 1.5rem;margin:-2.2rem auto 0;position:relative;box-shadow:0 10px 30px rgba(30,42,38,.08)}
+  .notice h2{font-family:var(--display);font-size:1.05rem;font-weight:600;margin-bottom:.5rem}
+  .notice p{font-size:.98rem;color:var(--ink-soft)}
+  .notice strong{color:var(--ink)}
+  section.wp{margin-top:3.6rem;position:relative}
+  .wp-tag{display:flex;align-items:baseline;gap:.85rem;margin-bottom:1.1rem}
+  .wp-mark{font-family:var(--mono);font-weight:600;font-size:.82rem;color:#fff;background:var(--pine);padding:.28rem .6rem;border-radius:6px;letter-spacing:.06em;position:relative;flex-shrink:0}
+  .wp-mark::after{content:"";position:absolute;left:-7px;top:50%;transform:translateY(-50%) rotate(45deg);width:9px;height:9px;background:var(--signal);border-radius:2px}
+  .wp h2{font-family:var(--display);font-weight:800;font-size:clamp(1.5rem,3.4vw,1.95rem);letter-spacing:-.015em}
+  .wp p{margin-bottom:1rem}
+  .wp p:last-child{margin-bottom:0}
+  code{font-family:var(--mono);font-size:.88em;background:#E7EDE7;border-radius:4px;padding:.1em .4em;color:var(--pine-deep)}
+  .term{background:var(--terminal);color:var(--phosphor);font-family:var(--mono);font-size:.88rem;line-height:1.65;border-radius:10px;padding:1.1rem 1.3rem;margin:1.2rem 0;overflow-x:auto}
+  .term .cmt{color:#6E8F7E}
+  .term .p{color:#FFB199}
+  .keypoint{border:1px solid var(--contour);background:var(--card);border-radius:10px;padding:1.2rem 1.4rem;margin:1.4rem 0}
+  .keypoint .kp-label{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--signal);display:block;margin-bottom:.45rem}
+  .keypoint p{font-size:1rem;margin:0}
+  dl.defs{margin:1.2rem 0}
+  dl.defs dt{font-family:var(--display);font-weight:600;font-size:1.05rem;margin-top:1.1rem;color:var(--pine-deep)}
+  dl.defs dt code{background:none;padding:0;color:var(--signal);font-size:.95em}
+  dl.defs dd{margin-top:.25rem;color:var(--ink)}
+  ol.route{counter-reset:step;list-style:none;margin:1.4rem 0}
+  ol.route li{counter-increment:step;position:relative;padding:0 0 1.5rem 3.2rem}
+  ol.route li::before{content:counter(step,decimal-leading-zero);position:absolute;left:0;top:.1rem;font-family:var(--mono);font-weight:600;font-size:.8rem;color:var(--pine);border:1.5px solid var(--pine);border-radius:8px;width:2.2rem;height:1.7rem;display:flex;align-items:center;justify-content:center;background:var(--card)}
+  ol.route li::after{content:"";position:absolute;left:1.05rem;top:2.1rem;bottom:.3rem;width:1.5px;background:var(--contour)}
+  ol.route li:last-child::after{display:none}
+  ol.route li strong{font-family:var(--display);font-weight:600;display:block;margin-bottom:.2rem}
+  ol.route li p{font-size:1rem;color:var(--ink);margin:0}
+  .hazard{display:flex;gap:1rem;align-items:flex-start;border:1px solid var(--contour);background:var(--card);border-radius:10px;padding:1.05rem 1.2rem;margin:.9rem 0}
+  .hazard .hz-ico{flex-shrink:0;width:2rem;height:2rem;border-radius:6px;background:#FCEAE2;color:var(--signal);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:1rem;transform:rotate(45deg)}
+  .hazard .hz-ico span{transform:rotate(-45deg)}
+  .hazard div p{font-size:.99rem;margin:0}
+  .hazard strong{font-family:var(--display);font-weight:600}
+  .checkpoint{background:var(--pine-deep);color:#EDF5EF;border-radius:14px;padding:2rem 1.8rem;margin-top:1.4rem;position:relative;overflow:hidden}
+  .checkpoint::before{content:"▲";position:absolute;right:1.4rem;top:1.1rem;color:var(--signal);font-size:1.2rem}
+  .checkpoint ol{list-style:none;counter-reset:q}
+  .checkpoint li{counter-increment:q;padding:.85rem 0 .85rem 2.6rem;position:relative;border-bottom:1px solid rgba(237,245,239,.14);font-size:1.02rem}
+  .checkpoint li:last-of-type{border-bottom:none}
+  .checkpoint li::before{content:"Q" counter(q);position:absolute;left:0;top:.95rem;font-family:var(--mono);font-size:.72rem;font-weight:600;color:var(--phosphor);border:1px solid rgba(159,232,194,.5);border-radius:5px;padding:.12rem .4rem}
+  .checkpoint .cp-note{margin-top:1.2rem;font-size:.95rem;color:#BBD3C3;font-style:italic}
+  .checkpoint code{background:rgba(159,232,194,.15);color:var(--phosphor)}
+  figure.infografia{margin:1.8rem 0;background:var(--card);border:1px solid var(--contour);border-radius:14px;padding:1.4rem 1.2rem .9rem;box-shadow:0 8px 24px rgba(30,42,38,.06)}
+  figure.infografia svg{width:100%;height:auto;display:block}
+  figure.infografia figcaption{font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);text-align:center;padding:.8rem .4rem .2rem}
+  footer{border-top:1px solid var(--contour);margin-top:4rem;padding:2.2rem 1.5rem;text-align:center}
+  footer .motto{font-family:var(--display);font-weight:800;font-size:1.3rem;color:var(--pine-deep)}
+  footer .legal{font-family:var(--mono);font-size:.74rem;color:var(--ink-soft);margin-top:.6rem;letter-spacing:.05em}
+  footer .quote{font-style:italic;color:var(--ink-soft);max-width:36em;margin:0 auto 1.2rem;font-size:.98rem}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="hero-contours" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g fill="none" stroke="#EDF5EF" stroke-width="1.2">
+      <path d="M-50,340 C150,290 280,360 480,310 S820,250 1050,300 S1250,330 1300,310"/>
+      <path d="M-50,300 C160,250 300,320 500,270 S830,210 1060,260 S1250,290 1300,270"/>
+      <path d="M-50,255 C180,205 320,275 520,225 S840,165 1070,215 S1250,245 1300,225"/>
+      <path d="M-50,205 C200,160 350,225 545,180 S850,120 1080,168 S1250,200 1300,180"/>
+      <path d="M-50,150 C220,110 380,170 565,130 S860,75 1090,118 S1250,150 1300,132"/>
+      <path d="M-50,95 C240,60 410,115 585,80 S870,32 1100,70 S1250,100 1300,84"/>
+      <circle cx="870" cy="105" r="3.5" fill="#E4572E" stroke="none"/>
+      <text x="883" y="109" font-family="IBM Plex Mono" font-size="11" fill="#EDF5EF" stroke="none">cota 03 · /mcp</text>
+    </g>
+  </svg>
+  <div class="hero-inner">
+    <span class="eyebrow">CodeFlow · Módulo 00 · Guía de Campo</span>
+    <h1><span class="ex">ex03</span> — PlayBot</h1>
+    <p class="lead">Hasta ahora tu agente vivía encerrado en tu repo. Hoy le das un navegador. MCP es la puerta; Playwright, las manos. Y el patrón que aprendes vale para cualquier puerta.</p>
+    <div class="hero-meta">
+      <span class="chip">requiere: ex00–ex02 · node ≥ 18</span>
+      <span class="chip">~2-3 h de trabajo real</span>
+      <span class="chip hot">aquí no hay soluciones</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <aside class="notice">
+    <h2>Una de ética antes de soltar al bot</h2>
+    <p>El subject es tajante y yo lo subrayo: <strong>solo webs públicas</strong>. Nada de cuentas con credenciales, nada de contenido privado, nada de scraping masivo. Un navegador automatizado es una herramienta seria — úsala como alguien que quiere que le contraten, no como alguien que quiere salir en las noticias.</p>
+  </aside>
+
+  <!-- ════════ WP 01 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·01</span><h2>Rumbo — qué vas a aprender y por qué importa</h2></div>
+    <p>MCP (Model Context Protocol) es el sistema de plugins de Claude Code: un protocolo estándar para que el agente hable con herramientas externas. Si vienes del mundo C/Unix, la analogía buena es <strong>POSIX</strong>: da igual quién implemente el sistema operativo — si cumple el estándar, tu código funciona encima. Con MCP igual: da igual quién implemente el servidor (Playwright, un filesystem, GitHub...), Claude habla con todos en el mismo idioma.</p>
+    <p>Y aquí está la clave del ejercicio, que el subject te dice a la cara: Playwright es <em>solo un ejemplo</em>. Lo que de verdad te llevas es el patrón universal — <strong>configurar, verificar, usar</strong> — que repetirás con cualquier servidor MCP que conectes el resto de tu vida profesional. El navegador es la excusa divertida; el patrón es la lección.</p>
+    <div class="keypoint">
+      <span class="kp-label">La idea que lo sostiene todo</span>
+      <p>Un agente es tan capaz como las herramientas que le conectas — y tan peligroso como las herramientas que le conectas sin pensar. MCP te da el poder de ampliar; este ejercicio te enseña a ampliarlo <strong>con cabeza</strong>.</p>
+    </div>
+  </section>
+
+  <!-- ════════ WP 02 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·02</span><h2>Terreno — los conceptos, desde cero</h2></div>
+    <dl class="defs">
+      <dt>La arquitectura: cliente y servidor</dt>
+      <dd>Claude Code es el <em>cliente</em> MCP. Un servidor MCP es un proceso aparte que expone herramientas («abrir página», «hacer click», «leer elemento»...) siguiendo el protocolo. Claude no sabe nada de navegadores: sabe que tiene unas herramientas nuevas disponibles y para qué dice cada una que sirve. La inteligencia está en el cliente; las manos, en el servidor.</dd>
+      <dt><code>.mcp.json</code> — la declaración</dt>
+      <dd>Aquí declaras qué servidores existen y cómo arrancarlos (el comando que lanza el proceso). Es como el <code>fstab</code> de tus herramientas: lo que no esté montado ahí, no existe para Claude.</dd>
+      <dt>La verificación — el paso que todos se saltan</dt>
+      <dd>Configurar no es conectar. Antes de pedir nada, comprueba que Claude Code <em>ve</em> el servidor y lista sus herramientas (el comando <code>/mcp</code> te enseña el estado de cada servidor conectado). Este paso intermedio es el que separa «funciona» de «creo que funciona», y el subject te pide pantallazo de él por una buena razón.</dd>
+      <dt>Playwright — las manos en el navegador</dt>
+      <dd>Un framework de automatización de navegadores: abre páginas, localiza elementos, hace clicks, lee contenido. Via MCP, Claude decide <em>qué</em> hacer y Playwright lo <em>ejecuta</em>. Tú escribes el objetivo; la pareja se reparte el trabajo.</dd>
+    </dl>
+
+    <figure class="infografia">
+      <svg viewBox="0 0 720 400" role="img" aria-label="Arquitectura MCP: Claude Code como cliente, servidores MCP como puentes hacia el mundo exterior">
+        <defs>
+          <marker id="arrG3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2E5E4E"/></marker>
+        </defs>
+        <!-- cliente -->
+        <rect x="30" y="120" width="170" height="120" rx="14" fill="#10201A"/>
+        <text x="115" y="160" font-family="IBM Plex Mono" font-size="13" font-weight="600" fill="#9FE8C2" text-anchor="middle">claude code</text>
+        <text x="115" y="180" font-family="IBM Plex Mono" font-size="10" fill="#6E8F7E" text-anchor="middle">el cliente MCP</text>
+        <text x="115" y="198" font-family="IBM Plex Mono" font-size="10" fill="#6E8F7E" text-anchor="middle">decide QUÉ hacer</text>
+        <text x="115" y="222" font-family="IBM Plex Mono" font-size="9.5" fill="#FFB199" text-anchor="middle">/mcp = verificar</text>
+        <!-- protocolo -->
+        <path d="M206,160 L300,160" stroke="#2E5E4E" stroke-width="2.2" marker-end="url(#arrG3)"/>
+        <path d="M300,200 L206,200" stroke="#2E5E4E" stroke-width="2.2" marker-end="url(#arrG3)"/>
+        <text x="253" y="148" font-family="IBM Plex Mono" font-size="9.5" fill="#4A5A53" text-anchor="middle">un solo idioma:</text>
+        <text x="253" y="186" font-family="IBM Plex Mono" font-size="10" font-weight="600" fill="#1F4438" text-anchor="middle">protocolo MCP</text>
+        <!-- servidor playwright -->
+        <rect x="306" y="92" width="200" height="116" rx="14" fill="#FCEAE2" stroke="#E4572E" stroke-width="2"/>
+        <text x="406" y="122" font-family="Bricolage Grotesque" font-size="14" font-weight="600" fill="#1E2A26" text-anchor="middle">Servidor MCP</text>
+        <text x="406" y="141" font-family="IBM Plex Mono" font-size="11" fill="#A03C1C" text-anchor="middle">playwright</text>
+        <text x="406" y="162" font-family="IBM Plex Mono" font-size="9.5" fill="#A03C1C" text-anchor="middle">expone herramientas:</text>
+        <text x="406" y="177" font-family="IBM Plex Mono" font-size="9.5" fill="#A03C1C" text-anchor="middle">navegar · click · leer</text>
+        <text x="406" y="192" font-family="IBM Plex Mono" font-size="9.5" fill="#A03C1C" text-anchor="middle">ejecuta el CÓMO</text>
+        <!-- servidor 2 punteado -->
+        <rect x="306" y="232" width="200" height="86" rx="14" fill="none" stroke="#2E5E4E" stroke-width="1.5" stroke-dasharray="6 5"/>
+        <text x="406" y="266" font-family="Bricolage Grotesque" font-size="13" font-weight="600" fill="#4A5A53" text-anchor="middle">Otro servidor MCP</text>
+        <text x="406" y="286" font-family="IBM Plex Mono" font-size="9.5" fill="#4A5A53" text-anchor="middle">filesystem, GitHub… (bonus)</text>
+        <text x="406" y="302" font-family="IBM Plex Mono" font-size="9.5" fill="#2E5E4E" text-anchor="middle">mismo patrón, otra puerta</text>
+        <path d="M206,225 C250,250 270,265 300,272" fill="none" stroke="#2E5E4E" stroke-width="1.5" stroke-dasharray="6 5" marker-end="url(#arrG3)"/>
+        <!-- navegador y web -->
+        <path d="M512,150 L580,150" stroke="#E4572E" stroke-width="2.2" marker-end="url(#arrG3)"/>
+        <rect x="586" y="106" width="106" height="88" rx="12" fill="#E1EBE4" stroke="#2E5E4E" stroke-width="1.5"/>
+        <text x="639" y="140" font-family="Bricolage Grotesque" font-size="13" font-weight="600" fill="#1F4438" text-anchor="middle">Navegador</text>
+        <text x="639" y="160" font-family="IBM Plex Mono" font-size="9.5" fill="#2E5E4E" text-anchor="middle">→ la web</text>
+        <text x="639" y="176" font-family="IBM Plex Mono" font-size="9.5" fill="#2E5E4E" text-anchor="middle">(pública)</text>
+        <!-- config -->
+        <rect x="60" y="30" width="600" height="42" rx="10" fill="#F4F6F2" stroke="#CBD8CE"/>
+        <text x="360" y="56" font-family="IBM Plex Mono" font-size="11" fill="#1F4438" text-anchor="middle">.mcp.json declara los servidores — lo que no está montado ahí, para Claude no existe</text>
+        <!-- patrón -->
+        <text x="360" y="372" font-family="IBM Plex Mono" font-size="12" font-weight="600" fill="#1F4438" text-anchor="middle">EL PATRÓN: configurar → verificar → usar. Memorízalo: vale para todos.</text>
+      </svg>
+      <figcaption>Fig. 1 — La arquitectura MCP: un cliente, un idioma, todas las puertas que quieras</figcaption>
+    </figure>
+
+    <div class="keypoint">
+      <span class="kp-label">El matiz que separa a un junior de alguien que controla</span>
+      <p>Cada acción del navegador <strong>mete contexto</strong>: el contenido de las páginas, los resultados de cada herramienta... Todo va a la ventana que aprendiste a vigilar en el ex01. Un agente navegando alegremente es una manguera de tokens — acota la tarea, pide datos concretos, y cierra cuando termines.</p>
+    </div>
+  </section>
+
+  <!-- ════════ WP 03 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·03</span><h2>Ruta — cómo atacar el ejercicio</h2></div>
+    <ol class="route">
+      <li><strong>Instala y declara el servidor.</strong><p>Servidor MCP de Playwright instalado y registrado: con <code>claude mcp add --scope project playwright npx @playwright/mcp@latest</code> o editando el <code>.mcp.json</code> de la raíz (el starter trae plantilla). Si Node no está a la altura (≥ 18), este es el momento de descubrirlo, no en mitad del test.</p></li>
+      <li><strong>Verifica ANTES de usar — y captura el momento.</strong><p>Arranca Claude Code y comprueba que lista las herramientas del servidor. Ese pantallazo es entregable obligatorio, pero sobre todo es tu seguro: si algo falla más adelante, ya sabes que la conexión estaba bien y el problema es otro.</p></li>
+      <li><strong>Extracción quirúrgica, no safari.</strong><p>Para el informe del perfil de GitHub, escribe un prompt de francotirador: qué datos exactos (nombre de repos, bio, lenguajes), de qué URL, a qué archivo (<code>reports/github_profile.md</code>). Cuanto más concreto el encargo, menos páginas visita el bot y menos contexto quema.</p></li>
+      <li><strong>Diseña el test antes de lanzarlo.</strong><p>Define TÚ el criterio: qué página, qué significa PASS (status 200, elemento X presente) y qué significa FAIL. Luego pide a Claude que lo ejecute y reporte con timestamp. Un test cuyo criterio de éxito se decide después de ver el resultado no es un test, es una coartada.</p></li>
+      <li><strong>El NOTES.md va del patrón, no de Playwright.</strong><p>El error típico es documentar «cómo usé Playwright». Lo que se evalúa es que entiendas el patrón MCP: qué declara la config, qué demuestra la verificación, cómo se usa una herramienta externa. Escríbelo de forma que sirviera igual para un servidor de filesystem — entonces lo has entendido.</p></li>
+    </ol>
+    <div class="term">
+      <span class="cmt"># El triple salto del ejercicio</span><br>
+      <span class="p">1.</span> .mcp.json   <span class="cmt"># configurar — declarar la puerta</span><br>
+      <span class="p">2.</span> /mcp              <span class="cmt"># verificar — ¿la puerta existe y abre?</span><br>
+      <span class="p">3.</span> prompt concreto    <span class="cmt"># usar — cruzarla con un objetivo claro</span>
+    </div>
+  </section>
+
+  <!-- ════════ WP 04 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·04</span><h2>Zonas de riesgo — donde se atasca la gente</h2></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>Saltarse la verificación e ir directo al prompt.</strong> Si el servidor no cargó, Claude no te va a decir «no tengo Playwright»: intentará apañárselas con lo que tiene, fallará de formas creativas, y tú perderás una hora depurando el prompt cuando el problema era la fontanería. Verifica. Siempre. Primero.</p></div></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>El encargo vago.</strong> «Mírame el perfil de GitHub y haz un informe» es una invitación a que el bot pasee. Resultado: informe flojo y factura de tokens gorda. Datos concretos, URL concreta, archivo de destino concreto — el ex00 ya te enseñó que la precisión en las instrucciones no es opcional.</p></div></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>No saber en qué capa falla.</strong> Algo no funciona: ¿es el servidor que no arranca, el protocolo que no conecta, o Claude que no entiende el encargo? Son tres capas distintas con tres arreglos distintos. Aprende a aislarlas: ¿lista las herramientas? La conexión vive. ¿Las llama y devuelven error? Mira el servidor. ¿Ni las llama? Mira tu prompt.</p></div></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>Olvidar el taxímetro del ex01.</strong> Cada página que el bot visita es contexto que entra. Si tu sesión de extracción se alarga, ya sabes qué pasa con la calidad del razonamiento — y con la factura. Tarea acotada, sesión corta, y a otra cosa.</p></div></div>
+    <div class="hazard"><div class="hz-ico"><span>!</span></div><div><p><strong>Cruzar la línea de lo público.</strong> «Es que con mi cuenta logueada el test era más fácil» — no. El subject lo prohíbe, el sentido común lo prohíbe, y tu futuro yo en una entrevista también. Webs públicas, datos públicos, punto.</p></div></div>
+  </section>
+
+  <!-- ════════ WP 05 ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">WP·05</span><h2>Checkpoint — ¿defenderías esto mañana?</h2></div>
+    <div class="checkpoint">
+      <ol>
+        <li>¿Qué papel juega exactamente <code>.mcp.json</code>, y qué pasa con un servidor que no está declarado ahí?</li>
+        <li>El informe sale vacío. Describe tu proceso para averiguar en qué capa está el fallo: servidor, conexión o prompt.</li>
+        <li>¿Por qué el patrón configurar-verificar-usar sirve igual para un servidor de filesystem que para Playwright? ¿Qué cambia y qué no?</li>
+        <li>¿Qué impacto tiene en la ventana de contexto una sesión de navegación larga, y qué dos medidas del ex01 aplicarías?</li>
+        <li>Si tuvieras que conectar un segundo servidor MCP mañana (el bonus), ¿cuáles serían tus tres primeros pasos, en orden?</li>
+      </ol>
+      <p class="cp-note">Si la Q3 te sale fluida, el ejercicio está aprendido — Playwright era el decorado, el patrón era la obra.</p>
+    </div>
+  </section>
+
+</main>
+
+<nav aria-label="Navegación de capítulos" style="max-width:760px;margin:3.2rem auto 0;padding:0 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:.82rem">
+  <a href="guia-campo-ex02.html" style="color:#2E5E4E;text-decoration:none;border:1.5px solid #CBD8CE;border-radius:8px;padding:.55rem .9rem;background:#FFFFFF">&#8592; ex02 · HookGuard</a>
+  <a href="guia-campo-index.html" style="color:#4A5A53;text-decoration:none;padding:.55rem .4rem;letter-spacing:.08em;text-transform:uppercase;font-size:.72rem">índice</a>
+  <a href="guia-campo-ex04.html" style="color:#FFFFFF;background:#2E5E4E;text-decoration:none;border-radius:8px;padding:.55rem .9rem">ex04 · SDK Bridge &#8594;</a>
+</nav>
+
+<footer>
+  <p class="quote">«MCP es el sistema de plugins de Claude Code. El patrón que aprendes aquí (configurar, verificar, usar) es el mismo para cualquier servidor MCP.» — Subject, Módulo 00</p>
+  <p class="motto">¡Por Tutatis!!</p>
+  <p class="legal">© 2026 Mikel Zabal — CodingWithZabal · Guía de Campo · CodeFlow Módulo 00 · cap. ex03</p>
+</footer>
+
+</body>
+</html>

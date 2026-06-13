@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Campo — CodeFlow Módulo 00 · Claude Code | CodingWithZabal</title>
+<meta name="description" content="La guía de acompañamiento del Módulo 00 de CodeFlow: aprende a controlar Claude Code con metodología 42, sin solucionarios. Por Mikel Zabal — CodingWithZabal.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F6F2; --ink:#1E2A26; --ink-soft:#4A5A53; --contour:#CBD8CE;
+    --pine:#2E5E4E; --pine-deep:#1F4438; --signal:#E4572E;
+    --terminal:#10201A; --phosphor:#9FE8C2; --card:#FFFFFF;
+    --display:'Bricolage Grotesque',sans-serif; --body:'Source Serif 4',Georgia,serif; --mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:1.075rem;line-height:1.7}
+
+  .hero{position:relative;overflow:hidden;background:var(--pine-deep);color:#EDF5EF;padding:5.5rem 1.5rem 4.5rem}
+  .hero-contours{position:absolute;inset:0;opacity:.16;pointer-events:none}
+  .hero-inner{position:relative;max-width:760px;margin:0 auto}
+  .eyebrow{font-family:var(--mono);font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--phosphor);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+  .eyebrow::before{content:"";display:inline-block;width:2.2rem;height:2px;background:var(--signal)}
+  .hero h1{font-family:var(--display);font-weight:800;font-size:clamp(2.8rem,8vw,5rem);line-height:1.02;margin:.9rem 0 1rem;letter-spacing:-.025em}
+  .hero h1 em{font-style:normal;color:var(--signal)}
+  .hero p.lead{font-size:1.22rem;max-width:33em;color:#D6E4DA}
+  .hero-meta{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.8rem}
+  .chip{font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;border:1px solid rgba(237,245,239,.35);border-radius:999px;padding:.3rem .75rem;color:#D6E4DA}
+  .chip.hot{border-color:var(--signal);color:#FFD9CB}
+  .cta{display:inline-block;margin-top:2rem;font-family:var(--display);font-weight:600;font-size:1.05rem;color:var(--pine-deep);background:var(--phosphor);text-decoration:none;border-radius:10px;padding:.85rem 1.6rem}
+  .cta:hover{background:#fff}
+
+  main{max-width:760px;margin:0 auto;padding:0 1.5rem 4rem}
+
+  .pitch{background:var(--card);border:1px solid var(--contour);border-left:4px solid var(--signal);border-radius:10px;padding:1.5rem 1.6rem;margin:-2.4rem auto 0;position:relative;box-shadow:0 10px 30px rgba(30,42,38,.08)}
+  .pitch p{font-size:1rem;color:var(--ink-soft)}
+  .pitch p + p{margin-top:.7rem}
+  .pitch strong{color:var(--ink)}
+  .pitch code{font-family:var(--mono);font-size:.88em;background:#E7EDE7;border-radius:4px;padding:.1em .4em;color:var(--pine-deep)}
+
+  h2.trail-title{font-family:var(--display);font-weight:800;font-size:clamp(1.6rem,4vw,2.1rem);margin:3.6rem 0 .4rem;letter-spacing:-.015em}
+  p.trail-sub{color:var(--ink-soft);margin-bottom:2rem;font-size:1rem}
+
+  .trail{position:relative;padding-left:2.4rem}
+  .trail::before{content:"";position:absolute;left:.85rem;top:1.4rem;bottom:1.4rem;width:2px;background:var(--contour)}
+  a.stop{display:block;position:relative;background:var(--card);border:1px solid var(--contour);border-radius:12px;padding:1.25rem 1.4rem;margin-bottom:1.1rem;text-decoration:none;color:var(--ink);transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease}
+  a.stop:hover{transform:translateX(4px);box-shadow:0 8px 24px rgba(30,42,38,.1);border-color:var(--pine)}
+  a.stop::before{content:"";position:absolute;left:-2.05rem;top:1.55rem;width:13px;height:13px;background:var(--signal);border:2.5px solid var(--paper);border-radius:3px;transform:rotate(45deg);box-shadow:0 0 0 1.5px var(--signal)}
+  a.stop .stop-head{display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap}
+  a.stop .stop-mark{font-family:var(--mono);font-weight:600;font-size:.76rem;color:#fff;background:var(--pine);padding:.22rem .55rem;border-radius:6px;letter-spacing:.06em}
+  a.stop .stop-mark.summit{background:var(--signal)}
+  a.stop h3{font-family:var(--display);font-weight:800;font-size:1.2rem;letter-spacing:-.01em}
+  a.stop p{font-size:.95rem;color:var(--ink-soft);margin-top:.45rem}
+  a.stop p code{font-family:var(--mono);font-size:.88em;background:#E7EDE7;border-radius:4px;padding:.05em .35em;color:var(--pine-deep)}
+  a.stop .stop-go{font-family:var(--mono);font-size:.78rem;color:var(--pine);margin-top:.55rem;display:inline-block}
+
+  .about{margin-top:3.6rem;border:1px solid var(--contour);background:var(--card);border-radius:14px;padding:1.8rem 1.7rem}
+  .about h2{font-family:var(--display);font-weight:800;font-size:1.4rem;margin-bottom:.7rem;letter-spacing:-.01em}
+  .about p{font-size:1rem;color:var(--ink)}
+  .about p + p{margin-top:.7rem}
+  .about a{color:var(--pine);text-underline-offset:3px;text-decoration-color:var(--contour)}
+
+  footer{border-top:1px solid var(--contour);margin-top:4rem;padding:2.2rem 1.5rem;text-align:center}
+  footer .motto{font-family:var(--display);font-weight:800;font-size:1.3rem;color:var(--pine-deep)}
+  footer .legal{font-family:var(--mono);font-size:.74rem;color:var(--ink-soft);margin-top:.6rem;letter-spacing:.05em}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="hero-contours" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g fill="none" stroke="#EDF5EF" stroke-width="1.2">
+      <path d="M-50,340 C150,290 280,360 480,310 S820,250 1050,300 S1250,330 1300,310"/>
+      <path d="M-50,300 C160,250 300,320 500,270 S830,210 1060,260 S1250,290 1300,270"/>
+      <path d="M-50,255 C180,205 320,275 520,225 S840,165 1070,215 S1250,245 1300,225"/>
+      <path d="M-50,205 C200,160 350,225 545,180 S850,120 1080,168 S1250,200 1300,180"/>
+      <path d="M-50,150 C220,110 380,170 565,130 S860,75 1090,118 S1250,150 1300,132"/>
+      <path d="M-50,95 C240,60 410,115 585,80 S870,32 1100,70 S1250,100 1300,84"/>
+      <circle cx="180" cy="320" r="3.5" fill="#E4572E" stroke="none"/>
+      <circle cx="1080" cy="70" r="3.5" fill="#E4572E" stroke="none"/>
+      <path d="M180,320 C400,290 600,200 1080,70" stroke="#E4572E" stroke-width="1.5" stroke-dasharray="2 6" fill="none"/>
+    </g>
+  </svg>
+  <div class="hero-inner">
+    <span class="eyebrow">CodeFlow · Módulo 00 · Claude Code</span>
+    <h1>Guía de <em>Campo</em></h1>
+    <p class="lead">El acompañante didáctico del Módulo 00: aprende a <strong>controlar</strong> Claude Code con metodología 42 — sin temario, sin profesor, y sin que nadie te resuelva los ejercicios. Eso último es a propósito.</p>
+    <div class="hero-meta">
+      <span class="chip">6 capítulos · 5 ejercicios</span>
+      <span class="chip">terminal · git · c++</span>
+      <span class="chip">gratis y en abierto</span>
+      <span class="chip hot">sin solucionarios</span>
+    </div>
+    <a class="cta" href="guia-campo-base.html">Empezar por el Campamento Base →</a>
+  </div>
+</header>
+
+<main>
+
+  <aside class="pitch">
+    <p><strong>¿Qué es esto?</strong> El Módulo 00 de CodeFlow es un proyecto estilo escuela 42 para dominar Claude Code: desde <code>/init</code> hasta integrarlo en tus programas via SDK. El subject (el enunciado oficial) te dice <em>qué</em> construir; esta guía te enseña a <em>pensar</em> cada ejercicio — conceptos, estrategia de ataque, trampas frecuentes y las preguntas con las que sabrás si de verdad lo has aprendido.</p>
+    <p><strong>¿Para quién?</strong> Para quien se maneja con terminal, git y código, y quiere pasar de «usar IA» a «controlar un agente». Si vienes de cursos tradicionales, el Campamento Base te explica las reglas del juego antes de que te descoloquen.</p>
+  </aside>
+
+  <h2 class="trail-title">La ruta</h2>
+  <p class="trail-sub">En orden de cota. Cada parada construye sobre la anterior — saltarse una es subir la montaña empezando por la mitad.</p>
+
+  <div class="trail">
+    <a class="stop" href="guia-campo-base.html">
+      <div class="stop-head"><span class="stop-mark">INICIO</span><h3>Campamento Base</h3></div>
+      <p>La metodología 42 explicada a quien no la conoce: por qué no hay temario, las reglas que descolocan (NOTES.md o cero, el bonus nunca compensa), tu mochila de requisitos y el mapa del módulo.</p>
+      <span class="stop-go">empezar aquí →</span>
+    </a>
+    <a class="stop" href="guia-campo-ex00.html">
+      <div class="stop-head"><span class="stop-mark">WP·ex00</span><h3>Init &amp; Context</h3></div>
+      <p>El contrato entre tú y tu agente: <code>/init</code>, el CLAUDE.md como un header de C++, y las referencias con <code>@</code> para decidir qué entra en el contexto. Abrir el mapa antes de echar a andar.</p>
+      <span class="stop-go">al capítulo →</span>
+    </a>
+    <a class="stop" href="guia-campo-ex01.html">
+      <div class="stop-head"><span class="stop-mark">WP·ex01</span><h3>Session Management</h3></div>
+      <p>El contexto es la memoria de tu agente — y como la memoria en C, si no la gestionas te explota en la cara. <code>/compact</code>, <code>/clear</code>, el freno de mano, y el experimento de los testigos.</p>
+      <span class="stop-go">al capítulo →</span>
+    </a>
+    <a class="stop" href="guia-campo-ex02.html">
+      <div class="stop-head"><span class="stop-mark">WP·ex02</span><h3>HookGuard</h3></div>
+      <p>El capítulo más importante del módulo: hooks como signal handlers. CLAUDE.md persuade; el hook impone. Interceptar, bloquear, verificar y registrar — el guardarraíl de verdad.</p>
+      <span class="stop-go">al capítulo →</span>
+    </a>
+    <a class="stop" href="guia-campo-ex03.html">
+      <div class="stop-head"><span class="stop-mark">WP·ex03</span><h3>PlayBot</h3></div>
+      <p>MCP es el POSIX de las herramientas de agente: un protocolo, infinitas puertas. Playwright es la excusa divertida; el patrón configurar-verificar-usar es la lección de por vida.</p>
+      <span class="stop-go">al capítulo →</span>
+    </a>
+    <a class="stop" href="guia-campo-ex04.html">
+      <div class="stop-head"><span class="stop-mark summit">CUMBRE</span><h3>SDK Bridge</h3></div>
+      <p>De usuario a integrador: tu programa C++ lanza Claude Code via SDK, con un JSON como contrato entre orillas. Y de bonus, el resultado del review llegándote al móvil mientras entrenas.</p>
+      <span class="stop-go">hacer cumbre →</span>
+    </a>
+    <a class="stop" href="guia-campo-cima.html">
+      <div class="stop-head"><span class="stop-mark" style="background:#10201A">FIN DE RUTA</span><h3>Cima</h3></div>
+      <p>El cierre que toda ascensión merece: el valle visto desde arriba, el logro celestial de la Princesa Donut 👑, y el buzón de cumbre donde firmar tu ascensión.</p>
+      <span class="stop-go">solo para quien corona →</span>
+    </a>
+  </div>
+
+  <section class="about">
+    <h2>Sobre esta guía</h2>
+    <p>Soy <a href="https://www.linkedin.com/in/mikel-zabal-martin/" target="_blank" rel="noopener"><strong>Mikel Zabal</strong></a> (<a href="mailto:mzabalm@gmail.com">mzabalm@gmail.com</a>), estudiante de 42 Urduliz reprogramándome a los cuarenta y muchos: antes carnicería y topografía, ahora C, C++ y agentes de IA. Esta guía existe porque la metodología 42 me enseñó a aprender de verdad — y porque la gente que no tiene un campus lleno de compañeros también merece un compañero de mesa.</p>
+    <p>El material es gratis y en abierto. Si te sirve, compártelo; si encuentras una errata, <a href="mailto:mzabalm@gmail.com">dímelo</a> — las pequeñas correcciones importan. Y si eres de Anthropic y has llegado hasta aquí: hola 👋, esto se hizo con cariño y con vuestra herramienta.</p>
+  </section>
+
+</main>
+
+<footer>
+  <p class="motto">¡Por Tutatis!!</p>
+  <p class="legal">© 2026 Mikel Zabal — CodingWithZabal · Guía de Campo · CodeFlow Módulo 00</p>
+</footer>
+
+</body>
+</html>
