@@ -126,8 +126,8 @@ Por eso he creado esta **Guía de Campo**: para ayudar a orientarse antes de ata
 
 <br>
 
-Y como buen (ex)topógrafo, la guía tenía que tener esta forma: 
- un mapa o guía de campo para una pequeña EXPEDICIÓN por el Módulo 00.
+Y como buen (ex)topógrafo, la guía tenía que tener esta forma: un mapa o guía de campo para una pequeña EXPEDICIÓN por el Módulo 00.
+Además, como toda expedición que se precie, no podía faltar una buena insignia de aventurero para quienes consigan completarla… y sobrevivir para contarlo.
 
 <br>
 
