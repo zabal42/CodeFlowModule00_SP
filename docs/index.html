@@ -88,15 +88,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   <div class="verdict" id="verdict"></div>
   <button class="reset-btn" onclick="markAllDone()" style="margin-top:0.5rem; border-color: #534AB7; color: #534AB7;">👾 Cheat mode</button>
 <button class="reset-btn" onclick="resetAll()">Reiniciar todo</button>
-  <div style="text-align:center; margin-top:1.8rem;">
-  <a href="guia/guia-campo-cima.html"
-     style="display:inline-block; background:#E4572E; color:#fff;
-            font-family:monospace; font-weight:700; font-size:1rem;
-            padding:.9rem 2rem; border-radius:10px;
-            text-decoration:none; letter-spacing:.04em;">
-    🏅 Haz click aquí para recoger tu insignia
-  </a>
-</div>
   <div class="footer">
     <p>© 2026 Mikel Zabal – <a href="https://www.linkedin.com/in/mikel-zabal-martin/" target="_blank">CodingWithZabal</a> · <a href="https://github.com/zabal42/CodeFlowModule00_SP" target="_blank">GitHub</a></p>
   </div>
@@ -235,7 +226,7 @@ function renderVerdict(){
   const v=document.getElementById('verdict');
   if(coreComplete&&dPD===1){
     v.style.display='block';
-    v.innerHTML='<div class="emoji">👑</div><div class="title">Princess Donut Celestial Level — 100/100</div><div class="sub">Has completado el módulo entero. El review llega al móvil, tú estás en el gym.<br>No has aprendido a usar Claude Code: has aprendido a controlarlo.<br><br>¡Por Tutatis!!</div>';
+    v.innerHTML='<div class="emoji">👑</div><div class="title">Princess Donut Celestial Level — 100/100</div><div class="sub">Has completado el módulo entero. El review llega al móvil, tú estás en el gym.<br>No has aprendido a usar Claude Code: has aprendido a controlarlo.<br><br>¡Por Tutatis!!<br><br><a href="guia/guia-campo-cima.html" style="display:inline-block; background:#E4572E; color:#fff; font-family:monospace; font-weight:700; font-size:1rem; padding:.9rem 2rem; border-radius:10px; text-decoration:none; letter-spacing:.04em;">🏅 Haz click aquí para recoger tu insignia</a></div>';
   }else if(coreComplete){
     v.style.display='block';
     v.innerHTML=`<div class="emoji">🏆</div><div class="title">Core completado — 62/100</div><div class="sub">Todo el mandatory y las explicaciones. Solo falta un último nivel...<br><br>¿Te atreves con el <strong>👑 Princess Donut Celestial Level</strong>?<br>Implementa el review vía Telegram/Slack, lanza el proceso, vete al CrossFit y espera el mensaje en el móvil. Si lo consigues: <strong>100/100</strong>.</div>`;
