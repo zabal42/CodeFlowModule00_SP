@@ -57,15 +57,15 @@
 - [ ] `session_log.txt` registra los 9 pasos con observaciones reales
 - [ ] He ejecutado `/compact` y documentado qué recordó y qué perdió Claude
 - [ ] He ejecutado `/compact [instrucciones]` y comparado con el compact normal
-- [ ] He demostrado el uso de `/clean`
+- [ ] He demostrado el uso de `/clear`
 - [ ] He demostrado el uso de `Esc Esc` para interrumpir una operación
-- [ ] `NOTES.md` responde: ¿cuándo `/compact` vs `/clean`? ¿cuándo es crítico el doble Esc?
+- [ ] `NOTES.md` responde: ¿cuándo `/compact` vs `/clear`? ¿cuándo es crítico el doble Esc?
 - [ ] `NOTES.md` incluye **al menos 2 estrategias propias** para minimizar tokens
 
 ### ¿Lo sabes explicar?
 
 - [ ] Sé explicar qué información sobrevive a un `/compact` y por qué
-- [ ] Sé explicar la diferencia real entre `/compact` y `/clean`
+- [ ] Sé explicar la diferencia real entre `/compact` y `/clear`
 
 ### Bonus
 

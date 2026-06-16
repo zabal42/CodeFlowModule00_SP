@@ -109,7 +109,7 @@ Diferencias observadas respecto al /compact sin instrucciones:
 ==============================================================
 CLEAN & ESCAPE
 ==============================================================
-¿Cuándo usaste /clean?:
+¿Cuándo usaste /clear?:
 
 
 Resultado:
