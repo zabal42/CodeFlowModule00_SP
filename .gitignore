@@ -1,10 +1,4 @@
 .DS_Store
 *.zip
-evaluate.sh
-evaluate.mjs
 EVALUACION_OPUS.md
 EVALUACION_OPUS.pdf
-node_modules/
-package.json
-package-lock.json
-diff.md
