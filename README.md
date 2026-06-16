@@ -59,8 +59,7 @@ Cada ejercicio construye sobre el anterior. El ex04 integra todo lo aprendido �
 ## Requisitos
 
 - Claude Code instalado y autenticado.
-- Cuenta de Anthropic con acceso a Claude Code (Pro o superior).
-  El ex04 usa el Agent SDK sobre tu sesión —> no necesitas API key ni tarjeta aparte.
+- Cuenta de Anthropic con acceso a Claude Code (Pro o superior). El ex04 utiliza el Agent SDK sobre tu propia sesión autenticada de Claude Code. En condiciones normales no necesitas configurar ANTHROPIC_API_KEY ni crear una API key aparte para completar el   ejercicio.
 - Node.js >= 18 para SDK y MCP.
 - jq instalado (sudo apt install jq o brew install jq).
 - Git.
