@@ -131,7 +131,9 @@
     <div class="wp-tag"><span class="wp-mark">WP·02</span><h2>Terreno — los conceptos, desde cero</h2></div>
     <dl class="defs">
       <dt>El Agent SDK — Claude Code como librería</dt>
-      <dd>En lugar de teclear en la CLI, tu código hace la consulta: «analiza este archivo y devuélveme los issues». Mismo motor, distinta puerta de entrada. Se instala con npm (<code>@anthropic-ai/claude-agent-sdk</code>) y se usa desde JavaScript/TypeScript — de ahí el bridge.</dd>
+      <dd>En lugar de teclear en la CLI, tu código llama a la función <code>query()</code>: «analiza este archivo y devuélveme los issues». Mismo motor, distinta puerta de entrada. Se instala con npm (<code>@anthropic-ai/claude-code</code>) y se usa desde JavaScript/TypeScript — de ahí el bridge. Un matiz que pilla a todos: <code>query()</code> no devuelve una respuesta única, sino un <strong>flujo de mensajes</strong> que recorres hasta quedarte con el de tipo <code>result</code>.</dd>
+      <dt>Autenticación — tu sesión, no una API key</dt>
+      <dd><code>query()</code> usa la <strong>misma sesión de Claude Code</strong> en la que ya iniciaste sesión en ex00–ex03. No necesitas <code>ANTHROPIC_API_KEY</code> ni tarjeta: el análisis corre con tu suscripción, no por la API de pago por token. Es el Claude Code de siempre, ahora invocado desde tu código — por eso este ejercicio no te cuesta un céntimo si hiciste los anteriores.</dd>
       <dt><code>allowedTools</code> — el mínimo privilegio</dt>
       <dd>El SDK te deja acotar qué herramientas puede usar Claude. <code>["Read"]</code> significa: puedes leer, y nada más — ni escribir, ni ejecutar bash. Para un revisor de código es exactamente lo que quieres: que mire, no que toque. Es el principio de mínimo privilegio de toda la vida, y es la versión programática del control que llevas construyendo todo el módulo.</dd>
       <dt><code>system()</code> — el puente rápido (y sus peajes)</dt>
@@ -190,7 +192,7 @@
 
     <div class="keypoint">
       <span class="kp-label">El matiz que separa a un junior de alguien que controla</span>
-      <p>Los tres errores que el subject te obliga a gestionar (fichero no encontrado, SDK no disponible, JSON malformado) no son relleno: son <strong>las tres formas en que el puente se cae</strong>, una por tramo. Quien los gestiona bien demuestra que entiende la arquitectura; quien pone un <code>try/catch</code> genérico demuestra que copió el patrón.</p>
+      <p>Los tres errores que el subject te obliga a gestionar (fichero no encontrado, la llamada a <code>query()</code> que falla —sesión caída o sin login—, JSON malformado) no son relleno: son <strong>las tres formas en que el puente se cae</strong>, una por tramo. Quien los gestiona bien demuestra que entiende la arquitectura; quien pone un <code>try/catch</code> genérico demuestra que copió el patrón.</p>
     </div>
   </section>
 

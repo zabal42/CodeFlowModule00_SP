@@ -6,11 +6,18 @@
 // Output: JSON con el mismo formato que sample_report.json, por stdout
 //
 // Pasos:
-//   1. Lee el archivo .cpp indicado
-//   2. Lo envía a Claude Code via SDK para análisis
+//   1. Recibe la ruta del archivo .cpp indicado
+//   2. Lo envía a Claude Code via Agent SDK (query) para análisis
 //   3. Imprime el resultado como JSON válido en stdout
+//
+// IMPORTANTE — autenticación:
+//   query() usa la MISMA sesión de Claude Code en la que ya iniciaste
+//   sesión durante ex00–ex03. No necesitas ANTHROPIC_API_KEY ni tarjeta:
+//   el análisis corre con tu suscripción de Claude Code, no por la API
+//   de pago por token.
 
-import Anthropic from "@anthropic-ai/claude-code";
+import { query } from "@anthropic-ai/claude-code";
+import { basename } from "node:path";
 
 const filepath = process.argv[2];
 
@@ -20,12 +27,14 @@ if (!filepath) {
 }
 
 // TODO: Paso 2
-// 1. Lee el contenido del archivo con fs.readFileSync
-// 2. Lanza una sesión de Claude Code via SDK con:
-//    - allowedTools: ["Read"]  ← limita qué puede hacer Claude
-//    - prompt: pide un análisis del código y que responda en JSON
-// 3. Parsea la respuesta de Claude y extrae el JSON
-// 4. Imprime el JSON por stdout (console.log(JSON.stringify(report)))
+// 1. Construye el prompt: pide a Claude que LEA el archivo `filepath`,
+//    analice el código C++ y responda SOLO con un JSON válido.
+// 2. Lanza una sesión con query({ prompt, options }):
+//    - allowedTools: ["Read"]  ← Claude solo puede LEER el archivo, nada más
+//    - (no hace falta model: si lo omites, usa tu sesión de Claude Code activa)
+// 3. Itera los mensajes y quédate con el del tipo "result" (subtype "success").
+// 4. Extrae el JSON de esa respuesta y parséalo.
+// 5. Imprime el JSON por stdout (console.log(JSON.stringify(report)))
 //
 // Formato de salida esperado:
 // {
@@ -36,36 +45,36 @@ if (!filepath) {
 //   "summary": "1 issue encontrado"
 // }
 
-// Ejemplo de estructura SDK (completa esto):
+// Ejemplo de estructura con el Agent SDK (completa esto):
 /*
-import { readFileSync } from "fs";
-
-const code = readFileSync(filepath, "utf-8");
-
-const client = new Anthropic();
-
-const messages = await client.messages.create({
-  model: "claude-opus-4-5",
-  max_tokens: 1024,
-  messages: [
-    {
-      role: "user",
-      content: `Analiza este código C++ y devuelve SOLO un JSON con este formato exacto:
+const prompt = `Lee el archivo ${filepath} y analiza el código C++ en busca de bugs
+(memory leaks, variables sin inicializar, errores de lógica).
+Responde SOLO con un JSON válido, sin texto ni explicaciones alrededor,
+con este formato exacto:
 {
-  "file": "<nombre del archivo>",
+  "file": "${basename(filepath)}",
   "issues": [
     { "line": <número>, "type": "<tipo>", "message": "<descripción>" }
   ],
   "summary": "<N> issues encontrados"
-}
-Código:
-\`\`\`cpp
-${code}
-\`\`\``,
-    },
-  ],
-});
+}`;
 
-// Extrae y parsea el JSON de la respuesta
-// Imprime por stdout
+let respuesta = "";
+
+for await (const message of query({
+  prompt,
+  options: {
+    allowedTools: ["Read"], // limita qué puede hacer Claude: solo leer
+    maxTurns: 3,
+  },
+})) {
+  if (message.type === "result" && message.subtype === "success") {
+    respuesta = message.result;
+  }
+}
+
+// 'respuesta' puede venir envuelta en un bloque ```json ... ```;
+// límpiala antes de JSON.parse y luego:
+// const report = JSON.parse(respuesta);
+// console.log(JSON.stringify(report));
 */
