@@ -15,7 +15,7 @@
 <!-- Sé específico: ¿recordó el nombre del método añadido en el paso 3? -->
 <!-- ¿La estructura del proyecto? ¿El error que corregiste? -->
 
-## 3. /compact vs /clean — ¿cuándo usar cada uno?
+## 3. /compact vs /clear — ¿cuándo usar cada uno?
 
 <!-- Tu criterio personal, con ejemplos concretos del escenario -->
 

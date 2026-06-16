@@ -22,7 +22,7 @@ Este módulo va de aprender a controlarlo de verdad. Cinco ejercicios progresivo
 
 Y donde dedicas un ejercicio entero a lo que nadie enseña: **gestionar la ventana de contexto igual que un programador gestiona  la memoria en C.** Sabrás exactamente cuándo usar `/compact`, cuándo `/clear`, cuándo rebobinar con `Esc Esc`, qué operaciones queman más tokens sin que te des cuenta, y saldrás con estrategias propias para que cada token cuente.
 
-Porque el problema no es únicamente la factura. Es que un agente con el contexto saturado razona peor, olvida lo que acordasteis dos mensajes atrás y te hace repetir el trabajo. Controlar el contexto no es una optimización para tacaños — es control de calidad. Y sí, también ahorra dinero. Las dos cosas.
+Y no es solo la factura: controlar el contexto no es una optimización para tacaños — es **control de calidad**. Un agente con el contexto saturado razona peor. Y sí, además ahorra dinero. Las dos cosas.
 
 Aquí no te voy a decir que uses `.md` en lugar de `.pdf` para ahorrar tokens, ni voy a darte una lista de mil agentes. Aquí aprendes el porqué, no solo el cómo. Por qué el contexto funciona así. Por qué un hook PreToolUse es más fiable que una instrucción en el `CLAUDE.md`. Por qué el SDK te da un control que la CLI nunca te dará. Sin magia. Sin «confía en mí». Con la lógica expuesta.
 
@@ -190,7 +190,7 @@ También disponible como texto plano: [EVALUACION.md](EVALUACION.md)
 <div align="center">
 
 Hecho por Mikel Zabal · CodingWithZabal  
-LinkedIn · mzabalm@gmail.com
+[LinkedIn](https://www.linkedin.com/in/mikel-zabal-martin/) · mzabalm@gmail.com
 
 Si te ha servido, una ⭐ ayuda a que llegue a más gente.
 

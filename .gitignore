@@ -1,2 +1,6 @@
 .DS_Store
 *.zip
+evaluate.sh
+evaluate.mjs
+EVALUACION_OPUS.md
+EVALUACION_OPUS.pdf
