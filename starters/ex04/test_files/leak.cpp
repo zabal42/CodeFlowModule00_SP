@@ -5,9 +5,9 @@
 
 int main()
 {
-    int *ptr = new int(42);  // new sin delete correspondiente
+	int *ptr = new int(42);  // new sin delete correspondiente
 
-    std::cout << "Valor: " << *ptr << std::endl;
+	std::cout << "Valor: " << *ptr << std::endl;
 
-    return 0;  // ptr nunca se libera → memory leak
+	return 0;  // ptr nunca se libera → memory leak
 }
