@@ -194,6 +194,13 @@ Hecho por Mikel Zabal · CodingWithZabal
 
 Si te ha servido, una ⭐ ayuda a que llegue a más gente.
 
+</div>
+
+> **Una de letra pequeña, en voz alta.**
+> Esto es un proyecto independiente, hecho por un servidor con cariño y mucho café. No estoy afiliado, asociado ni respaldado por Anthropic ni por la red 42 / École 42 — soy solo un estudiante de 42 Urduliz que les debe el método y que se enamoró de su herramienta. «Claude» y «Claude Code» son marcas de Anthropic; «42» es de quien es. Aquí las uso por respeto y para enseñar, nunca para colgarme medallas que no son mías. Si eres de Anthropic o de 42 y algo no te encaja, escríbeme y lo arreglo en un commit. **¡Por Tutatis!**
+
+<div align="center">
+
 © 2026 Mikel Zabal – CodingWithZabal
 
 </div>
