@@ -16,7 +16,7 @@
 //   el análisis corre con tu suscripción de Claude Code, no por la API
 //   de pago por token.
 
-import { query } from "@anthropic-ai/claude-code";
+import { query } from "@anthropic-ai/claude-agent-sdk";
 import { basename } from "node:path";
 
 const filepath = process.argv[2];

@@ -131,7 +131,7 @@
     <div class="wp-tag"><span class="wp-mark">WP·02</span><h2>Terreno — los conceptos, desde cero</h2></div>
     <dl class="defs">
       <dt>El Agent SDK — Claude Code como librería</dt>
-      <dd>En lugar de teclear en la CLI, tu código llama a la función <code>query()</code>: «analiza este archivo y devuélveme los issues». Mismo motor, distinta puerta de entrada. Se instala con npm (<code>@anthropic-ai/claude-code</code>) y se usa desde JavaScript/TypeScript — de ahí el bridge. Un matiz que pilla a todos: <code>query()</code> no devuelve una respuesta única, sino un <strong>flujo de mensajes</strong> que recorres hasta quedarte con el de tipo <code>result</code>.</dd>
+      <dd>En lugar de teclear en la CLI, tu código llama a la función <code>query()</code>: «analiza este archivo y devuélveme los issues». Mismo motor, distinta puerta de entrada. Se instala con npm (<code>@anthropic-ai/claude-agent-sdk</code>) y se usa desde JavaScript/TypeScript — de ahí el bridge. Un matiz que pilla a todos: <code>query()</code> no devuelve una respuesta única, sino un <strong>flujo de mensajes</strong> que recorres hasta quedarte con el de tipo <code>result</code>.</dd>
       <dt>Autenticación — tu sesión, no una API key</dt>
       <dd><code>query()</code> usa la <strong>misma sesión de Claude Code</strong> en la que ya iniciaste sesión en ex00–ex03. No necesitas <code>ANTHROPIC_API_KEY</code> ni tarjeta: el análisis corre con tu suscripción, no por la API de pago por token. Es el Claude Code de siempre, ahora invocado desde tu código — por eso este ejercicio no te cuesta un céntimo si hiciste los anteriores.</dd>
       <dt><code>allowedTools</code> — el mínimo privilegio</dt>
