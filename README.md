@@ -147,7 +147,7 @@ Y como buen (ex)topógrafo, la guía tenía que tener esta forma: un mapa para u
 <br>
 
 Sin soluciones. Sin atajos.  
-Con mapa, brújula y barro en las botas (brújula no incluida).
+Con mapa, brújula y barro en las botas (brújula SI incluida).
 
 <br>
 
