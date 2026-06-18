@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeFlow · Módulo 00 — Domina Claude Code | CodingWithZabal</title>
+<meta name="description" content="Puerta de entrada al Módulo 00 de CodeFlow: un módulo gratuito estilo escuela 42 para aprender a controlar Claude Code, desde /init hasta el SDK. Por Mikel Zabal — CodingWithZabal.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F6F2; --ink:#1E2A26; --ink-soft:#4A5A53; --contour:#CBD8CE;
+    --pine:#2E5E4E; --pine-deep:#1F4438; --signal:#E4572E;
+    --terminal:#10201A; --phosphor:#9FE8C2; --card:#FFFFFF;
+    --display:'Bricolage Grotesque',sans-serif; --body:'Source Serif 4',Georgia,serif; --mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:1.075rem;line-height:1.7}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;overflow:hidden;background:var(--pine-deep);color:#EDF5EF;padding:5rem 1.5rem 5.25rem}
+  .hero-contours{position:absolute;inset:0;opacity:.16;pointer-events:none}
+  .hero-inner{position:relative;max-width:760px;margin:0 auto}
+  .eyebrow{font-family:var(--mono);font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--phosphor);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+  .eyebrow::before{content:"";display:inline-block;width:2.2rem;height:2px;background:var(--signal)}
+
+  .brand{font-family:var(--display);font-weight:800;font-size:clamp(2.8rem,8vw,5rem);line-height:1.02;margin:.9rem 0 .4rem;letter-spacing:-.025em;display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap}
+  .brand em{font-style:normal;color:var(--signal)}
+  .brand .prompt{font-family:var(--mono);font-weight:500;color:var(--phosphor);font-size:.5em;letter-spacing:-.02em}
+  .brand .prompt .cur{display:inline-block;animation:blink 1.1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .hero h2.tagline{font-family:var(--display);font-weight:600;font-size:clamp(1.15rem,3.5vw,1.5rem);color:#D6E4DA;margin:.2rem 0 1.1rem;letter-spacing:-.01em}
+  .hero p.lead{font-size:1.22rem;max-width:33em;color:#D6E4DA}
+  .hero p.lead strong{color:#fff}
+  .hero-meta{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.8rem}
+  .chip{font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;border:1px solid rgba(237,245,239,.35);border-radius:999px;padding:.3rem .75rem;color:#D6E4DA}
+  .chip.hot{border-color:var(--signal);color:#FFD9CB}
+
+  main{max-width:680px;margin:0 auto;padding:0 1.5rem 4rem}
+
+  /* ---------- PITCH ---------- */
+  .pitch{background:var(--card);border:1px solid var(--contour);border-left:4px solid var(--signal);border-radius:10px;padding:1.6rem 1.7rem;margin:-2.4rem auto 0;position:relative;box-shadow:0 10px 30px rgba(30,42,38,.08)}
+  .pitch h2{font-family:var(--display);font-weight:800;font-size:1.45rem;letter-spacing:-.01em;margin-bottom:.7rem}
+  .pitch p{font-size:1rem;color:var(--ink-soft)}
+  .pitch p + p{margin-top:.7rem}
+  .pitch strong{color:var(--ink)}
+  .pitch code{font-family:var(--mono);font-size:.88em;background:#E7EDE7;border-radius:4px;padding:.1em .4em;color:var(--pine-deep)}
+
+  /* ---------- TABLA DE EJERCICIOS ---------- */
+  h2.trail-title{font-family:var(--display);font-weight:800;font-size:clamp(1.6rem,4vw,2.1rem);margin:4.6rem 0 .4rem;letter-spacing:-.015em}
+  p.trail-sub{color:var(--ink-soft);margin-bottom:2rem;font-size:1rem}
+
+  .trail{position:relative;padding-left:2.4rem}
+  .trail::before{content:"";position:absolute;left:.85rem;top:1.4rem;bottom:1.4rem;width:2px;background:var(--contour)}
+  .ex{display:block;position:relative;background:var(--card);border:1px solid var(--contour);border-radius:12px;padding:1.2rem 1.4rem;margin-bottom:1.1rem;color:var(--ink);text-decoration:none;transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease}
+  .ex:hover{transform:translateX(4px);box-shadow:0 8px 24px rgba(30,42,38,.1);border-color:var(--pine)}
+  .ex::before{content:"";position:absolute;left:-2.05rem;top:1.45rem;width:13px;height:13px;background:var(--signal);border:2.5px solid var(--paper);border-radius:3px;transform:rotate(45deg);box-shadow:0 0 0 1.5px var(--signal)}
+  .ex.summit::before{background:var(--pine-deep);box-shadow:0 0 0 1.5px var(--pine-deep)}
+  .ex-head{display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap}
+  .ex-mark{font-family:var(--mono);font-weight:600;font-size:.76rem;color:#fff;background:var(--pine);padding:.22rem .55rem;border-radius:6px;letter-spacing:.06em}
+  .ex.summit .ex-mark{background:var(--signal)}
+  .ex h3{font-family:var(--display);font-weight:800;font-size:1.2rem;letter-spacing:-.01em}
+  .ex p{font-size:.95rem;color:var(--ink-soft);margin-top:.45rem}
+  .ex p code{font-family:var(--mono);font-size:.88em;background:#E7EDE7;border-radius:4px;padding:.05em .35em;color:var(--pine-deep)}
+
+  /* ---------- BOTONES GRANDES ---------- */
+  .doors{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-top:4.6rem}
+  .door{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;min-height:9.5rem;text-decoration:none;border-radius:14px;padding:1.5rem 1.5rem;transition:transform .15s ease, box-shadow .15s ease}
+  .door:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(30,42,38,.16)}
+  .door .kicker{font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.35rem}
+  .door .title{font-family:var(--display);font-weight:800;font-size:1.45rem;letter-spacing:-.01em;line-height:1.1}
+  .door .go{font-family:var(--mono);font-size:.82rem;margin-top:.7rem}
+  .door.guide{background:var(--pine-deep);color:#EDF5EF}
+  .door.guide .kicker{color:var(--phosphor)}
+  .door.guide .go{color:var(--phosphor)}
+  .door.guide .door-art{position:absolute;inset:0;opacity:.18;pointer-events:none}
+  .door.eval{background:var(--card);color:var(--ink);border:1px solid var(--contour);border-left:4px solid var(--signal)}
+  .door.eval .kicker{color:var(--signal)}
+  .door.eval .go{color:var(--pine)}
+  @media (max-width:560px){.doors{grid-template-columns:1fr}.door{min-height:auto}}
+
+  /* Móvil: margen lateral garantizado y aire vertical algo más contenido */
+  @media (max-width:560px){
+    main{padding-left:1.35rem;padding-right:1.35rem}
+    .hero{padding-left:1.35rem;padding-right:1.35rem}
+    h2.trail-title{margin-top:3.4rem}
+    .doors{margin-top:3.4rem}
+    .about{margin-top:3.4rem}
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about{margin-top:4.6rem;border:1px solid var(--contour);background:var(--card);border-radius:14px;padding:1.8rem 1.7rem}
+  .about h2{font-family:var(--display);font-weight:800;font-size:1.4rem;margin-bottom:.7rem;letter-spacing:-.01em}
+  .about p{font-size:1rem;color:var(--ink)}
+  .about p + p{margin-top:.7rem}
+  .about a{color:var(--pine);text-underline-offset:3px;text-decoration-color:var(--contour)}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--contour);margin-top:4rem;padding:2.2rem 1.5rem;text-align:center}
+  footer .motto{font-family:var(--display);font-weight:800;font-size:1.3rem;color:var(--pine-deep)}
+  footer .links{font-family:var(--mono);font-size:.82rem;margin-top:.9rem;letter-spacing:.03em}
+  footer .links a{color:var(--pine);text-decoration:none;border-bottom:1px solid var(--contour)}
+  footer .links a:hover{border-color:var(--pine)}
+  footer .links .sep{color:var(--contour);margin:0 .55rem}
+  footer .legal{font-family:var(--mono);font-size:.74rem;color:var(--ink-soft);margin-top:1rem;letter-spacing:.05em;max-width:48em;margin-left:auto;margin-right:auto;line-height:1.6}
+</style>
+</head>
+<body>
+
+<!-- ============ CABECERA / HERO ============ -->
+<header class="hero">
+  <svg class="hero-contours" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g fill="none" stroke="#EDF5EF" stroke-width="1.2">
+      <path d="M-50,340 C150,290 280,360 480,310 S820,250 1050,300 S1250,330 1300,310"/>
+      <path d="M-50,300 C160,250 300,320 500,270 S830,210 1060,260 S1250,290 1300,270"/>
+      <path d="M-50,255 C180,205 320,275 520,225 S840,165 1070,215 S1250,245 1300,225"/>
+      <path d="M-50,205 C200,160 350,225 545,180 S850,120 1080,168 S1250,200 1300,180"/>
+      <path d="M-50,150 C220,110 380,170 565,130 S860,75 1090,118 S1250,150 1300,132"/>
+      <path d="M-50,95 C240,60 410,115 585,80 S870,32 1100,70 S1250,100 1300,84"/>
+      <circle cx="180" cy="320" r="3.5" fill="#E4572E" stroke="none"/>
+      <circle cx="1080" cy="70" r="3.5" fill="#E4572E" stroke="none"/>
+      <path d="M180,320 C400,290 600,200 1080,70" stroke="#E4572E" stroke-width="1.5" stroke-dasharray="2 6" fill="none"/>
+    </g>
+  </svg>
+  <div class="hero-inner">
+    <span class="eyebrow">Módulo 00 · metodología 42 · gratis y en abierto</span>
+    <h1 class="brand">CodeFlow <span class="prompt">&gt;<span class="cur">_</span></span></h1>
+    <h2 class="tagline">Domina Claude Code: desde <em style="font-style:normal;color:var(--phosphor);font-family:var(--mono);font-size:.92em">/init</em> hasta el SDK.</h2>
+    <p class="lead">Un módulo de estudio progresivo para aprender a <strong>controlar</strong> tu agente de desarrollo. No a usarlo. A controlarlo.</p>
+    <div class="hero-meta">
+      <span class="chip">5 ejercicios</span>
+      <span class="chip">terminal · git · c++</span>
+      <span class="chip">node · mcp · sdk</span>
+      <span class="chip hot">sin solucionarios</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ ¿DE QUÉ VA ESTO? ============ -->
+  <section class="pitch">
+    <h2>¿De qué va esto?</h2>
+    <p>Claude Code es una herramienta brutal. Pero hay un problema que nadie te cuenta hasta que lo sufres en primera persona: <strong>el contexto se dispara, el uso de tokens se dispara</strong>, y el agente empieza a olvidar cosas exactamente cuando más lo necesitas. Si has usado Claude Code más de dos horas seguidas, ya sabes de qué hablo.</p>
+    <p>Este módulo va de aprender a controlarlo de verdad. <strong>Cinco ejercicios progresivos</strong> donde dominas el agente capa por capa: cómo construye su contexto, cómo supervisarlo con <code>hooks</code>, cómo conectarlo a herramientas externas con <code>MCP</code> y cómo integrarlo dentro de tus propios programas con el <code>SDK</code>.</p>
+    <p>Aquí aprendes el <strong>porqué</strong>, no solo el cómo. Sin magia, sin «confía en mí», con la lógica expuesta. Está inspirado en la filosofía de los campus tipo 42: <strong>si no puedes explicar lo que has hecho, no lo has aprendido.</strong> No se trata de que Claude haga tu trabajo — se trata de que tú demuestres que lo controlas. <strong>¡Por Tutatis!</strong></p>
+  </section>
+
+  <!-- ============ LOS 5 EJERCICIOS ============ -->
+  <h2 class="trail-title">Los 5 ejercicios</h2>
+  <p class="trail-sub">En orden de cota. Cada parada construye sobre la anterior — el ex04 integra todo lo aprendido.</p>
+
+  <div class="trail">
+    <a class="ex" href="guia/guia-campo-ex00.html">
+      <div class="ex-head"><span class="ex-mark">ex00</span><h3>Init &amp; Context</h3></div>
+      <p>Inicializar un proyecto, escribir un buen <code>CLAUDE.md</code> y controlar el contexto con <code>@</code>. El contrato entre tú y tu agente.</p>
+    </a>
+    <a class="ex" href="guia/guia-campo-ex01.html">
+      <div class="ex-head"><span class="ex-mark">ex01</span><h3>Session Management</h3></div>
+      <p>Gestionar la ventana de contexto como gestionas la memoria en C: <code>/compact</code>, <code>/clear</code>, rebobinar con <code>Esc Esc</code> y ahorro de tokens.</p>
+    </a>
+    <a class="ex" href="guia/guia-campo-ex02.html">
+      <div class="ex-head"><span class="ex-mark">ex02</span><h3>HookGuard</h3></div>
+      <p>Interceptar a Claude con hooks <code>PreToolUse</code> y <code>PostToolUse</code>: bloquear comandos peligrosos y compilar automáticamente. El guardarraíl de verdad.</p>
+    </a>
+    <a class="ex" href="guia/guia-campo-ex03.html">
+      <div class="ex-head"><span class="ex-mark">ex03</span><h3>PlayBot</h3></div>
+      <p>Conectar herramientas externas vía <code>MCP</code> y automatizar un navegador con Playwright. Un protocolo, infinitas puertas.</p>
+    </a>
+    <a class="ex summit" href="guia/guia-campo-ex04.html">
+      <div class="ex-head"><span class="ex-mark">ex04 · CUMBRE</span><h3>SDK Bridge</h3></div>
+      <p>Llamar a Claude Code desde C++ vía <code>SDK</code> y construir un revisor de código automático. Y de bonus: el review te llega al móvil mientras entrenas.</p>
+    </a>
+  </div>
+
+  <!-- ============ DOS PUERTAS ============ -->
+  <div class="doors">
+    <a class="door guide" href="guia/guia-campo-index.html">
+      <svg class="door-art" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <g fill="none" stroke="#EDF5EF" stroke-width="1.1">
+          <path d="M-20,150 C80,120 160,165 240,135 S380,110 420,130"/>
+          <path d="M-20,115 C90,85 170,128 250,100 S390,78 420,96"/>
+          <path d="M-20,80 C100,52 180,92 260,66 S400,46 420,62"/>
+          <circle cx="60" cy="142" r="3" fill="#E4572E" stroke="none"/>
+          <circle cx="330" cy="70" r="3" fill="#E4572E" stroke="none"/>
+          <path d="M60,142 C160,120 240,90 330,70" stroke="#E4572E" stroke-width="1.3" stroke-dasharray="2 6"/>
+        </g>
+      </svg>
+      <span class="kicker">empieza por aquí</span>
+      <span class="title">Entrar a la Guía de Campo</span>
+      <span class="go">el mapa de la expedición →</span>
+    </a>
+    <a class="door eval" href="index.html">
+      <span class="kicker">¿listo para defender?</span>
+      <span class="title">Autoevaluación</span>
+      <span class="go">la rúbrica interactiva →</span>
+    </a>
+  </div>
+
+  <!-- ============ SOBRE ESTO ============ -->
+  <section class="about">
+    <h2>¿Para quién es?</h2>
+    <p>Para quien se maneja con <strong>terminal</strong>, sabe usar <strong>git</strong> y lee código sin que le sangren los ojos — y quiere pasar de «usar IA» a «controlar un agente». No hace falta ser experto: hace falta ganas de entender el porqué, no solo el cómo.</p>
+    <p>Soy <a href="https://www.linkedin.com/in/mikel-zabal-martin/" target="_blank" rel="noopener"><strong>Mikel Zabal</strong></a> (<a href="mailto:mzabalm@gmail.com">mzabalm@gmail.com</a>), estudiante de 42 Urduliz. Este material es gratis y en abierto. Si te sirve, compártelo; si encuentras una errata, <a href="mailto:mzabalm@gmail.com">dímelo</a> — las pequeñas correcciones importan.</p>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <p class="motto">¡Por Tutatis!</p>
+  <p class="links">
+    <a href="https://www.linkedin.com/in/mikel-zabal-martin/" target="_blank" rel="noopener">LinkedIn</a>
+    <span class="sep">·</span>
+    <a href="mailto:mzabalm@gmail.com">mzabalm@gmail.com</a>
+  </p>
+  <p class="legal">Proyecto independiente, no afiliado a Anthropic ni a la red 42. «Claude Code» es marca de Anthropic; «42», de su titular. Usadas con respeto y con fines didácticos. Hecho con cariño.</p>
+  <p class="legal">© 2026 Mikel Zabal — CodingWithZabal · CodeFlow Módulo 00</p>
+</footer>
+
+</body>
+</html>
