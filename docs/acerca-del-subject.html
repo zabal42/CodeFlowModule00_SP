@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acerca del Subject — CodeFlow Módulo 00 · Claude Code | CodingWithZabal</title>
+<meta name="description" content="Por qué el subject del Módulo 00 de CodeFlow no te da los conceptos masticados — y cómo aprovecharlo. La metodología 42 explicada. Por Mikel Zabal — CodingWithZabal.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F6F2; --ink:#1E2A26; --ink-soft:#4A5A53; --contour:#CBD8CE;
+    --pine:#2E5E4E; --pine-deep:#1F4438; --signal:#E4572E;
+    --terminal:#10201A; --phosphor:#9FE8C2; --card:#FFFFFF;
+    --display:'Bricolage Grotesque',sans-serif; --body:'Source Serif 4',Georgia,serif; --mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:1.075rem;line-height:1.7}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;overflow:hidden;background:var(--pine-deep);color:#EDF5EF;padding:5.5rem 1.5rem 4.5rem}
+  .hero-contours{position:absolute;inset:0;opacity:.16;pointer-events:none}
+  .hero-inner{position:relative;max-width:760px;margin:0 auto}
+  .eyebrow{font-family:var(--mono);font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--phosphor);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+  .eyebrow::before{content:"";display:inline-block;width:2.2rem;height:2px;background:var(--signal)}
+  .hero h1{font-family:var(--display);font-weight:800;font-size:clamp(2.6rem,7.5vw,4.4rem);line-height:1.03;margin:.9rem 0 .2rem;letter-spacing:-.025em}
+  .hero h1 em{font-style:normal;color:var(--signal)}
+  .subject-btn{display:inline-flex;align-items:center;gap:.5rem;margin-top:1.5rem;font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;color:#EDF5EF;text-decoration:none;border:1.5px solid rgba(237,245,239,.4);border-radius:999px;padding:.5rem 1rem;transition:border-color .15s ease, background .15s ease}
+  .subject-btn:hover{border-color:var(--phosphor);background:rgba(159,232,194,.12)}
+
+  main{max-width:760px;margin:0 auto;padding:0 1.5rem 4rem}
+
+  /* ---------- BLOQUE DE PREGUNTAS (destacado, solapa el hero) ---------- */
+  .qbox{background:var(--card);border:1px solid var(--contour);border-left:4px solid var(--signal);border-radius:12px;padding:1.6rem 1.7rem;margin:-2.4rem auto 0;position:relative;box-shadow:0 10px 30px rgba(30,42,38,.08)}
+  .qbox ul{list-style:none}
+  .qbox li{font-family:var(--display);font-weight:600;font-size:clamp(1.02rem,2.3vw,1.22rem);color:var(--ink);line-height:1.4;padding-left:1.7rem;position:relative}
+  .qbox li + li{margin-top:.75rem}
+  .qbox li::before{content:">";position:absolute;left:0;top:0;color:var(--signal);font-family:var(--mono);font-weight:600}
+
+  /* ---------- VEREDICTO RESALTADO ---------- */
+  .verdict{font-family:var(--display);font-weight:800;font-size:clamp(1.7rem,4.6vw,2.5rem);line-height:1.12;letter-spacing:-.02em;text-align:center;margin:2.9rem auto 2.5rem;max-width:18ch;color:var(--ink)}
+  .verdict em{font-style:normal;color:var(--signal)}
+
+  /* ---------- CUERPO ---------- */
+  .prose p{font-size:1.075rem;color:var(--ink);margin-top:1.15rem}
+  .prose p:first-child{margin-top:0}
+  .prose strong{color:var(--pine-deep)}
+  .prose code{font-family:var(--mono);font-size:.88em;background:#E7EDE7;border-radius:4px;padding:.08em .4em;color:var(--pine-deep)}
+  .prose a{color:var(--pine);text-underline-offset:3px;text-decoration-color:var(--contour)}
+  .prose a:hover{text-decoration-color:var(--pine)}
+
+  /* sendero punteado divisorio */
+  .trail-div{display:flex;align-items:center;gap:.8rem;margin:2.6rem auto;color:var(--contour)}
+  .trail-div::before,.trail-div::after{content:"";flex:1;height:0;border-top:2px dotted var(--contour)}
+  .trail-div span{width:11px;height:11px;background:var(--signal);border-radius:3px;transform:rotate(45deg);box-shadow:0 0 0 1.5px var(--signal)}
+
+  /* cierre */
+  .closing{font-family:var(--display);font-weight:600;font-size:clamp(1.2rem,3vw,1.6rem);line-height:1.3;text-align:center;color:var(--pine-deep);margin:0 auto;max-width:26ch;letter-spacing:-.01em}
+
+  /* ---------- DOS PUERTAS DE VUELTA ---------- */
+  .ways{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:3.4rem}
+  .way{display:flex;flex-direction:column;justify-content:center;min-height:5.4rem;text-decoration:none;border-radius:12px;padding:1.1rem 1.3rem;transition:transform .15s ease, box-shadow .15s ease}
+  .way:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(30,42,38,.16)}
+  .way .k{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem}
+  .way .t{font-family:var(--display);font-weight:800;font-size:1.18rem;letter-spacing:-.01em}
+  .way.home{background:var(--card);border:1px solid var(--contour);color:var(--ink)}
+  .way.home .k{color:var(--signal)}
+  .way.guide{background:var(--pine-deep);color:#EDF5EF}
+  .way.guide .k{color:var(--phosphor)}
+  @media (max-width:560px){.ways{grid-template-columns:1fr}}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--contour);margin-top:4rem;padding:2.2rem 1.5rem;text-align:center}
+  footer .motto{font-family:var(--display);font-weight:800;font-size:1.3rem;color:var(--pine-deep)}
+  footer .legal{font-family:var(--mono);font-size:.74rem;color:var(--ink-soft);margin-top:.6rem;letter-spacing:.05em}
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <svg class="hero-contours" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g fill="none" stroke="#EDF5EF" stroke-width="1.2">
+      <path d="M-50,340 C150,290 280,360 480,310 S820,250 1050,300 S1250,330 1300,310"/>
+      <path d="M-50,300 C160,250 300,320 500,270 S830,210 1060,260 S1250,290 1300,270"/>
+      <path d="M-50,255 C180,205 320,275 520,225 S840,165 1070,215 S1250,245 1300,225"/>
+      <path d="M-50,205 C200,160 350,225 545,180 S850,120 1080,168 S1250,200 1300,180"/>
+      <path d="M-50,150 C220,110 380,170 565,130 S860,75 1090,118 S1250,150 1300,132"/>
+      <path d="M-50,95 C240,60 410,115 585,80 S870,32 1100,70 S1250,100 1300,84"/>
+      <circle cx="180" cy="320" r="3.5" fill="#E4572E" stroke="none"/>
+      <circle cx="1080" cy="70" r="3.5" fill="#E4572E" stroke="none"/>
+      <path d="M180,320 C400,290 600,200 1080,70" stroke="#E4572E" stroke-width="1.5" stroke-dasharray="2 6" fill="none"/>
+    </g>
+  </svg>
+  <div class="hero-inner">
+    <span class="eyebrow">CodeFlow · Módulo 00 · Claude Code</span>
+    <h1>Acerca del <em>Subject</em></h1>
+    <a class="subject-btn" href="subject/codeflow_subject_v3_SP.pdf" target="_blank" rel="noopener">📄 Leer el Subject (PDF)</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ PREGUNTAS ============ -->
+  <section class="qbox" aria-label="¿Te suena esto?">
+    <ul>
+      <li>¿Lo estás leyendo y no te estás enterando de nada?</li>
+      <li>¿Te da la sensación de que tiene conceptos demasiado técnicos para ti?</li>
+      <li>¿Estás comprobando si algunas palabras están escritas en klingon?</li>
+    </ul>
+  </section>
+
+  <!-- ============ VEREDICTO ============ -->
+  <p class="verdict">Es normal. Y es <em>completamente intencionado.</em></p>
+
+  <!-- ============ CUERPO ============ -->
+  <article class="prose">
+    <p>La metodología 42 no te da los conceptos masticados porque el objetivo no es que los entiendas al primer vistazo, sino que seas capaz de encontrarlos por tu cuenta. Preguntas a un compañero, buscas en la web, lees documentación, te pierdes por tres artículos que aparentemente no tenían nada que ver y, de repente, algo hace click. Así es como funciona: tirando del hilo de pequeñas pistas hasta que el puzzle mental empieza a construirse solo.</p>
+
+    <p>Por ejemplo, el subject menciona <code>/init</code> y las referencias con <code>@</code>, pero no se detiene a explicarte qué son. Tú buscas, descubres que forman parte de Claude Code, sigues investigando y acabas encontrando conceptos como el contexto, los archivos <code>CLAUDE.md</code>, la forma en que el agente construye su memoria de trabajo o cómo funciona su bucle interno. Lo que al principio parecía una línea críptica termina convirtiéndose en la puerta de entrada a comprender cómo piensa, construye contexto y trabaja la herramienta.</p>
+
+    <p>Esa es precisamente la gracia del proceso. No se trata únicamente de aprender comandos o memorizar definiciones, sino de construir poco a poco un modelo mental sólido sobre lo que está ocurriendo realmente por debajo. Es una forma de aprendizaje activa, consciente y, cuando le coges el punto, sorprendentemente adictiva. También requiere un periodo de adaptación y entiendo perfectamente que no sea un método para todo el mundo, y eso está bien.</p>
+
+    <p>Por eso existe la <a href="guia/guia-campo-index.html">Guía de Campo</a>. Si hay algún concepto del subject que no termina de encajar, allí encontrarás una explicación básica de los conceptos más importantes de cada ejercicio para ayudarte a orientarte antes de empezar la expedición. Y si aun así alguna idea sigue resistiéndose, te animo a hacer exactamente lo mismo que harías en un campus 42: abrir el navegador, buscar otra explicación, leer otra documentación o encontrar otra analogía que conecte mejor contigo.</p>
+  </article>
+
+  <div class="trail-div" aria-hidden="true"><span></span></div>
+
+  <p class="closing">A veces solo hace falta una explicación diferente para que todo haga click.</p>
+
+  <!-- ============ VUELTA ============ -->
+  <div class="ways">
+    <a class="way home" href="hub.html">
+      <span class="k">← volver</span>
+      <span class="t">La home de CodeFlow</span>
+    </a>
+    <a class="way guide" href="guia/guia-campo-index.html">
+      <span class="k">orientarte →</span>
+      <span class="t">Entrar a la Guía de Campo</span>
+    </a>
+  </div>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <p class="motto">¡Por Tutatis!</p>
+  <p class="legal" style="max-width:48em;margin:.6rem auto 0;line-height:1.6">Proyecto independiente, no afiliado a Anthropic ni a la red 42. «Claude Code» es marca de Anthropic; «42», de su titular. Usadas con respeto y con fines didácticos. Hecho con cariño.</p>
+  <p class="legal">© 2026 Mikel Zabal — CodingWithZabal · CodeFlow Módulo 00</p>
+</footer>
+
+</body>
+</html>

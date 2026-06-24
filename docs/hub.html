@@ -34,6 +34,7 @@
   .hero-contours{position:absolute;inset:0;width:100%;height:100%;opacity:.9;pointer-events:none}
 
   .hero-inner{position:relative;max-width:880px;margin:0 auto;width:100%;text-align:center}
+  .hero-logo{display:block;margin:0 auto 1.5rem;height:clamp(104px,16vw,156px);width:auto;border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.28)}
   .eyebrow{font-family:var(--mono);font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--phosphor);display:inline-flex;align-items:center;gap:.6rem;flex-wrap:wrap;justify-content:center}
   .eyebrow::before{content:"";display:inline-block;width:2.2rem;height:2px;background:var(--signal)}
 
@@ -44,28 +45,26 @@
 
   .hero .hook{font-family:var(--display);font-weight:800;font-size:clamp(1.5rem,5vw,2.9rem);line-height:1.12;letter-spacing:-.02em;color:#fff;max-width:18ch;margin:0 auto}
   .hero .hook em{font-style:normal;color:var(--signal)}
+  .subject-btn{display:inline-flex;align-items:center;gap:.5rem;margin-top:1.8rem;font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;color:#EDF5EF;text-decoration:none;border:1.5px solid rgba(237,245,239,.4);border-radius:999px;padding:.5rem 1rem;transition:border-color .15s ease, background .15s ease}
+  .subject-btn:hover{border-color:var(--phosphor);background:rgba(159,232,194,.12)}
   .hero .hook-sub{font-size:clamp(1rem,2.4vw,1.2rem);color:#D6E4DA;margin:1.3rem auto 0;max-width:38ch}
 
   /* indicador "baja para descubrir" */
-  .scroll-cue{position:absolute;left:50%;transform:translateX(-50%);bottom:clamp(1.4rem,4vh,2.6rem);text-decoration:none;color:#D6E4DA;font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:.55rem;opacity:.9;transition:opacity .2s ease}
+  .scroll-cue{position:absolute;z-index:2;left:50%;transform:translateX(-50%);bottom:clamp(1.4rem,4vh,2.6rem);text-decoration:none;color:#D6E4DA;font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:.55rem;opacity:.9;transition:opacity .2s ease}
   .scroll-cue:hover{opacity:1}
   .scroll-cue .arrow{width:30px;height:30px;border:1.5px solid rgba(237,245,239,.55);border-radius:50%;display:flex;align-items:center;justify-content:center;animation:cueBob 1.8s ease-in-out infinite}
   .scroll-cue .arrow svg{width:13px;height:13px}
   @keyframes cueBob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
 
-  /* --- la animación de "trazar la ascensión" (solo GPU: dashoffset + opacity) --- */
-  .hero-contours .ridge{opacity:0;animation:appear 1.4s ease-out forwards}
-  .hero-contours .ridge.r1{animation-delay:.05s}
-  .hero-contours .ridge.r2{animation-delay:.15s}
-  .hero-contours .ridge.r3{animation-delay:.25s}
-  .hero-contours .route{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 3s ease-out forwards .35s}
-  .hero-contours .wp{opacity:0;animation:appear .55s ease-out forwards}
-  .hero-contours .wp:nth-of-type(1){animation-delay:1.9s}
-  .hero-contours .wp:nth-of-type(2){animation-delay:2.25s}
-  .hero-contours .wp:nth-of-type(3){animation-delay:2.6s}
-  .hero-contours .wp:nth-of-type(4){animation-delay:2.95s}
-  .hero-contours .wp:nth-of-type(5){animation-delay:3.3s}
-  .hero-contours .summit-flag{opacity:0;animation:appear .6s ease-out forwards 3.6s}
+  /* --- las curvas se trazan solas al cargar (solo GPU: dashoffset + opacity) --- */
+  .hero-contours .line{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.6s ease-out forwards}
+  .hero-contours .line:nth-of-type(1){animation-delay:.15s}
+  .hero-contours .line:nth-of-type(2){animation-delay:.40s}
+  .hero-contours .line:nth-of-type(3){animation-delay:.65s}
+  .hero-contours .line:nth-of-type(4){animation-delay:.90s}
+  .hero-contours .line:nth-of-type(5){animation-delay:1.15s}
+  .hero-contours .line:nth-of-type(6){animation-delay:1.40s}
+  .hero-contours .mark{opacity:0;animation:appear 1s ease-out forwards 2s}
   @keyframes draw{to{stroke-dashoffset:0}}
   @keyframes appear{to{opacity:1}}
 
@@ -73,8 +72,8 @@
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
     *{animation:none!important;transition:none!important}
-    .hero-contours .route{stroke-dashoffset:0!important}
-    .hero-contours .ridge,.hero-contours .wp,.hero-contours .summit-flag{opacity:1!important}
+    .hero-contours .line{stroke-dashoffset:0!important}
+    .hero-contours .mark{opacity:1!important}
   }
 
   main{max-width:680px;margin:0 auto;padding:0 1.5rem 4rem}
@@ -126,10 +125,17 @@
   .step-n{display:inline-block;font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.1em;color:var(--pine);background:rgba(46,94,78,.08);border-radius:5px;padding:.12rem .45rem;margin-bottom:.5rem}
   .step-body p{font-size:1rem;color:var(--ink);line-height:1.65}
   .step-body p strong{color:var(--pine-deep)}
+  .step-body a{color:var(--pine);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--contour)}
+  .step-body a:hover{text-decoration-color:var(--pine)}
   .how-note{margin-top:.6rem;background:var(--card);border:1px solid var(--contour);border-left:4px solid var(--signal);border-radius:10px;padding:1rem 1.2rem;font-size:.96rem;color:var(--ink-soft);display:flex;gap:.75rem;align-items:flex-start}
   .how-note .note-ico{flex:none;color:var(--pine);margin-top:.05rem}
   .how-note .note-ico svg{width:21px;height:21px;display:block}
   .how-note strong{color:var(--pine-deep)}
+  a.how-note{text-decoration:none;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease}
+  a.how-note:hover{transform:translateX(3px);box-shadow:0 8px 24px rgba(30,42,38,.1);border-color:var(--pine)}
+  .how-note .note-go{font-family:var(--mono);font-size:.82em;color:var(--signal);white-space:nowrap}
+  .subject-pdf{font-weight:700;color:var(--pine);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--contour)}
+  .subject-pdf:hover{text-decoration-color:var(--pine)}
 
   /* ---------- DOS PUERTAS (conservadas) ---------- */
   .doors{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-top:5rem}
@@ -183,40 +189,30 @@
 <!-- ============ HERO — pantalla completa ============ -->
 <header class="hero">
   <svg class="hero-contours" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    <!-- cordilleras de fondo: profundidad -->
-    <g fill="none" stroke="#9FE8C2" stroke-width="1.1">
-      <path class="ridge r1" d="M-50,470 L160,400 L340,460 L540,380 L760,440 L1000,390 L1300,440" opacity="0.12"/>
-      <path class="ridge r2" d="M-50,600 L210,470 L420,545 L650,410 L880,500 L1080,455 L1300,520" opacity="0.16"/>
+    <g fill="none" stroke="#EDF5EF" stroke-width="1.2" opacity="0.22">
+      <path class="line" pathLength="1" d="M-50,660 C160,600 320,690 520,630 S880,540 1080,610 S1280,650 1300,620"/>
+      <path class="line" pathLength="1" d="M-50,560 C180,500 340,600 540,535 S900,440 1100,515 S1280,560 1300,525"/>
+      <path class="line" pathLength="1" d="M-50,455 C200,395 360,500 560,430 S910,330 1110,410 S1280,460 1300,420"/>
+      <path class="line" pathLength="1" d="M-50,345 C220,285 390,395 585,320 S930,215 1130,300 S1280,350 1300,308"/>
+      <path class="line" pathLength="1" d="M-50,230 C250,175 420,285 610,205 S950,100 1150,185 S1290,235 1300,195"/>
+      <path class="line" pathLength="1" d="M-50,115 C270,65 450,170 635,95 S980,-5 1170,75 S1290,120 1300,85"/>
     </g>
-    <!-- montaña principal: silueta de perfil, cumbre arriba a la derecha -->
-    <path class="ridge r3" d="M-50,800 L-50,710 L250,560 L450,630 L690,378 L840,452 L960,168 L1120,360 L1300,300 L1300,800 Z"
-          fill="rgba(159,232,194,0.05)" stroke="#9FE8C2" stroke-width="1.4" opacity="0.32"/>
-    <!-- ruta de ascensión: se traza sola, de la base a la cima -->
-    <path class="route" pathLength="1"
-          d="M200,690 C300,665 330,615 380,585 C450,548 505,520 560,480 C625,433 675,405 730,362 C820,300 870,250 945,188"
-          fill="none" stroke="#E4572E" stroke-width="2.6" stroke-linecap="round"/>
-    <!-- bandera en la cima -->
-    <g class="summit-flag">
-      <line x1="960" y1="168" x2="960" y2="118" stroke="#E4572E" stroke-width="2"/>
-      <path d="M960,120 L1002,133 L960,146 Z" fill="#E4572E"/>
-    </g>
-    <!-- los 5 ejercicios como hitos, a distinta altura -->
-    <g font-family="'IBM Plex Mono',monospace" font-size="17" font-weight="600">
-      <g class="wp"><circle cx="200" cy="690" r="6" fill="#E4572E" stroke="#1F4438" stroke-width="2"/><text x="218" y="708" fill="#D6E4DA">ex00</text></g>
-      <g class="wp"><circle cx="380" cy="585" r="6" fill="#E4572E" stroke="#1F4438" stroke-width="2"/><text x="398" y="603" fill="#D6E4DA">ex01</text></g>
-      <g class="wp"><circle cx="560" cy="480" r="6" fill="#E4572E" stroke="#1F4438" stroke-width="2"/><text x="578" y="498" fill="#D6E4DA">ex02</text></g>
-      <g class="wp"><circle cx="730" cy="362" r="6" fill="#E4572E" stroke="#1F4438" stroke-width="2"/><text x="748" y="380" fill="#D6E4DA">ex03</text></g>
-      <g class="wp"><circle cx="945" cy="188" r="7" fill="#E4572E" stroke="#1F4438" stroke-width="2"/><text x="836" y="180" fill="#9FE8C2">ex04 · cima</text></g>
+    <g class="mark">
+      <circle cx="240" cy="635" r="4" fill="#E4572E"/>
+      <circle cx="1130" cy="80" r="4" fill="#E4572E"/>
+      <path d="M240,635 C520,560 760,300 1130,80" stroke="#E4572E" stroke-width="1.6" stroke-dasharray="2 7" fill="none" opacity="0.7"/>
     </g>
   </svg>
 
   <div class="hero-inner">
+    <img class="hero-logo" src="assets/logo.png" alt="CodeFlow" width="968" height="1182">
     <span class="eyebrow">Módulo 00 · metodología 42 · gratis y en abierto</span>
     <h1 class="brand">CodeFlow <span class="prompt">&gt;<span class="cur">_</span></span></h1>
     <p class="hook">Todos usamos la IA.<br><em>Pocos la controlamos.</em></p>
+    <a class="subject-btn" href="subject/codeflow_subject_v3_SP.pdf" target="_blank" rel="noopener">📄 Leer el Subject (PDF)</a>
   </div>
 
-  <a class="scroll-cue" href="#quien-soy" aria-label="Baja para descubrir">
+  <a class="scroll-cue" href="#que-es" aria-label="Baja para descubrir">
     <span>baja para descubrir</span>
     <span class="arrow">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
@@ -226,40 +222,8 @@
 
 <main>
 
-  <!-- ============ ¿QUIÉN SOY? — el viaje ============ -->
-  <section class="who" id="quien-soy">
-    <div class="who-head">
-      <div class="who-intro">
-        <span class="sec-tag">¿Quién soy?</span>
-        <h2>Llevo toda la vida midiendo terreno. Solo cambié el tipo de terreno.</h2>
-      </div>
-      <figure class="portrait">
-        <img src="assets/mikel-web.jpg" alt="Mikel Zabal, autor de CodeFlow" loading="lazy" width="168" height="168">
-      </figure>
-    </div>
-    <div class="journey">
-      <div class="leg">
-        <span class="stage">Acto I · el terreno real</span>
-        <p>Empecé como <strong>topógrafo</strong>: carreteras, puentes, túneles. Mi trabajo era convertir un terreno caótico en un mapa que cualquiera pudiera leer. Ahí aprendí lo único que importa de verdad: <strong>si no entiendes el porqué, el mapa miente.</strong></p>
-      </div>
-      <div class="leg">
-        <span class="stage">Acto II · liderar y formar</span>
-        <p>Después llegué a responsable de una de las carnicerías de mayor venta de un gran grupo: dirigía el equipo y formaba a los futuros carniceros de la compañía. Ahí descubrí algo que no esperaba — lo que más me llenaba era la gente: enseñar a los que empezaban, cuidar de que cada uno creciera. Aprendí que <strong>se lidera desde el cuidado, no desde la orden.</strong></p>
-      </div>
-      <div class="leg">
-        <span class="stage">Acto III · la terminal</span>
-        <p>Cuando ese proyecto terminó, me lancé a lo que siempre me había entusiasmado: la programación de bajo nivel. Entré en <strong>42 Urduliz</strong>, la escuela sin profesores ni atajos: o lo explicas, o no lo sabes. C, memoria, punteros, git. La misma obsesión de siempre por entender cómo funciona algo por dentro.</p>
-      </div>
-      <div class="leg last">
-        <span class="stage">Lo que mido ahora</span>
-        <p>Hoy mido un terreno nuevo: <strong>cómo se controla un agente de IA</strong>. Y como buen friki de entenderlo todo desde la raíz, no me he quedado en la superficie usándolo: me he metido hasta las tripas del sistema para saber cómo piensa, cómo gestiona su contexto, cómo interceptarlo con hooks y cómo meterlo dentro de mis propios programas. Y todo ese terreno lo he mapeado para ti, para que domines una de las tecnologías más revolucionarias y vanguardistas. No para que la uses. <strong>Para que la CONTROLES.</strong></p>
-      </div>
-    </div>
-    <p class="cta"><a href="https://www.linkedin.com/in/mikel-zabal-martin/" target="_blank" rel="noopener">Mi recorrido completo en LinkedIn →</a></p>
-  </section>
-
   <!-- ============ LO QUE CONSTRUYO AHORA ============ -->
-  <section class="now">
+  <section class="now" id="que-es">
     <p class="sec-tag">CodeFlow · Módulo 00</p>
     <h2>¿De qué va esto?</h2>
     <p>Claude Code es una herramienta brutal. Pero hay un problema que nadie te cuenta hasta que lo sufres: <strong>el contexto se dispara, el uso de tokens se dispara</strong>, y el agente empieza a olvidar cosas exactamente cuando más lo necesitas. Si has usado Claude Code más de dos horas seguidas, ya sabes de qué hablo.</p>
@@ -284,7 +248,7 @@
         </span>
         <div class="step-body">
           <span class="step-n">01</span>
-          <p>El <strong>subject</strong> es el itinerario a seguir, son las reglas del juego. Ábrelo, léelo —¡dos veces!—; en él encontrarás los 5 ejercicios que hay que hacer para finalizar el módulo. Y no te asustes si no lo entiendes todo a la primera: está hecho así a propósito (luego te cuento por qué). Es tu mapa y tu fuente de verdad.</p>
+          <p>El <a class="subject-pdf" href="subject/codeflow_subject_v3_SP.pdf" target="_blank" rel="noopener">subject</a> es el itinerario a seguir, son las reglas del juego. Ábrelo, léelo —¡dos veces!—; en él encontrarás los 5 ejercicios que hay que hacer para finalizar el módulo. Y no te asustes si no lo entiendes todo a la primera: está hecho así a propósito (luego te cuento por qué). Es tu mapa y tu fuente de verdad.</p>
         </div>
       </li>
 
@@ -313,7 +277,7 @@
         </span>
         <div class="step-body">
           <span class="step-n">03</span>
-          <p>¿No sabes ni por dónde arrancar? La Guía de Campo te orienta antes de meterte en la expedición. Pero ojo: no te da la solución — te da el camino, el contexto y consejos para no perderte.</p>
+          <p>¿No sabes ni por dónde arrancar? La <a href="guia/guia-campo-index.html">Guía de Campo</a> te orienta antes de meterte en la expedición. Pero ojo: no te da la solución — te da el camino, el contexto y consejos para no perderte.</p>
         </div>
       </li>
 
@@ -346,7 +310,7 @@
       </li>
     </ol>
 
-    <p class="how-note">
+    <a class="how-note" href="acerca-del-subject.html">
       <span class="note-ico" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="9"/>
@@ -354,8 +318,8 @@
           <circle cx="12" cy="7.9" r="0.7" stroke="none" style="fill:var(--signal)"/>
         </svg>
       </span>
-      <span><strong>Nota final:</strong> ¿Lees el subject y crees que está en klingon? Es normal, y es intencionado. Pásate por «Acerca del Subject» y te explico por qué la metodología Urduliz funciona justo así.</span>
-    </p>
+      <span><strong>Nota final:</strong> ¿Lees el subject y crees que está en klingon? Es normal, y es intencionado. Pásate por «Acerca del Subject» y te explico por qué la metodología Urduliz funciona justo así. <span class="note-go">Leer →</span></span>
+    </a>
   </section>
 
   <!-- ============ DOS PUERTAS (conservadas) ============ -->
@@ -387,6 +351,38 @@
     <h2>¿Para quién es?</h2>
     <p>Para quien se maneja con <strong>terminal</strong>, sabe usar <strong>git</strong> y lee código sin que le sangren los ojos — y quiere pasar de «usar IA» a «controlar un agente». No hace falta ser experto: hace falta ganas de entender el porqué, no solo el cómo.</p>
     <p>Soy <a href="https://www.linkedin.com/in/mikel-zabal-martin/" target="_blank" rel="noopener"><strong>Mikel Zabal</strong></a> (<a href="mailto:mzabalm@gmail.com">mzabalm@gmail.com</a>), estudiante de 42 Urduliz. Este material es gratis y en abierto. Si te sirve, compártelo; si encuentras una errata, <a href="mailto:mzabalm@gmail.com">dímelo</a> — las pequeñas correcciones importan.</p>
+  </section>
+
+  <!-- ============ ¿QUIÉN SOY? — el viaje (al final) ============ -->
+  <section class="who" id="quien-soy">
+    <div class="who-head">
+      <div class="who-intro">
+        <span class="sec-tag">¿Quién soy?</span>
+        <h2>Llevo toda la vida midiendo terreno. Solo cambié el tipo de terreno.</h2>
+      </div>
+      <figure class="portrait">
+        <img src="assets/mikel-web.jpg" alt="Mikel Zabal, autor de CodeFlow" loading="lazy" width="168" height="168">
+      </figure>
+    </div>
+    <div class="journey">
+      <div class="leg">
+        <span class="stage">Acto I · el terreno real</span>
+        <p>Empecé como <strong>topógrafo</strong>: carreteras, puentes, túneles. Mi trabajo era convertir un terreno caótico en un mapa que cualquiera pudiera leer. Ahí aprendí lo único que importa de verdad: <strong>si no entiendes el porqué, el mapa miente.</strong></p>
+      </div>
+      <div class="leg">
+        <span class="stage">Acto II · liderar y formar</span>
+        <p>Después llegué a responsable de una de las carnicerías de mayor venta de un gran grupo: dirigía el equipo y formaba a los futuros carniceros de la compañía. Ahí descubrí algo que no esperaba — lo que más me llenaba era la gente: enseñar a los que empezaban, cuidar de que cada uno creciera. Aprendí que <strong>se lidera desde el cuidado, no desde la orden.</strong></p>
+      </div>
+      <div class="leg">
+        <span class="stage">Acto III · la terminal</span>
+        <p>Cuando ese proyecto terminó, me lancé a lo que siempre me había entusiasmado: la programación de bajo nivel. Entré en <strong>42 Urduliz</strong>, la escuela sin profesores ni atajos: o lo explicas, o no lo sabes. C, memoria, punteros, git. La misma obsesión de siempre por entender cómo funciona algo por dentro.</p>
+      </div>
+      <div class="leg last">
+        <span class="stage">Lo que mido ahora</span>
+        <p>Hoy mido un terreno nuevo: <strong>cómo se controla un agente de IA</strong>. Y como buen friki de entenderlo todo desde la raíz, no me he quedado en la superficie usándolo: me he metido hasta las tripas del sistema para saber cómo piensa, cómo gestiona su contexto, cómo interceptarlo con hooks y cómo meterlo dentro de mis propios programas. Y todo ese terreno lo he mapeado para ti, para que domines una de las tecnologías más revolucionarias y vanguardistas. No para que la uses. <strong>Para que la CONTROLES.</strong></p>
+      </div>
+    </div>
+    <p class="cta"><a href="https://www.linkedin.com/in/mikel-zabal-martin/" target="_blank" rel="noopener">Mi recorrido completo en LinkedIn →</a></p>
   </section>
 
 </main>

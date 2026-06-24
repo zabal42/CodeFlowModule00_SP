@@ -39,6 +39,8 @@
   .hero-meta{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.6rem}
   .chip{font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;border:1px solid rgba(237,245,239,.35);border-radius:999px;padding:.3rem .75rem;color:#D6E4DA}
   .chip.hot{border-color:var(--signal);color:#FFD9CB}
+  .subject-btn{display:inline-flex;align-items:center;gap:.5rem;margin-top:1.6rem;font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;color:#EDF5EF;text-decoration:none;border:1.5px solid rgba(237,245,239,.4);border-radius:999px;padding:.5rem 1rem;transition:border-color .15s ease, background .15s ease}
+  .subject-btn:hover{border-color:var(--phosphor);background:rgba(159,232,194,.12)}
 
   main{max-width:760px;margin:0 auto;padding:0 1.5rem 4rem}
 
@@ -113,6 +115,7 @@
       <span class="chip">lectura: ~10 min</span>
       <span class="chip hot">empieza por aquí</span>
     </div>
+    <a class="subject-btn" href="../subject/codeflow_subject_v3_SP.pdf" target="_blank" rel="noopener">📄 Leer el Subject (PDF)</a>
   </div>
 </header>
 
@@ -211,6 +214,65 @@
       <span class="p">$</span> claude --version &amp;&amp; node --version &amp;&amp; jq --version &amp;&amp; git --version<br>
       <span class="cmt"># Si las cuatro responden, estás listo. Si alguna falla, arréglala AHORA.</span>
     </div>
+  </section>
+
+  <!-- ════════ ARRANQUE ════════ -->
+  <section class="wp">
+    <div class="wp-tag"><span class="wp-mark">ARRANQUE</span><h2>Cómo empezar</h2></div>
+    <p>El Módulo 00 se trabaja en un <strong>entorno de repositorio Git</strong>, no dentro de esta guía. Funciona con <strong>dos repos</strong>: uno de <strong>consulta</strong> —el oficial, donde están el subject, la evaluación y los <em>starters</em> de cada ejercicio; ahí no entregas nada, es tu mapa y tu almacén— y uno de <strong>trabajo</strong>, que creas tú aparte y donde de verdad picas código.</p>
+    <div class="keypoint">
+      <span class="kp-label">Tus dos enlaces</span>
+      <p>📦 <strong>Repo de consulta:</strong> <a href="https://github.com/zabal42/CodeFlowModule00_SP" target="_blank" rel="noopener">github.com/zabal42/CodeFlowModule00_SP</a><br>📄 <strong>Subject (Español):</strong> <a href="../subject/codeflow_subject_v3_SP.pdf" target="_blank" rel="noopener">el enunciado oficial en PDF</a></p>
+    </div>
+    <p>No hace falta abrir GitHub para empezar: <strong>copia el comando y clónalo directamente desde tu terminal.</strong></p>
+
+    <p><strong>1. Clona el repo de consulta</strong></p>
+    <div class="term">
+      <span class="p">$</span> git clone https://github.com/zabal42/CodeFlowModule00_SP.git<br>
+      <span class="p">$</span> cd CodeFlowModule00_SP
+    </div>
+
+    <p><strong>2. Lee el subject entero</strong> — en serio, entero, antes de tocar una sola tecla.</p>
+    <div class="term">
+      <span class="p">$</span> open subject/codeflow_subject_v3_SP.pdf
+    </div>
+
+    <p><strong>3. Sal del repo de consulta y crea tu propio repo de trabajo</strong></p>
+    <div class="term">
+      <span class="p">$</span> cd ..<br>
+      <span class="p">$</span> mkdir CFM00_tunombre<br>
+      <span class="p">$</span> cd CFM00_tunombre<br>
+      <span class="p">$</span> git init
+    </div>
+
+    <p><strong>4. Copia el starter del ejercicio que toca</strong></p>
+    <div class="term">
+      <span class="p">$</span> cp -r ../CodeFlowModule00_SP/starters/ex00 .
+    </div>
+
+    <p><strong>5. Entra, compila y a trabajar</strong></p>
+    <div class="term">
+      <span class="p">$</span> cd ex00 &amp;&amp; make
+    </div>
+
+    <p>La estructura debería quedarte así:</p>
+    <div class="term">
+      <span class="cmt">Code Flow Module 00/</span><br>
+      <span class="cmt">├── CodeFlowModule00_SP/   # repo de consulta (el mapa)</span><br>
+      <span class="cmt">└── CFM00_tunombre/        # tu repo de trabajo (la mochila)</span>
+    </div>
+
+    <div class="keypoint">
+      <span class="kp-label">No te líes</span>
+      <p><strong>No plantes tu campamento dentro del repo de consulta.</strong> No crees tu repo de trabajo dentro de <code>CodeFlowModule00_SP</code>: acabarías con un Git dentro de otro Git y te liarías con los commits, los <em>paths</em> y los starters. Repos <strong>hermanos</strong>, nunca uno dentro del otro.</p>
+    </div>
+
+    <div class="keypoint">
+      <span class="kp-label">Consejo de guía</span>
+      <p>Haz un commit de <em>checkpoint</em> <strong>antes</strong> de dejar que Claude Code toque tu código. Si algo se rompe, rebobinas y a otra cosa. Y la regla de oro del módulo: <strong>si no puedes explicar qué hace cada línea, no lo entregues.</strong></p>
+    </div>
+
+    <p><strong>Nota final:</strong> lee el subject entero (sí, <strong>entero</strong>, ¡por Tutatis!). Y si llegas al final sin entender gran cosa… tranquilo, forma parte del espectáculo — te lo explico en <a href="../acerca-del-subject.html">«Acerca del Subject»</a>.</p>
   </section>
 
   <!-- ════════ RUTA ════════ -->
