@@ -46,11 +46,16 @@
 
   /* --- panel abierto --- */
   .bj-panel{position:fixed;bottom:1.4rem;right:1.4rem;z-index:61;
-    width:360px;height:min(520px,calc(100vh - 2.8rem));
+    width:min(720px,calc(100vw - 2.8rem));height:min(820px,calc(100vh - 2.8rem));
     display:flex;flex-direction:column;overflow:hidden;
     background:var(--paper);border:1px solid var(--contour);border-radius:16px;
     box-shadow:0 18px 50px rgba(30,42,38,.34)}
   .bj-panel[hidden]{display:none}
+  .bj-grip{position:absolute;top:0;left:0;width:26px;height:26px;z-index:5;cursor:nwse-resize;
+    border-top:3px solid var(--phosphor);border-left:3px solid var(--phosphor);
+    border-top-left-radius:16px;opacity:.45;transition:opacity .15s ease;touch-action:none}
+  .bj-grip:hover{opacity:.95}
+  @media (max-width:560px){.bj-grip{display:none}}
 
   /* cabecera */
   .bj-head{position:relative;overflow:hidden;background:var(--pine-deep);color:#EDF5EF;padding:1.05rem 1.1rem}
@@ -124,6 +129,7 @@
 
   <!-- ============ BRÚJULA: panel de chat ============ -->
   <section class="bj-panel" id="bj-panel" hidden role="dialog" aria-label="Brújula — asistente de ayuda" aria-modal="false">
+    <div class="bj-grip" id="bj-grip" title="Arrastra para redimensionar"></div>
     <header class="bj-head">
       <svg class="bj-head-contours" viewBox="0 0 360 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <g fill="none" stroke="#EDF5EF" stroke-width="1.1">
@@ -302,6 +308,40 @@ const log   = document.getElementById('bj-log');
 const form  = document.getElementById('bj-form');
 const input = document.getElementById('bj-input');
 const sendBtn = document.getElementById('bj-send');
+
+/* ---------------- Redimensionar el panel (tirador esq. sup-izq) ----------------
+   El panel está anclado abajo-derecha, así que arrastrar hacia arriba-izquierda
+   lo agranda. Topes: mínimo usable y máximo = viewport menos los márgenes. */
+const grip = document.getElementById('bj-grip');
+const BJ_SIZE_KEY = 'bj-panel-size';
+// Restaurar el último tamaño guardado (acotado al viewport actual)
+try {
+  const s = JSON.parse(localStorage.getItem(BJ_SIZE_KEY));
+  if (s && s.w && s.h) {
+    panel.style.width  = Math.max(300, Math.min(s.w, window.innerWidth  - 44)) + 'px';
+    panel.style.height = Math.max(360, Math.min(s.h, window.innerHeight - 44)) + 'px';
+  }
+} catch (e) {}
+let rz = null;
+grip.addEventListener('pointerdown', e => {
+  e.preventDefault();
+  rz = { x: e.clientX, y: e.clientY, w: panel.offsetWidth, h: panel.offsetHeight };
+  grip.setPointerCapture(e.pointerId);
+});
+grip.addEventListener('pointermove', e => {
+  if (!rz) return;
+  const maxW = window.innerWidth - 44, maxH = window.innerHeight - 44;
+  const w = Math.max(300, Math.min(rz.w + (rz.x - e.clientX), maxW));
+  const h = Math.max(360, Math.min(rz.h + (rz.y - e.clientY), maxH));
+  panel.style.width = w + 'px';
+  panel.style.height = h + 'px';
+});
+function endResize(){
+  rz = null;
+  try { localStorage.setItem(BJ_SIZE_KEY, JSON.stringify({ w: panel.offsetWidth, h: panel.offsetHeight })); } catch (e) {}
+}
+grip.addEventListener('pointerup', endResize);
+grip.addEventListener('pointercancel', endResize);
 
 let welcomed = false; // para no repetir el saludo cada vez que se abre
 
