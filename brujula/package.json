@@ -1,0 +1,17 @@
+{
+  "name": "brujula-bridge",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Bridge local de Brújula (CodeFlow Módulo 00): conecta la web con tu Claude Code Pro vía el Agent SDK query(). Sin API key, sin cuota.",
+  "scripts": {
+    "start": "node bridge.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "@anthropic-ai/claude-agent-sdk": "latest"
+  }
+}
